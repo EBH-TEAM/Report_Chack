@@ -102,7 +102,7 @@
             color: #f97316;
         }
 
-        /* ফর্ম রো */
+        /* ফর্ম রো - টাইপ + তারিখ + নাম */
         .form-row {
             display: flex;
             align-items: center;
@@ -128,6 +128,14 @@
             border-radius: 30px;
             font-size: 0.85rem;
             outline: none;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
         }
 
         input:focus, select:focus {
@@ -171,6 +179,7 @@
             background: #7f1d1d;
             color: white;
             border: 2px solid #991b1b;
+            margin-bottom: 14px;
         }
 
         .btn:active {
@@ -406,10 +415,6 @@
                 width: 100%;
                 min-width: 100%;
             }
-            
-            .admin-panel {
-                border-radius: 28px;
-            }
         }
     </style>
 
@@ -422,16 +427,16 @@
         <!-- হেডার -->
         <div class="admin-header">
             <div class="header-top">
-                <span class="logo">EBH_TEAM</span>
+                <span class="logo">EBH_TEAM_REPORT</span>
                 <span class="admin-badge">ADMIN</span>
             </div>
             <div class="header-title">Admin Control Panel</div>
-            <div class="header-sub">Manage your reports by date</div>
+            <div class="header-sub">Manage reports by date & type</div>
         </div>
 
         <!-- মূল কন্টেন্ট -->
         <div class="content">
-            <!-- রিপোর্ট সেটিংস -->
+            <!-- রিপোর্ট সেটিংস - টাইপ + তারিখ + নাম -->
             <div class="card">
                 <div class="card-title">
                     <i class="fas fa-sliders-h"></i>
@@ -439,14 +444,27 @@
                 </div>
 
                 <div class="form-row">
+                    <!-- টাইপ সিলেক্টর - ড্রপডাউন -->
                     <div class="field">
-                        <input type="date" id="adminDate" class="compact-input" value="2026-02-20">
+                        <select id="adminType">
+                            <option value="instagram_2fa">Instagram 2FA</option>
+                            <option value="instagram_cookies">Instagram Cookies</option>
+                            <option value="facebook_2fa">Facebook 2FA</option>
+                            <option value="facebook_cookies">Facebook Cookies</option>
+                        </select>
+                    </div>
+
+                    <!-- তারিখ -->
+                    <div class="field">
+                        <input type="date" id="adminDate" value="2026-02-20">
                     </div>
                     
+                    <!-- রিপোর্ট নাম -->
                     <div class="field">
-                        <input type="text" id="adminReportName" placeholder="Report name" value="INSTAGRAM REPORT">
+                        <input type="text" id="adminReportName" placeholder="Report name" value="INSTAGRAM 2FA">
                     </div>
                     
+                    <!-- সেভ বাটন -->
                     <div class="btn-field">
                         <button class="btn btn-orange" onclick="saveSettings()">
                             <i class="fas fa-save"></i> SAVE
@@ -480,11 +498,10 @@
                 
                 <div class="delete-row">
                     <select id="deleteType">
-                        <option value="instagram">Instagram 2FA</option>
+                        <option value="instagram_2fa">Instagram 2FA</option>
                         <option value="instagram_cookies">Instagram Cookies</option>
-                        <option value="facebook">Facebook 2FA</option>
+                        <option value="facebook_2fa">Facebook 2FA</option>
                         <option value="facebook_cookies">Facebook Cookies</option>
-                        <option value="tiktok">Others Report</option>
                     </select>
                     
                     <input type="date" id="deleteDate" value="2026-02-20">
@@ -496,19 +513,23 @@
             </div>
 
             <!-- ডিলিট অল বাটন -->
-            <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%; margin-bottom: 14px; padding: 16px;">
+            <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%;">
                 <i class="fas fa-skull-crosswalk"></i> DELETE ALL DATA (DANGER)
             </button>
 
             <!-- প্রিভিউ বক্স -->
             <div class="preview-box">
                 <div class="preview-row">
-                    <span class="preview-label">Selected Date</span>
+                    <span class="preview-label">Type</span>
+                    <span class="preview-value" id="previewType">Instagram 2FA</span>
+                </div>
+                <div class="preview-row">
+                    <span class="preview-label">Date</span>
                     <span class="preview-value" id="previewDate">20 FEB 2026</span>
                 </div>
                 <div class="preview-row">
                     <span class="preview-label">Report Name</span>
-                    <span class="preview-value" id="previewName">INSTAGRAM REPORT</span>
+                    <span class="preview-value" id="previewName">INSTAGRAM 2FA</span>
                 </div>
             </div>
 
@@ -539,7 +560,7 @@
 
         <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH ADMIN</strong> · Mobile Optimized · Click to View
+            <strong>EBH ADMIN</strong> · 4 Report Types · Date-wise Storage
         </div>
     </div>
 
@@ -561,8 +582,10 @@
         const db = firebase.database();
 
         // DOM Elements
+        const adminType = document.getElementById('adminType');
         const adminDate = document.getElementById('adminDate');
         const adminReportName = document.getElementById('adminReportName');
+        const previewType = document.getElementById('previewType');
         const previewDate = document.getElementById('previewDate');
         const previewName = document.getElementById('previewName');
         const userInput = document.getElementById('userInput');
@@ -575,11 +598,10 @@
 
         // Report type names
         const reportTypeNames = {
-            'instagram': 'Instagram 2FA',
+            'instagram_2fa': 'Instagram 2FA',
             'instagram_cookies': 'Instagram Cookies',
-            'facebook': 'Facebook 2FA',
-            'facebook_cookies': 'Facebook Cookies',
-            'tiktok': 'Others Report'
+            'facebook_2fa': 'Facebook 2FA',
+            'facebook_cookies': 'Facebook Cookies'
         };
 
         // ========== টোস্ট ==========
@@ -650,24 +672,33 @@
             return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
         }
 
+        // ========== প্রিভিউ আপডেট ==========
+        function updatePreview() {
+            previewType.innerText = reportTypeNames[adminType.value] || adminType.value;
+            previewDate.innerText = formatDate(adminDate.value);
+            previewName.innerText = adminReportName.value;
+        }
+
         // ========== সেটিংস সেভ ==========
         async function saveSettings() {
+            const selectedType = adminType.value;
             const selectedDate = adminDate.value;
             const reportName = adminReportName.value;
 
-            if (!selectedDate || !reportName) {
+            if (!selectedType || !selectedDate || !reportName) {
                 alert('Please fill all fields!');
                 return;
             }
 
             try {
                 await db.ref("adminSettings").set({
+                    lastType: selectedType,
                     lastDate: selectedDate,
                     lastReportName: reportName
                 });
 
                 updatePreview();
-                showToast(`✅ Settings saved for ${formatDate(selectedDate)}`);
+                showToast(`✅ Settings saved for ${formatDate(selectedDate)} - ${reportTypeNames[selectedType]}`);
             } catch (error) {
                 alert('Error: ' + error.message);
             }
@@ -678,26 +709,25 @@
             db.ref("adminSettings").once("value", (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    adminType.value = data.lastType || 'instagram_2fa';
                     adminDate.value = data.lastDate || new Date().toISOString().split('T')[0];
-                    adminReportName.value = data.lastReportName || 'INSTAGRAM REPORT';
+                    adminReportName.value = data.lastReportName || 'INSTAGRAM 2FA';
+                    updatePreview();
+                } else {
+                    adminDate.value = new Date().toISOString().split('T')[0];
                     updatePreview();
                 }
             });
-        }
-
-        // ========== প্রিভিউ আপডেট ==========
-        function updatePreview() {
-            previewDate.innerText = formatDate(adminDate.value);
-            previewName.innerText = adminReportName.value;
         }
 
         // ========== ইউজার সেভ ==========
         async function saveUsers() {
             const raw = userInput.value;
             const selectedDate = adminDate.value;
+            const selectedType = adminType.value;
 
-            if (!selectedDate) {
-                alert('Please select date first!');
+            if (!selectedDate || !selectedType) {
+                alert('Please select date and type first!');
                 return;
             }
 
@@ -717,10 +747,10 @@
             saveBtn.disabled = true;
 
             try {
-                // ইউজার সেভ
+                // ইউজার সেভ করুন টাইপ অনুযায়ী
                 for (const username of uniqueUsers) {
                     const encoded = encodeUsername(username);
-                    await db.ref(`reports/${selectedDate}/users/${encoded}`).set({
+                    await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).set({
                         username: username,
                         wGate: 0,
                         checked: false,
@@ -729,19 +759,19 @@
                 }
 
                 // মেটাডেটা আপডেট
-                const usersSnapshot = await db.ref(`reports/${selectedDate}/users`).once("value");
+                const usersSnapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}`).once("value");
                 const totalUsers = usersSnapshot.val() ? Object.keys(usersSnapshot.val()).length : 0;
                 
-                await db.ref(`reports/${selectedDate}/metadata`).set({
+                await db.ref(`reports/${selectedDate}/metadata/${selectedType}`).set({
                     reportName: adminReportName.value,
                     totalUsers: totalUsers,
                     lastUpdated: new Date().toISOString()
                 });
 
-                showToast(`✅ ${uniqueUsers.length} users saved for ${formatDate(selectedDate)}`);
+                showToast(`✅ ${uniqueUsers.length} users saved for ${formatDate(selectedDate)} - ${reportTypeNames[selectedType]}`);
                 userInput.value = '';
                 loadDateStats();
-                loadUsersForDate(selectedDate);
+                loadUsersForDateAndType(selectedDate, selectedType);
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
@@ -764,16 +794,21 @@
                 const dates = Object.keys(data).sort().reverse();
                 
                 dates.forEach(date => {
-                    let totalUsers = data[date].users ? Object.keys(data[date].users).length : 0;
+                    let totalUsers = 0;
+                    if (data[date].users) {
+                        // সব টাইপের ইউজার যোগ করুন
+                        const types = Object.keys(data[date].users);
+                        types.forEach(type => {
+                            totalUsers += Object.keys(data[date].users[type]).length;
+                        });
+                    }
 
                     const dateItem = document.createElement('div');
                     dateItem.className = 'date-item';
                     dateItem.onclick = () => {
-                        loadUsersForDate(date);
+                        // ডিফল্ট টাইপে ইউজার দেখাবে
+                        loadUsersForDateAndType(date, adminType.value);
                         adminDate.value = date;
-                        if (data[date].metadata?.reportName) {
-                            adminReportName.value = data[date].metadata.reportName;
-                        }
                         updatePreview();
                     };
                     
@@ -790,9 +825,9 @@
             });
         }
 
-        // ========== নির্দিষ্ট তারিখের ইউজার লোড ==========
-        function loadUsersForDate(date) {
-            db.ref(`reports/${date}/users`).once("value", (snapshot) => {
+        // ========== নির্দিষ্ট তারিখ ও টাইপের ইউজার লোড ==========
+        function loadUsersForDateAndType(date, type) {
+            db.ref(`reports/${date}/users/${type}`).once("value", (snapshot) => {
                 const data = snapshot.val();
                 userListDiv.innerHTML = '';
 
@@ -815,7 +850,7 @@
                         userListDiv.appendChild(more);
                     }
                 } else {
-                    userListDiv.innerHTML = '<div class="empty-state">No users for this date</div>';
+                    userListDiv.innerHTML = '<div class="empty-state">No users for this date & type</div>';
                     userCountSpan.innerText = '0';
                 }
             });
@@ -841,19 +876,14 @@
             deleteBtn.disabled = true;
 
             try {
-                // এই তারিখের এই টাইপের সব ইউজার ডিলিট
-                await db.ref(`reports/${selectedDate}/users`).remove();
-                
-                // মেটাডেটা আপডেট
-                await db.ref(`reports/${selectedDate}/metadata`).update({
-                    totalUsers: 0
-                });
+                await db.ref(`reports/${selectedDate}/users/${selectedType}`).remove();
+                await db.ref(`reports/${selectedDate}/metadata/${selectedType}`).remove();
 
                 showToast(`✅ ${formatDate(selectedDate)} - ${typeName} ডিলিট করা হয়েছে`);
                 loadDateStats();
                 
-                if (adminDate.value === selectedDate) {
-                    loadUsersForDate(selectedDate);
+                if (adminDate.value === selectedDate && adminType.value === selectedType) {
+                    loadUsersForDateAndType(selectedDate, selectedType);
                 }
             } catch (error) {
                 alert('Error: ' + error.message);
@@ -876,8 +906,9 @@
             try {
                 await db.ref().set({
                     adminSettings: {
+                        lastType: 'instagram_2fa',
                         lastDate: new Date().toISOString().split('T')[0],
-                        lastReportName: 'INSTAGRAM REPORT'
+                        lastReportName: 'INSTAGRAM 2FA'
                     }
                 });
                 
@@ -895,6 +926,7 @@
         }
 
         // Event listeners
+        adminType.addEventListener('change', updatePreview);
         adminDate.addEventListener('change', updatePreview);
         adminReportName.addEventListener('input', updatePreview);
 
