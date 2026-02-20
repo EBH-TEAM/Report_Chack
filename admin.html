@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH · অ্যাডমিন কন্ট্রোল</title>
+    <title>EBH · অ্যাডমিন প্রো</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -23,7 +23,7 @@
         }
 
         .admin-panel {
-            max-width: 460px;
+            max-width: 500px;
             width: 100%;
             background: #ffffff;
             border-radius: 48px;
@@ -35,7 +35,7 @@
         /* হেডার */
         .admin-header {
             background: #000000;
-            padding: 28px 24px;
+            padding: 24px 24px 18px 24px;
             color: white;
             border-bottom: 4px solid #f97316;
         }
@@ -44,11 +44,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .logo {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             color: #f97316;
             letter-spacing: -1px;
@@ -57,105 +57,177 @@
         .admin-badge {
             background: #f97316;
             color: #000;
-            padding: 8px 20px;
+            padding: 6px 18px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .header-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .header-sub {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #aaa;
         }
 
         /* কন্ট্রোল এরিয়া */
         .control-area {
-            padding: 24px;
+            padding: 20px;
         }
 
-        /* কন্ট্রোল কার্ড */
-        .control-card {
+        /* === কম্প্যাক্ট রিপোর্ট সেটিংস কার্ড === */
+        .compact-card {
             background: #f8fafc;
-            border-radius: 32px;
-            padding: 24px;
-            margin-bottom: 24px;
+            border-radius: 40px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
             border: 2px solid #e2e8f0;
         }
 
         .card-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1rem;
+            gap: 8px;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #0f172a;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #f97316;
         }
 
         .card-title i {
             color: #f97316;
-            font-size: 1.2rem;
         }
 
-        /* ইনপুট গ্রুপ */
-        .input-group {
-            margin-bottom: 24px;
+        /* থ্রি-ইন-ওয়ান রো */
+        .settings-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .date-compact {
+            flex: 1.2;
+            min-width: 130px;
         }
 
-        .input-group input, .input-group textarea {
+        .name-compact {
+            flex: 2;
+            min-width: 150px;
+        }
+
+        .btn-compact {
+            flex: 0.7;
+            min-width: 90px;
+        }
+
+        .compact-input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 14px 16px;
             background: white;
             border: 2px solid #e2e8f0;
-            border-radius: 24px;
-            font-size: 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
             outline: none;
             transition: 0.2s;
         }
 
-        .input-group input:focus, .input-group textarea:focus {
+        .compact-input:focus {
             border-color: #f97316;
-            box-shadow: 0 0 0 4px rgba(249,115,22,0.1);
+            box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
         }
 
-        .input-group textarea {
-            height: 130px;
-            resize: vertical;
-        }
-
-        /* বাটন */
-        .btn {
+        .compact-btn {
             width: 100%;
-            padding: 18px;
-            border-radius: 40px;
+            background: #f97316;
+            color: #000;
+            border: none;
+            padding: 14px 10px;
+            border-radius: 30px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid #f97316;
+            white-space: nowrap;
+        }
+
+        .compact-btn i {
+            font-size: 0.9rem;
+        }
+
+        .compact-btn:active {
+            transform: scale(0.96);
+            background: #e5670e;
+        }
+
+        /* ইউজার ম্যানেজমেন্ট কার্ড */
+        .control-card {
+            background: #f8fafc;
+            border-radius: 40px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group textarea {
+            width: 100%;
+            padding: 16px 18px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            resize: vertical;
+            outline: none;
+            height: 110px;
+        }
+
+        .input-group textarea:focus {
+            border-color: #f97316;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             border: none;
             cursor: pointer;
             transition: 0.2s;
-            margin-bottom: 15px;
         }
 
         .btn-primary {
@@ -170,12 +242,6 @@
             border: 2px solid #fecaca;
         }
 
-        .btn-success {
-            background: #f97316;
-            color: #000;
-            font-weight: 800;
-        }
-
         .btn:active {
             transform: scale(0.98);
         }
@@ -184,27 +250,28 @@
         .preview-box {
             background: #000;
             color: white;
-            border-radius: 32px;
-            padding: 24px;
-            margin: 24px 0;
+            border-radius: 40px;
+            padding: 18px 22px;
+            margin: 20px 0;
             border: 3px solid #f97316;
         }
 
         .preview-title {
             color: #f97316;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .preview-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
-            padding-bottom: 14px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
             border-bottom: 1px dashed #333;
+            font-size: 0.9rem;
         }
 
         .preview-row:last-child {
@@ -223,8 +290,8 @@
         /* ইউজার লিস্ট */
         .user-list-card {
             background: #f8fafc;
-            border-radius: 32px;
-            padding: 24px;
+            border-radius: 40px;
+            padding: 20px;
             border: 2px solid #e2e8f0;
         }
 
@@ -232,42 +299,44 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .list-header h3 {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1rem;
+            gap: 8px;
+            font-size: 0.95rem;
             font-weight: 700;
         }
 
         .user-count {
             background: #f97316;
             color: #000;
-            padding: 6px 18px;
+            padding: 5px 16px;
             border-radius: 40px;
             font-weight: 700;
+            font-size: 0.8rem;
         }
 
         .user-grid {
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .user-item {
             background: white;
-            padding: 14px 18px;
-            border-radius: 20px;
+            padding: 12px 16px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             border: 2px solid #e2e8f0;
             word-break: break-all;
+            font-size: 0.85rem;
         }
 
         .user-item i {
@@ -276,17 +345,17 @@
 
         .empty-state {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             color: #94a3b8;
             background: white;
-            border-radius: 24px;
+            border-radius: 30px;
             border: 2px dashed #cbd5e1;
         }
 
         .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 3px solid rgba(0,0,0,0.1);
             border-radius: 50%;
             border-top-color: #f97316;
@@ -296,10 +365,10 @@
 
         .footer {
             background: #f1f5f9;
-            padding: 18px 24px;
+            padding: 16px 20px;
             text-align: center;
             border-top: 2px solid #e2e8f0;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #64748b;
         }
 
@@ -324,26 +393,32 @@
         </div>
 
         <div class="control-area">
-            <!-- রিপোর্ট সেটিংস কার্ড -->
-            <div class="control-card">
+            <!-- === কম্প্যাক্ট রিপোর্ট সেটিংস (এক লাইনে) === -->
+            <div class="compact-card">
                 <div class="card-title">
                     <i class="fas fa-sliders-h"></i>
                     <span>REPORT SETTINGS</span>
                 </div>
 
-                <div class="input-group">
-                    <label><i class="far fa-calendar-alt"></i> REPORT DATE</label>
-                    <input type="date" id="adminDate" value="2026-02-20">
+                <!-- থ্রি-ইন-ওয়ান রো -->
+                <div class="settings-row">
+                    <!-- তারিখ -->
+                    <div class="date-compact">
+                        <input type="date" id="adminDate" class="compact-input" value="2026-02-20">
+                    </div>
+                    
+                    <!-- রিপোর্ট নাম -->
+                    <div class="name-compact">
+                        <input type="text" id="adminReportName" class="compact-input" placeholder="Report name" value="INSTAGRAM REPORT">
+                    </div>
+                    
+                    <!-- সেভ বাটন -->
+                    <div class="btn-compact">
+                        <button class="compact-btn" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> SAVE
+                        </button>
+                    </div>
                 </div>
-
-                <div class="input-group">
-                    <label><i class="fas fa-tag"></i> REPORT NAME</label>
-                    <input type="text" id="adminReportName" placeholder="e.g., INSTAGRAM REPORT" value="INSTAGRAM REPORT">
-                </div>
-
-                <button class="btn btn-success" onclick="saveSettings()">
-                    <i class="fas fa-save"></i> UPDATE REPORT SETTINGS
-                </button>
             </div>
 
             <!-- ইউজার ম্যানেজমেন্ট কার্ড -->
@@ -360,13 +435,14 @@ user.name@domain
 quail.4588451"></textarea>
                 </div>
 
-                <button class="btn btn-primary" onclick="saveUsers()">
-                    <i class="fas fa-save"></i> SAVE USERS
-                </button>
-
-                <button class="btn btn-danger" onclick="deleteAllUsers()">
-                    <i class="fas fa-trash-alt"></i> DELETE ALL USERS
-                </button>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="saveUsers()">
+                        <i class="fas fa-save"></i> SAVE
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteAllUsers()">
+                        <i class="fas fa-trash-alt"></i> DELETE
+                    </button>
+                </div>
             </div>
 
             <!-- প্রিভিউ বক্স -->
@@ -395,7 +471,7 @@ quail.4588451"></textarea>
         </div>
 
         <div class="footer">
-            <strong>EBH ADMIN</strong> · Real-time sync with User Panel
+            <strong>EBH ADMIN PRO</strong> · Compact Design · Real-time Sync
         </div>
     </div>
 
@@ -551,18 +627,18 @@ quail.4588451"></textarea>
                     const usernames = Object.keys(data).map(key => decodeUsername(key));
                     userCountSpan.innerText = usernames.length;
 
-                    usernames.slice(0, 50).forEach(username => {
+                    usernames.slice(0, 40).forEach(username => {
                         const item = document.createElement('div');
                         item.className = 'user-item';
                         item.innerHTML = `<i class="fas fa-user-circle"></i> ${username}`;
                         userListDiv.appendChild(item);
                     });
 
-                    if (usernames.length > 50) {
+                    if (usernames.length > 40) {
                         const more = document.createElement('div');
                         more.className = 'user-item';
                         more.style.background = '#e2e8f0';
-                        more.innerHTML = `<i class="fas fa-ellipsis-h"></i> +${usernames.length - 50} more`;
+                        more.innerHTML = `<i class="fas fa-ellipsis-h"></i> +${usernames.length - 40} more`;
                         userListDiv.appendChild(more);
                     }
                 } else {
@@ -587,7 +663,7 @@ quail.4588451"></textarea>
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
-                deleteBtn.innerHTML = oEBinalText;
+                deleteBtn.innerHTML = originalText;
                 deleteBtn.disabled = false;
             }
         }
