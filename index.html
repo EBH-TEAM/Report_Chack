@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH · ইউজার প্যানেল</title>
+    <title>EBH · ইউজার প্যানেল প্রো</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -286,6 +286,34 @@
             border: 2px dashed #e0e0e0;
         }
 
+        /* নো ডাটা মেসেজ */
+        .no-data-message {
+            text-align: center;
+            padding: 40px 20px;
+            background: #fff3e0;
+            border-radius: 28px;
+            color: #b45309;
+            border: 2px dashed #f97316;
+        }
+
+        .no-data-message i {
+            font-size: 2.5rem;
+            color: #f97316;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .no-data-message h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #b45309;
+        }
+
+        .no-data-message p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
         .spinner {
             display: inline-block;
             width: 20px;
@@ -309,6 +337,37 @@
 
         .footer strong {
             color: #f97316;
+        }
+
+        /* টোস্ট মেসেজ */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-left: 6px solid #f97316;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
         }
     </style>
 
@@ -383,9 +442,12 @@ username_2"></textarea>
         </div>
 
         <div class="footer">
-            <strong>EBH USER PANEL</strong> · Realtime sync with Admin
+            <strong>EBH USER PANEL PRO</strong> · Auto Remove Duplicate
         </div>
     </div>
+
+    <!-- টোস্ট মেসেজের জন্য ডিভ -->
+    <div id="toastContainer"></div>
 
     <script>
         // Firebase Config
@@ -414,6 +476,30 @@ username_2"></textarea>
         const btnIcon = document.getElementById('btnIcon');
         const btnText = document.getElementById('btnText');
         const btnSpinner = document.getElementById('btnSpinner');
+        const toastContainer = document.getElementById('toastContainer');
+
+        // ========== টোস্ট মেসেজ ফাংশন ==========
+        function showToast(message, duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-message';
+            toast.innerHTML = message;
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, duration);
+        }
+
+        // ========== চেক ডাটাবেজ খালি কিনা ==========
+        async function checkDatabaseEmpty() {
+            try {
+                const snapshot = await db.ref("users").once("value");
+                return !snapshot.exists(); // true হলে ডাটাবেজ খালি
+            } catch (error) {
+                console.error('Error checking database:', error);
+                return false;
+            }
+        }
 
         // ========== এনকোডিং ==========
         function encodeUsername(username) {
@@ -450,13 +536,46 @@ username_2"></textarea>
             });
         }
 
-        // ========== ইউজার চেক ==========
+        // ========== ইউজার চেক (আপডেটেড) ==========
         async function checkUsers() {
             const raw = userInput.value;
-            const usernames = raw.split('\n')
+            
+            // 1. প্রথমে ডাটাবেজ খালি কিনা চেক করুন
+            const isDbEmpty = await checkDatabaseEmpty();
+            
+            if (isDbEmpty) {
+                // ডাটাবেজ খালি থাকলে মেসেজ দেখান
+                resultListDiv.innerHTML = `
+                    <div class="no-data-message">
+                        <i class="fas fa-database"></i>
+                        <h3>কোনো রিপোর্ট দেওয়া হয়নি</h3>
+                        <p>দয়া করে অপেক্ষা করুন রিপোর্ট আসার জন্য</p>
+                        <p style="font-size: 0.8rem; margin-top: 15px;">রিপোর্ট আসলেই দিয়ে দেয়া হবে</p>
+                    </div>
+                `;
+                totalOkSpan.innerText = '0';
+                resultCountSpan.innerText = '0';
+                inputCountSpan.innerText = '0';
+                return;
+            }
+
+            // 2. ডুপ্লিকেট ইউজারনেম রিমুভ করুন
+            const lines = raw.split('\n')
                 .map(line => line.trim())
                 .filter(line => line.length > 0);
+            
+            // ডুপ্লিকেট রিমুভ (Set ব্যবহার করে)
+            const uniqueUsernames = [...new Set(lines)];
+            const duplicateCount = lines.length - uniqueUsernames.length;
+            
+            if (duplicateCount > 0) {
+                showToast(`⚠️ ${duplicateCount} টি ডুপ্লিকেট ইউজারনেম বাদ দেওয়া হয়েছে`, 4000);
+            }
 
+            // ইনপুট বক্স আপডেট করে ইউনিক ইউজারনেম দেখানো (ঐচ্ছিক)
+            // userInput.value = uniqueUsernames.join('\n');
+
+            const usernames = uniqueUsernames;
             inputCountSpan.innerText = usernames.length;
 
             if (usernames.length === 0) {
