@@ -400,6 +400,28 @@
             color: #f97316;
         }
 
+        /* প্রোগ্রেস বার */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar.visible {
+            display: block;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #f97316;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
         /* মোবাইল অ্যাডজাস্টমেন্ট */
         @media (max-width: 380px) {
             .form-row, .delete-row {
@@ -427,16 +449,16 @@
         <!-- হেডার -->
         <div class="admin-header">
             <div class="header-top">
-                <span class="logo">EBH_TEAM_REPORT</span>
+                <span class="logo">EBH_TEAM</span>
                 <span class="admin-badge">ADMIN</span>
             </div>
-            <div class="header-title">Admin Control Panel</div>
-            <div class="header-sub">Manage reports by date & type</div>
+            <div class="header-title">SuperFast Admin Panel</div>
+            <div class="header-sub">Save 10,000 users in 5-10 seconds</div>
         </div>
 
         <!-- মূল কন্টেন্ট -->
         <div class="content">
-            <!-- রিপোর্ট সেটিংস - টাইপ + তারিখ + নাম -->
+            <!-- রিপোর্ট সেটিংস -->
             <div class="card">
                 <div class="card-title">
                     <i class="fas fa-sliders-h"></i>
@@ -444,13 +466,13 @@
                 </div>
 
                 <div class="form-row">
-                    <!-- টাইপ সিলেক্টর - ড্রপডাউন -->
+                    <!-- টাইপ সিলেক্টর -->
                     <div class="field">
                         <select id="adminType">
-                            <option value="instagram_2fa">Instagram 2FA</option>
                             <option value="instagram_cookies">Instagram Cookies</option>
-                            <option value="facebook_2fa">Facebook 2FA</option>
+                            <option value="instagram_2fa">Instagram 2FA</option>
                             <option value="facebook_cookies">Facebook Cookies</option>
+                            <option value="facebook_2fa">Facebook 2FA</option>
                         </select>
                     </div>
 
@@ -461,7 +483,7 @@
                     
                     <!-- রিপোর্ট নাম -->
                     <div class="field">
-                        <input type="text" id="adminReportName" placeholder="Report name" value="INSTAGRAM 2FA">
+                        <input type="text" id="adminReportName" placeholder="Report name" value="INSTAGRAM COOKIES">
                     </div>
                     
                     <!-- সেভ বাটন -->
@@ -483,13 +505,18 @@
                 <div class="user-input-area">
                     <textarea id="userInput" placeholder="এক লাইনে একটি ইউজারনেম&#10;username1&#10;username2&#10;username3"></textarea>
                     
-                    <button class="btn btn-black" onclick="saveUsers()">
+                    <!-- প্রোগ্রেস বার -->
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    
+                    <button class="btn btn-black" onclick="saveUsers()" id="saveUsersBtn">
                         <i class="fas fa-save"></i> SAVE TO SELECTED DATE
                     </button>
                 </div>
             </div>
 
-            <!-- ডিলিট সেকশন - টাইপ + তারিখ -->
+            <!-- ডিলিট সেকশন -->
             <div class="delete-section">
                 <div class="delete-title">
                     <i class="fas fa-exclamation-triangle"></i>
@@ -498,10 +525,10 @@
                 
                 <div class="delete-row">
                     <select id="deleteType">
-                        <option value="instagram_2fa">Instagram 2FA</option>
                         <option value="instagram_cookies">Instagram Cookies</option>
-                        <option value="facebook_2fa">Facebook 2FA</option>
+                        <option value="instagram_2fa">Instagram 2FA</option>
                         <option value="facebook_cookies">Facebook Cookies</option>
+                        <option value="facebook_2fa">Facebook 2FA</option>
                     </select>
                     
                     <input type="date" id="deleteDate" value="2026-02-20">
@@ -521,7 +548,7 @@
             <div class="preview-box">
                 <div class="preview-row">
                     <span class="preview-label">Type</span>
-                    <span class="preview-value" id="previewType">Instagram 2FA</span>
+                    <span class="preview-value" id="previewType">Instagram Cookies</span>
                 </div>
                 <div class="preview-row">
                     <span class="preview-label">Date</span>
@@ -529,7 +556,7 @@
                 </div>
                 <div class="preview-row">
                     <span class="preview-label">Report Name</span>
-                    <span class="preview-value" id="previewName">INSTAGRAM 2FA</span>
+                    <span class="preview-value" id="previewName">INSTAGRAM COOKIES</span>
                 </div>
             </div>
 
@@ -560,7 +587,7 @@
 
         <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH ADMIN</strong> · 4 Report Types · Date-wise Storage
+            <strong>EBH ADMIN</strong> · SuperFast Save · 5-10 Second for 10k Users
         </div>
     </div>
 
@@ -594,15 +621,21 @@
         const dateStatsDiv = document.getElementById('dateStats');
         const deleteType = document.getElementById('deleteType');
         const deleteDate = document.getElementById('deleteDate');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const saveUsersBtn = document.getElementById('saveUsersBtn');
         const toastContainer = document.getElementById('toastContainer');
 
         // Report type names
         const reportTypeNames = {
-            'instagram_2fa': 'Instagram 2FA',
             'instagram_cookies': 'Instagram Cookies',
-            'facebook_2fa': 'Facebook 2FA',
-            'facebook_cookies': 'Facebook Cookies'
+            'instagram_2fa': 'Instagram 2FA',
+            'facebook_cookies': 'Facebook Cookies',
+            'facebook_2fa': 'Facebook 2FA'
         };
+
+        // Batch size for saving (একসাথে কতগুলো রিকুয়েস্ট পাঠাবে)
+        const BATCH_SIZE = 500;
 
         // ========== টোস্ট ==========
         function showToast(message, duration = 3000) {
@@ -709,9 +742,9 @@
             db.ref("adminSettings").once("value", (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    adminType.value = data.lastType || 'instagram_2fa';
+                    adminType.value = data.lastType || 'instagram_cookies';
                     adminDate.value = data.lastDate || new Date().toISOString().split('T')[0];
-                    adminReportName.value = data.lastReportName || 'INSTAGRAM 2FA';
+                    adminReportName.value = data.lastReportName || 'INSTAGRAM COOKIES';
                     updatePreview();
                 } else {
                     adminDate.value = new Date().toISOString().split('T')[0];
@@ -720,7 +753,7 @@
             });
         }
 
-        // ========== ইউজার সেভ ==========
+        // ========== ইউজার সেভ - সুপারফাস্ট ভার্সন ==========
         async function saveUsers() {
             const raw = userInput.value;
             const selectedDate = adminDate.value;
@@ -740,43 +773,71 @@
                 return;
             }
 
+            // ডুপ্লিকেট রিমুভ
             const uniqueUsers = [...new Set(usernames)];
-            const saveBtn = event.target;
-            const originalText = saveBtn.innerHTML;
-            saveBtn.innerHTML = '<span class="spinner"></span> SAVING...';
-            saveBtn.disabled = true;
+            const totalUsers = uniqueUsers.length;
+            
+            // বাটন ডিজেবল ও প্রোগ্রেস বার দেখান
+            saveUsersBtn.disabled = true;
+            saveUsersBtn.innerHTML = '<span class="spinner"></span> SAVING...';
+            progressBar.classList.add('visible');
+            progressFill.style.width = '0%';
 
             try {
-                // ইউজার সেভ করুন টাইপ অনুযায়ী
-                for (const username of uniqueUsers) {
-                    const encoded = encodeUsername(username);
-                    await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).set({
-                        username: username,
-                        wGate: 0,
-                        checked: false,
-                        addedAt: new Date().toISOString()
+                // ব্যাচ আকারে ডাটা সেভ করুন (৫০০ করে)
+                const batches = [];
+                for (let i = 0; i < uniqueUsers.length; i += BATCH_SIZE) {
+                    const batch = uniqueUsers.slice(i, i + BATCH_SIZE);
+                    batches.push(batch);
+                }
+
+                let savedCount = 0;
+                
+                // প্রতিটি ব্যাচের জন্য আলাদা প্রমিজ
+                for (let i = 0; i < batches.length; i++) {
+                    const batch = batches[i];
+                    
+                    // এই ব্যাচের সব ইউজার একসাথে সেভ করুন
+                    const promises = batch.map(username => {
+                        const encoded = encodeUsername(username);
+                        return db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).set({
+                            username: username,
+                            wGate: 0,
+                            checked: false,
+                            addedAt: new Date().toISOString()
+                        });
                     });
+
+                    await Promise.all(promises);
+                    
+                    savedCount += batch.length;
+                    const progress = (savedCount / totalUsers) * 100;
+                    progressFill.style.width = `${progress}%`;
                 }
 
                 // মেটাডেটা আপডেট
                 const usersSnapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}`).once("value");
-                const totalUsers = usersSnapshot.val() ? Object.keys(usersSnapshot.val()).length : 0;
+                const totalStoredUsers = usersSnapshot.val() ? Object.keys(usersSnapshot.val()).length : 0;
                 
                 await db.ref(`reports/${selectedDate}/metadata/${selectedType}`).set({
                     reportName: adminReportName.value,
-                    totalUsers: totalUsers,
+                    totalUsers: totalStoredUsers,
                     lastUpdated: new Date().toISOString()
                 });
 
-                showToast(`✅ ${uniqueUsers.length} users saved for ${formatDate(selectedDate)} - ${reportTypeNames[selectedType]}`);
+                showToast(`✅ ${totalUsers} users saved in ${batches.length} batches!`);
                 userInput.value = '';
                 loadDateStats();
                 loadUsersForDateAndType(selectedDate, selectedType);
+                
             } catch (error) {
-                alert('Error: ' + error.message);
+                console.error('Save error:', error);
+                alert('Error saving users: ' + error.message);
             } finally {
-                saveBtn.innerHTML = originalText;
-                saveBtn.disabled = false;
+                saveUsersBtn.disabled = false;
+                saveUsersBtn.innerHTML = '<i class="fas fa-save"></i> SAVE TO SELECTED DATE';
+                progressBar.classList.remove('visible');
+                progressFill.style.width = '0%';
             }
         }
 
@@ -806,7 +867,6 @@
                     const dateItem = document.createElement('div');
                     dateItem.className = 'date-item';
                     dateItem.onclick = () => {
-                        // ডিফল্ট টাইপে ইউজার দেখাবে
                         loadUsersForDateAndType(date, adminType.value);
                         adminDate.value = date;
                         updatePreview();
@@ -906,9 +966,9 @@
             try {
                 await db.ref().set({
                     adminSettings: {
-                        lastType: 'instagram_2fa',
+                        lastType: 'instagram_cookies',
                         lastDate: new Date().toISOString().split('T')[0],
-                        lastReportName: 'INSTAGRAM 2FA'
+                        lastReportName: 'INSTAGRAM COOKIES'
                     }
                 });
                 
