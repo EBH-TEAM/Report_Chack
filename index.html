@@ -237,6 +237,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            margin-bottom: 15px; /* বাটনের জন্য জায়গা */
         }
 
         /* রেজাল্ট আইটেম */
@@ -369,6 +370,53 @@
                 opacity: 1;
             }
         }
+
+        /* নতুন কপি বাটনগুলোর স্টাইল */
+        .copy-buttons-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .copy-btn {
+            flex: 1;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            color: #333;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .copy-btn i {
+            color: #f97316;
+            font-size: 1rem;
+        }
+
+        .copy-btn:hover {
+            background: #f8fafc;
+            border-color: #f97316;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.97);
+        }
+
+        .copy-btn.ok-copy {
+            /* বাম পাশের বাটনের জন্য আলাদা স্টাইল (চাইলে বাড়াতে পারেন) */
+        }
+
+        .copy-btn.back-copy {
+            /* ডান পাশের বাটনের জন্য আলাদা স্টাইল */
+        }
     </style>
 
     <!-- Firebase -->
@@ -439,6 +487,16 @@ username_2"></textarea>
                     Paste usernames to check
                 </div>
             </div>
+
+            <!-- নতুন কপি বাটন দুটি -->
+            <div class="copy-buttons-container">
+                <button class="copy-btn ok-copy" id="copyOkBtn">
+                    <i class="fas fa-check-circle"></i> OK ID COPY
+                </button>
+                <button class="copy-btn back-copy" id="copyBackBtn">
+                    <i class="fas fa-times-circle"></i> BACK ID COPY
+                </button>
+            </div>
         </div>
 
         <div class="footer">
@@ -477,6 +535,10 @@ username_2"></textarea>
         const btnText = document.getElementById('btnText');
         const btnSpinner = document.getElementById('btnSpinner');
         const toastContainer = document.getElementById('toastContainer');
+        
+        // নতুন কপি বাটন
+        const copyOkBtn = document.getElementById('copyOkBtn');
+        const copyBackBtn = document.getElementById('copyBackBtn');
 
         // ========== টোস্ট মেসেজ ফাংশন ==========
         function showToast(message, duration = 3000) {
@@ -607,6 +669,9 @@ username_2"></textarea>
 
                 const results = await Promise.all(promises);
                 
+                // ফলাফল সংরক্ষণের জন্য (কপি বাটনের কাজে লাগবে)
+                window.lastCheckResults = results;
+                
                 results.forEach(result => {
                     const item = document.createElement('div');
                     item.className = 'result-item';
@@ -653,6 +718,32 @@ username_2"></textarea>
             }
         }
 
+        // ========== কপি বাটনের ফাংশন ==========
+        function copyIdsByType(type) {
+            if (!window.lastCheckResults || window.lastCheckResults.length === 0) {
+                showToast('⚠️ প্রথমে ইউজার চেক করুন!', 3000);
+                return;
+            }
+
+            // type: 'ok' মানে exists: true, 'back' মানে exists: false (এবং error নয়)
+            const filtered = window.lastCheckResults
+                .filter(r => !r.error) // শুধু যেগুলো error না
+                .filter(r => type === 'ok' ? r.exists : !r.exists)
+                .map(r => r.username);
+
+            if (filtered.length === 0) {
+                showToast(`❌ কোনো ${type === 'ok' ? 'OK' : 'BACK'} ID পাওয়া যায়নি!`, 3000);
+                return;
+            }
+
+            const textToCopy = filtered.join('\n');
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast(`✅ ${filtered.length} টি ${type === 'ok' ? 'OK' : 'BACK'} ID কপি হয়েছে!`, 3000);
+            }).catch(() => {
+                showToast('❌ কপি করা যায়নি!', 3000);
+            });
+        }
+
         // ইনপুট কাউন্ট আপডেট
         userInput.addEventListener('input', function() {
             const lines = this.value.split('\n').filter(l => l.trim().length > 0).length;
@@ -664,6 +755,10 @@ username_2"></textarea>
 
         // গ্লোবাল ফাংশন
         window.checkUsers = checkUsers;
+
+        // কপি বাটনের ইভেন্ট লিসেনার
+        copyOkBtn.addEventListener('click', () => copyIdsByType('ok'));
+        copyBackBtn.addEventListener('click', () => copyIdsByType('back'));
     </script>
 </body>
 </html>
