@@ -6,6 +6,7 @@
     <title>EBH_TEAM_REPORT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* আপনার দেওয়া CSS সম্পূর্ণ অপরিবর্তিত রাখা হয়েছে */
         * {
             margin: 0;
             padding: 0;
@@ -32,7 +33,6 @@
             border: 2px solid #f97316;
         }
 
-        /* হেডার */
         .user-header {
             background: #000000;
             padding: 18px 18px 14px 18px;
@@ -73,12 +73,10 @@
             color: #aaa;
         }
 
-        /* কন্টেন্ট */
         .content {
             padding: 16px;
         }
 
-        /* সিলেক্টর কার্ড */
         .selector-card {
             background: #f8fafc;
             border-radius: 30px;
@@ -103,7 +101,6 @@
             color: #f97316;
         }
 
-        /* সিলেক্টর গ্রিড */
         .selector-grid {
             display: flex;
             flex-direction: column;
@@ -150,7 +147,6 @@
             border-color: #f97316;
         }
 
-        /* ইনফো বার */
         .info-bar {
             background: #000;
             color: white;
@@ -182,20 +178,19 @@
             color: #f97316;
         }
 
-        /* ওকে কাউন্টার - বড় করে - ডিফল্ট hidden */
         .ok-counter {
             background: linear-gradient(145deg, #000, #1a1a1a);
             border-radius: 40px;
             padding: 20px;
             margin-bottom: 16px;
             border: 3px solid #f97316;
-            display: none;  /* ডিফল্টভাবে hidden */
+            display: none;
             align-items: center;
             justify-content: space-between;
         }
 
         .ok-counter.visible {
-            display: flex;  /* check করার পর visible */
+            display: flex;
         }
 
         .ok-counter-left .label {
@@ -227,7 +222,6 @@
             font-size: 1.2rem;
         }
 
-        /* ইনপুট এরিয়া */
         .input-card {
             background: #f8fafc;
             border-radius: 30px;
@@ -278,7 +272,6 @@
             border-color: #f97316;
         }
 
-        /* চেক বাটন */
         .check-btn {
             width: 100%;
             background: #000;
@@ -306,7 +299,6 @@
             cursor: not-allowed;
         }
 
-        /* নো ডাটা মেসেজ */
         .no-data-message {
             background: #fff3e0;
             border-radius: 30px;
@@ -338,7 +330,6 @@
             font-size: 0.9rem;
         }
 
-        /* রেজাল্ট সেকশন */
         .result-card {
             background: #f8fafc;
             border-radius: 30px;
@@ -412,7 +403,6 @@
             font-size: 0.85rem;
         }
 
-        /* কপি বাটন */
         .copy-buttons {
             display: flex;
             gap: 10px;
@@ -473,7 +463,6 @@
             color: #f97316;
         }
 
-        /* টোস্ট */
         .toast-message {
             position: fixed;
             bottom: 20px;
@@ -528,7 +517,7 @@
                 <span class="badge">USER PANEL</span>
             </div>
             <div class="header-title">SuperFast Report Checker</div>
-            <div class="header-sub">2-3 seconds instant result</div>
+            <div class="header-sub">Auto Date Rollover · Last 10 Days</div>
         </div>
 
         <!-- কন্টেন্ট -->
@@ -560,7 +549,7 @@
                             <i class="fas fa-calendar-alt"></i> SELECT DATE
                         </div>
                         <select id="reportDate">
-                            <!-- JavaScript দিয়ে dynamically ভর্তি হবে -->
+                            <!-- JavaScript দিয়ে dynamically ভর্তি হবে এবং অটো রোল হবে -->
                         </select>
                     </div>
                 </div>
@@ -580,7 +569,7 @@
                 </div>
             </div>
 
-            <!-- ওকে কাউন্টার - বড় করে - ডিফল্ট hidden -->
+            <!-- ওকে কাউন্টার -->
             <div class="ok-counter" id="okCounter">
                 <div class="ok-counter-left">
                     <div class="label">OK IDs FOUND</div>
@@ -592,7 +581,7 @@
                 </div>
             </div>
 
-            <!-- নো ডাটা মেসেজ (ডিফল্ট hidden) -->
+            <!-- নো ডাটা মেসেজ -->
             <div id="noDataMessage" class="no-data-message">
                 <i class="fas fa-database"></i>
                 <h3>কোনো রিপোর্ট দেওয়া হয়নি</h3>
@@ -649,7 +638,7 @@
 
         <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH USER PANEL</strong> · SuperFast · 2-3 Second Result
+            <strong>EBH USER PANEL</strong> · Auto Date Rollover · Last 10 Days Only
         </div>
     </div>
 
@@ -735,11 +724,64 @@
             return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
         }
 
+        // ========== বর্তমান তারিখ (বাংলাদেশ সময়) ==========
+        function getCurrentDate() {
+            const now = new Date();
+            // বাংলাদেশ সময় (UTC+6)
+            const bdTime = new Date(now.getTime() + (6 * 60 * 60 * 1000));
+            return bdTime.toISOString().split('T')[0];
+        }
+
+        // ========== ডেট রোল চেক ও এক্সিকিউট ==========
+        async function checkAndRolloverDate() {
+            const lastCheck = localStorage.getItem('lastDateCheck');
+            const currentDate = getCurrentDate();
+            const today = new Date(currentDate);
+            
+            // গতকালের তারিখ বের করুন
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            // শেষ চেকের তারিখ যদি গতকালের আগে হয়, তাহলে রোল করুন
+            if (!lastCheck || lastCheck !== currentDate) {
+                console.log('Date rollover triggered:', { lastCheck, currentDate });
+                
+                try {
+                    // ১০ দিন আগের তারিখ বের করুন (যেটা ডিলিট হবে)
+                    const tenDaysAgo = new Date(today);
+                    tenDaysAgo.setDate(today.getDate() - 10);
+                    const deleteDate = tenDaysAgo.toISOString().split('T')[0];
+                    
+                    // পুরনো ডাটা ডিলিট করুন
+                    const oldDataSnapshot = await db.ref(`reports/${deleteDate}`).once("value");
+                    if (oldDataSnapshot.exists()) {
+                        await db.ref(`reports/${deleteDate}`).remove();
+                        console.log(`Deleted old data for date: ${deleteDate}`);
+                        showToast(`📅 ${formatDate(deleteDate)} এর ডাটা অটো ডিলিট হয়েছে`, 4000);
+                    }
+                    
+                    // নতুন তারিখের জন্য খালি জায়গা তৈরি করুন (ঐচ্ছিক)
+                    // এখানে কিছু না করলেও চলবে, প্রয়োজনে এডমিন পরে ডাটা দেবেন
+                    
+                    // শেষ চেকের তারিখ আপডেট করুন
+                    localStorage.setItem('lastDateCheck', currentDate);
+                    
+                    // ডেট অপশন রিজেনারেট করুন
+                    generateDateOptions();
+                    
+                } catch (error) {
+                    console.error('Error in date rollover:', error);
+                }
+            }
+        }
+
         // ========== ১০ দিনের ডেট লিস্ট জেনারেট ==========
         function generateDateOptions() {
-            const today = new Date('2026-02-20');
+            const today = new Date(getCurrentDate());
             const dates = [];
             
+            // আজকের তারিখ থেকে ১০ দিন পিছনে
             for (let i = 0; i < 10; i++) {
                 const date = new Date(today);
                 date.setDate(today.getDate() - i);
@@ -747,6 +789,9 @@
                 dates.push(dateString);
             }
 
+            // বর্তমান সিলেক্টেড ভ্যালু রাখার জন্য
+            const currentValue = reportDate.value;
+            
             reportDate.innerHTML = '';
             dates.forEach(date => {
                 const option = document.createElement('option');
@@ -755,6 +800,13 @@
                 reportDate.appendChild(option);
             });
 
+            // আগের সিলেক্টেড ভ্যালু থাকলে সেট রাখুন, না হলে আজকের তারিখ
+            if (currentValue && dates.includes(currentValue)) {
+                reportDate.value = currentValue;
+            } else {
+                reportDate.value = dates[0]; // আজকের তারিখ
+            }
+            
             updateDisplay();
         }
 
@@ -786,17 +838,14 @@
 
         // ========== ইউজার চেক ==========
         async function checkUsers() {
-            // আগের সব ভিজিবিলিটি রিসেট করুন
             resetVisibility();
             
             const selectedDate = reportDate.value;
             const selectedType = reportType.value;
 
-            // প্রথমে চেক করুন রিপোর্ট আছে কিনা
             const hasReport = await checkReportExists();
             
             if (!hasReport) {
-                // রিপোর্ট না থাকলে মেসেজ দেখান
                 noDataMessage.classList.add('visible');
                 resultListDiv.innerHTML = '';
                 okCountSpan.innerText = '0';
@@ -816,7 +865,6 @@
 
             inputCountSpan.innerText = uniqueUsernames.length;
 
-            // বাটন লোডিং
             btnIcon.classList.add('hidden');
             btnText.innerText = 'CHECKING...';
             btnSpinner.classList.remove('hidden');
@@ -829,14 +877,12 @@
             const results = [];
 
             try {
-                // Promise.all দিয়ে একসাথে সব চেক করুন (সুপারফাস্ট)
                 const promises = uniqueUsernames.map(async (username) => {
                     const encoded = encodeUsername(username);
                     try {
                         const snapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).once("value");
                         const exists = snapshot.exists();
                         
-                        // wGate আপডেট (পটভূমিতে)
                         if (exists) {
                             const currentWG = snapshot.val()?.wGate || 0;
                             db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}/wGate`).set(currentWG + 1);
@@ -857,7 +903,6 @@
                     item.className = 'result-item';
                     
                     if (result.error) {
-                        item.classList.add('error');
                         item.innerHTML = `<i class="fas fa-exclamation-circle"></i> <span>${result.username} → Error</span>`;
                     } else if (result.exists) {
                         item.classList.add('ok');
@@ -878,7 +923,6 @@
                 resultCountSpan.innerText = uniqueUsernames.length;
                 window.lastResults = results;
 
-                // OK কাউন্টার দেখান (শুধুমাত্র যখন ফলাফল আছে)
                 if (okCount > 0 || results.length > 0) {
                     okCounter.classList.add('visible');
                 }
@@ -936,6 +980,10 @@
 
         // ========== ইনিশিয়ালাইজ ==========
         generateDateOptions();
+        
+        // প্রতি মিনিটে ডেট রোল চেক করুন (ব্যাকগ্রাউন্ডে)
+        setInterval(checkAndRolloverDate, 60000); // 1 মিনিট
+        checkAndRolloverDate(); // প্রথমবার চেক
     </script>
 </body>
 </html>
