@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH_Report_Chacker</title>
+    <title>EBH · ইউজার প্যানেল</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -14,28 +14,28 @@
         }
 
         body {
-            background: #f5f7fa;
+            background: linear-gradient(145deg, #0a0f1f, #0b1120);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px;
+            padding: 10px;
         }
 
         .user-panel {
             max-width: 440px;
             width: 100%;
             background: #ffffff;
-            border-radius: 48px;
-            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.2);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             overflow: hidden;
-            border: 1px solid #f0f0f0;
+            border: 2px solid #f97316;
         }
 
         /* হেডার */
         .user-header {
             background: #000000;
-            padding: 28px 24px 20px 24px;
+            padding: 18px 18px 14px 18px;
             color: white;
             border-bottom: 4px solid #f97316;
         }
@@ -44,115 +44,203 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .logo {
-            font-size: 2.3rem;
+            font-size: 2rem;
             font-weight: 800;
             color: #f97316;
         }
 
-        .eps-badge {
+        .badge {
             background: #f97316;
             color: #000;
-            padding: 6px 16px;
+            padding: 4px 12px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
         }
 
-        /* ডেট ও রিপোর্ট ডিসপ্লে */
-        .info-display {
-            background: rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 16px 20px;
+        .header-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .header-sub {
+            font-size: 0.65rem;
+            color: #aaa;
+        }
+
+        /* কন্টেন্ট */
+        .content {
+            padding: 16px;
+        }
+
+        /* সিলেক্টর কার্ড */
+        .selector-card {
+            background: #f8fafc;
+            border-radius: 30px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .card-title {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(249,115,22,0.3);
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f97316;
         }
 
-        .date-display {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .date-display i {
+        .card-title i {
             color: #f97316;
         }
 
-        .date-text {
+        /* সিলেক্টর গ্রিড */
+        .selector-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .selector-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .selector-label {
+            font-size: 0.7rem;
             font-weight: 600;
-            font-size: 0.95rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .report-name {
-            background: #f97316;
-            color: #000;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            max-width: 180px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .selector-label i {
+            color: #f97316;
         }
 
-        /* কাউন্টার */
-        .counter-box {
-            margin: 24px 24px 0 24px;
-            background: #f8fafc;
-            border-radius: 32px;
-            padding: 20px;
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            background: white;
             border: 2px solid #e2e8f0;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        select:focus {
+            border-color: #f97316;
+        }
+
+        /* ইনফো বার */
+        .info-bar {
+            background: #000;
+            color: white;
+            border-radius: 30px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border: 3px solid #f97316;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .counter-left .label {
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-item i {
+            color: #f97316;
+        }
+
+        .info-text {
+            font-size: 0.8rem;
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: #f97316;
+        }
+
+        /* ওকে কাউন্টার - বড় করে - ডিফল্ট hidden */
+        .ok-counter {
+            background: linear-gradient(145deg, #000, #1a1a1a);
+            border-radius: 40px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 3px solid #f97316;
+            display: none;  /* ডিফল্টভাবে hidden */
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ok-counter.visible {
+            display: flex;  /* check করার পর visible */
+        }
+
+        .ok-counter-left .label {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #aaa;
             text-transform: uppercase;
         }
 
-        .counter-left .number {
-            font-size: 2.5rem;
+        .ok-counter-left .number {
+            font-size: 3.2rem;
             font-weight: 800;
-            color: #000;
+            color: #f97316;
             line-height: 1;
         }
 
-        .found-badge {
-            background: #000;
-            color: white;
+        .ok-badge {
+            background: #f97316;
+            color: #000;
             padding: 12px 24px;
             border-radius: 40px;
             font-weight: 700;
             font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .found-badge i {
-            color: #f97316;
+        .ok-badge i {
+            font-size: 1.2rem;
         }
 
         /* ইনপুট এরিয়া */
-        .input-area {
-            margin: 20px 24px;
+        .input-card {
+            background: #f8fafc;
+            border-radius: 30px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 2px solid #e2e8f0;
         }
 
         .input-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .input-header .title {
@@ -161,95 +249,141 @@
             gap: 8px;
             font-weight: 600;
             color: #333;
+            font-size: 0.85rem;
         }
 
-        .input-header .count {
-            background: #f1f5f9;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            color: #64748b;
+        .count-badge {
+            background: #f97316;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.7rem;
         }
 
         textarea {
             width: 100%;
-            height: 170px;
-            padding: 20px;
-            background: #fafafa;
+            height: 140px;
+            padding: 16px;
+            background: white;
             border: 2px solid #e2e8f0;
-            border-radius: 28px;
-            font-size: 0.95rem;
+            border-radius: 24px;
+            font-size: 0.9rem;
             resize: vertical;
             outline: none;
-            transition: 0.2s;
+            margin-bottom: 12px;
         }
 
         textarea:focus {
             border-color: #f97316;
-            background: white;
         }
 
         /* চেক বাটন */
         .check-btn {
-            margin: 0 24px 20px 24px;
-            width: calc(100% - 48px);
+            width: 100%;
             background: #000;
             color: white;
             border: none;
             padding: 18px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             cursor: pointer;
-            transition: 0.2s;
             border: 2px solid #f97316;
+            margin-bottom: 16px;
         }
 
         .check-btn:active {
             transform: scale(0.98);
         }
 
+        .check-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* নো ডাটা মেসেজ */
+        .no-data-message {
+            background: #fff3e0;
+            border-radius: 30px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 2px dashed #f97316;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .no-data-message.visible {
+            display: block;
+        }
+
+        .no-data-message i {
+            font-size: 2.5rem;
+            color: #f97316;
+            margin-bottom: 10px;
+        }
+
+        .no-data-message h3 {
+            color: #b45309;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .no-data-message p {
+            color: #b45309;
+            font-size: 0.9rem;
+        }
+
         /* রেজাল্ট সেকশন */
-        .result-section {
-            margin: 0 24px 24px 24px;
+        .result-card {
+            background: #f8fafc;
+            border-radius: 30px;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
         }
 
         .result-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .result-header h3 {
-            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
             font-weight: 700;
-            color: #333;
         }
 
         .result-list {
-            max-height: 260px;
+            max-height: 200px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 15px; /* বাটনের জন্য জায়গা */
+            gap: 6px;
+            margin-bottom: 12px;
         }
 
-        /* রেজাল্ট আইটেম */
         .result-item {
-            padding: 14px 18px;
+            padding: 12px 14px;
             border-radius: 24px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             border: 2px solid transparent;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-item.ok {
@@ -258,61 +392,56 @@
             color: #1b5e20;
         }
 
-        .result-item.ok i {
-            color: #2e7d32;
-        }
-
         .result-item.new {
             background: #ffebee;
             border-left: 6px solid #c62828;
             color: #b71c1c;
         }
 
-        .result-item.new i {
-            color: #c62828;
-        }
-
-        .result-item.error {
-            background: #fafafa;
-            border-left: 6px solid #9e9e9e;
-            color: #616161;
+        .result-item i {
+            font-size: 1rem;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            background: #fafafa;
-            border-radius: 28px;
-            color: #aaa;
-            border: 2px dashed #e0e0e0;
+            padding: 30px 20px;
+            color: #94a3b8;
+            background: white;
+            border-radius: 24px;
+            border: 2px dashed #cbd5e1;
+            font-size: 0.85rem;
         }
 
-        /* নো ডাটা মেসেজ */
-        .no-data-message {
-            text-align: center;
-            padding: 40px 20px;
-            background: #fff3e0;
-            border-radius: 28px;
-            color: #b45309;
-            border: 2px dashed #f97316;
+        /* কপি বাটন */
+        .copy-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .no-data-message i {
-            font-size: 2.5rem;
+        .copy-btn {
+            flex: 1;
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #333;
+            padding: 12px 0;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .copy-btn i {
             color: #f97316;
-            margin-bottom: 15px;
-            display: block;
         }
 
-        .no-data-message h3 {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-            color: #b45309;
-        }
-
-        .no-data-message p {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .copy-btn:active {
+            background: #f8fafc;
+            border-color: #f97316;
         }
 
         .spinner {
@@ -324,35 +453,37 @@
             border-top-color: white;
             animation: spin 0.6s linear infinite;
         }
+
         @keyframes spin { to { transform: rotate(360deg); } }
-        .hidden { display: none; }
+
+        .hidden {
+            display: none;
+        }
 
         .footer {
-            background: #f8fafc;
-            padding: 16px 24px;
+            background: #f1f5f9;
+            padding: 12px;
             text-align: center;
             border-top: 2px solid #e2e8f0;
+            font-size: 0.65rem;
             color: #64748b;
-            font-size: 0.75rem;
         }
 
         .footer strong {
             color: #f97316;
         }
 
-        /* টোস্ট মেসেজ */
+        /* টোস্ট */
         .toast-message {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: #1e293b;
             color: white;
-            padding: 14px 24px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
             border-left: 6px solid #f97316;
             z-index: 1000;
             animation: slideUp 0.3s ease;
@@ -361,61 +492,26 @@
         }
 
         @keyframes slideUp {
-            from {
-                bottom: 0;
-                opacity: 0;
+            from { bottom: 0; opacity: 0; }
+            to { bottom: 20px; opacity: 1; }
+        }
+
+        @media (max-width: 380px) {
+            .info-bar {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
             }
-            to {
-                bottom: 30px;
-                opacity: 1;
+            
+            .copy-buttons {
+                flex-direction: column;
             }
-        }
 
-        /* নতুন কপি বাটনগুলোর স্টাইল */
-        .copy-buttons-container {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .copy-btn {
-            flex: 1;
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            color: #333;
-            padding: 12px 0;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        .copy-btn i {
-            color: #f97316;
-            font-size: 1rem;
-        }
-
-        .copy-btn:hover {
-            background: #f8fafc;
-            border-color: #f97316;
-        }
-
-        .copy-btn:active {
-            transform: scale(0.97);
-        }
-
-        .copy-btn.ok-copy {
-            /* বাম পাশের বাটনের জন্য আলাদা স্টাইল (চাইলে বাড়াতে পারেন) */
-        }
-
-        .copy-btn.back-copy {
-            /* ডান পাশের বাটনের জন্য আলাদা স্টাইল */
+            .ok-counter {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
         }
     </style>
 
@@ -425,86 +521,139 @@
 </head>
 <body>
     <div class="user-panel">
+        <!-- হেডার -->
         <div class="user-header">
             <div class="header-top">
-                <span class="logo">EBH_TEAM</span>
-                <span class="eps-badge">EBH REPORT</span>
+                <span class="logo">EBH_TEAM_REPORT</span>
+                <span class="badge">USER PANEL</span>
+            </div>
+            <div class="header-title">SuperFast Report Checker</div>
+            <div class="header-sub">2-3 seconds instant result</div>
+        </div>
+
+        <!-- কন্টেন্ট -->
+        <div class="content">
+            <!-- সিলেক্টর কার্ড -->
+            <div class="selector-card">
+                <div class="card-title">
+                    <i class="fas fa-filter"></i>
+                    <span>SELECT REPORT TYPE & DATE</span>
+                </div>
+
+                <div class="selector-grid">
+                    <!-- টাইপ সিলেক্টর -->
+                    <div class="selector-item">
+                        <div class="selector-label">
+                            <i class="fas fa-tag"></i> REPORT TYPE
+                        </div>
+                        <select id="reportType">
+                            <option value="instagram_cookies">Instagram Cookies</option>
+                            <option value="instagram_2fa">Instagram 2FA</option>
+                            <option value="facebook_cookies">Facebook Cookies</option>
+                            <option value="facebook_2fa">Facebook 2FA</option>
+                        </select>
+                    </div>
+
+                    <!-- ডেট সিলেক্টর -->
+                    <div class="selector-item">
+                        <div class="selector-label">
+                            <i class="fas fa-calendar-alt"></i> SELECT DATE
+                        </div>
+                        <select id="reportDate">
+                            <!-- JavaScript দিয়ে dynamically ভর্তি হবে -->
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- ডেট ও রিপোর্ট নাম (রিয়েলটাইম আপডেট) -->
-            <div class="info-display" id="infoDisplay">
-                <div class="date-display">
+            <!-- ইনফো বার -->
+            <div class="info-bar">
+                <div class="info-item">
                     <i class="far fa-calendar-alt"></i>
-                    <span class="date-text" id="displayDate">20 FEB 2026</span>
+                    <span class="info-text">Date:</span>
+                    <span class="info-value" id="selectedDateDisplay">-</span>
                 </div>
-                <div class="report-name" id="displayReport">REPORT</div>
-            </div>
-        </div>
-
-        <!-- কাউন্টার -->
-        <div class="counter-box">
-            <div class="counter-left">
-                <div class="label">TOTAL OK</div>
-                <div class="number" id="totalOk">0</div>
-            </div>
-            <div class="found-badge">
-                <i class="fas fa-check-circle"></i>
-                <span>Okay ID</span>
-            </div>
-        </div>
-
-        <!-- ইনপুট এরিয়া -->
-        <div class="input-area">
-            <div class="input-header">
-                <div class="title">
-                    <i class="fas fa-paste" style="color: #f97316;"></i>
-                    <span>USERNAME LIST</span>
-                </div>
-                <div class="count" id="inputCount">0</div>
-            </div>
-            <textarea id="userInput" placeholder="ইউজার নাম পেস্ট করুন 
-একলাইনে একটা 
-username_1
-username_2"></textarea>
-        </div>
-
-        <!-- চেক বাটন -->
-        <button class="check-btn" onclick="checkUsers()" id="checkBtn">
-            <i class="fas fa-search" id="btnIcon"></i>
-            <span id="btnText">CHECK NOW</span>
-            <span id="btnSpinner" class="spinner hidden"></span>
-        </button>
-
-        <!-- রেজাল্ট সেকশন -->
-        <div class="result-section">
-            <div class="result-header">
-                <h3><i class="fas fa-list" style="margin-right: 8px; color: #f97316;"></i> RESULTS</h3>
-                <span class="count" id="resultCount">0</span>
-            </div>
-            <div id="resultList" class="result-list">
-                <div class="empty-state">
-                    <i class="fas fa-magic"></i><br>
-                    Paste usernames to check
+                <div class="info-item">
+                    <i class="fas fa-tag"></i>
+                    <span class="info-text">Type:</span>
+                    <span class="info-value" id="selectedTypeDisplay">Instagram Cookies</span>
                 </div>
             </div>
 
-            <!-- নতুন কপি বাটন দুটি -->
-            <div class="copy-buttons-container">
-                <button class="copy-btn ok-copy" id="copyOkBtn">
-                    <i class="fas fa-check-circle"></i> OK ID COPY
-                </button>
-                <button class="copy-btn back-copy" id="copyBackBtn">
-                    <i class="fas fa-times-circle"></i> BACK ID COPY
-                </button>
+            <!-- ওকে কাউন্টার - বড় করে - ডিফল্ট hidden -->
+            <div class="ok-counter" id="okCounter">
+                <div class="ok-counter-left">
+                    <div class="label">OK IDs FOUND</div>
+                    <div class="number" id="okCount">0</div>
+                </div>
+                <div class="ok-badge">
+                    <i class="fas fa-check-circle"></i>
+                    <span>OK ID</span>
+                </div>
+            </div>
+
+            <!-- নো ডাটা মেসেজ (ডিফল্ট hidden) -->
+            <div id="noDataMessage" class="no-data-message">
+                <i class="fas fa-database"></i>
+                <h3>কোনো রিপোর্ট দেওয়া হয়নি</h3>
+                <p>এই তারিখ ও টাইপের রিপোর্ট এর জন্য অপেক্ষা করুন</p>
+            </div>
+
+            <!-- ইনপুট এরিয়া -->
+            <div class="input-card">
+                <div class="input-header">
+                    <div class="title">
+                        <i class="fas fa-paste" style="color: #f97316;"></i>
+                        <span>ENTER USERNAMES</span>
+                    </div>
+                    <span class="count-badge" id="inputCount">0</span>
+                </div>
+                <textarea id="userInput" placeholder="এক লাইনে একটি ইউজারনেম&#10;username_01&#10;username_02&#10;username_03"></textarea>
+            </div>
+
+            <!-- চেক বাটন -->
+            <button class="check-btn" onclick="checkUsers()" id="checkBtn">
+                <i class="fas fa-search" id="btnIcon"></i>
+                <span id="btnText">CHECK NOW</span>
+                <span id="btnSpinner" class="spinner hidden"></span>
+            </button>
+
+            <!-- রেজাল্ট কার্ড -->
+            <div class="result-card">
+                <div class="result-header">
+                    <h3>
+                        <i class="fas fa-list" style="color: #f97316;"></i>
+                        RESULTS
+                    </h3>
+                    <span class="count-badge" id="resultCount">0</span>
+                </div>
+
+                <div id="resultList" class="result-list">
+                    <div class="empty-state">
+                        <i class="fas fa-magic"></i><br>
+                        Select date & type, paste usernames
+                    </div>
+                </div>
+
+                <!-- কপি বাটন -->
+                <div class="copy-buttons">
+                    <button class="copy-btn" id="copyOkBtn">
+                        <i class="fas fa-check-circle"></i> OK ID COPY
+                    </button>
+                    <button class="copy-btn" id="copyBackBtn">
+                        <i class="fas fa-times-circle"></i> BACK ID COPY
+                    </button>
+                </div>
             </div>
         </div>
 
+        <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH USER PANEL PRO</strong> · Auto Remove Duplicate
+            <strong>EBH USER PANEL</strong> · SuperFast · 2-3 Second Result
         </div>
     </div>
 
-    <!-- টোস্ট মেসেজের জন্য ডিভ -->
+    <!-- টোস্ট কন্টেইনার -->
     <div id="toastContainer"></div>
 
     <script>
@@ -523,44 +672,43 @@ username_2"></textarea>
         const db = firebase.database();
 
         // DOM Elements
+        const reportType = document.getElementById('reportType');
+        const reportDate = document.getElementById('reportDate');
+        const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+        const selectedTypeDisplay = document.getElementById('selectedTypeDisplay');
         const userInput = document.getElementById('userInput');
         const resultListDiv = document.getElementById('resultList');
-        const totalOkSpan = document.getElementById('totalOk');
         const inputCountSpan = document.getElementById('inputCount');
         const resultCountSpan = document.getElementById('resultCount');
-        const displayDate = document.getElementById('displayDate');
-        const displayReport = document.getElementById('displayReport');
+        const okCountSpan = document.getElementById('okCount');
         const checkBtn = document.getElementById('checkBtn');
         const btnIcon = document.getElementById('btnIcon');
         const btnText = document.getElementById('btnText');
         const btnSpinner = document.getElementById('btnSpinner');
-        const toastContainer = document.getElementById('toastContainer');
-        
-        // নতুন কপি বাটন
         const copyOkBtn = document.getElementById('copyOkBtn');
         const copyBackBtn = document.getElementById('copyBackBtn');
+        const noDataMessage = document.getElementById('noDataMessage');
+        const okCounter = document.getElementById('okCounter');
+        const toastContainer = document.getElementById('toastContainer');
 
-        // ========== টোস্ট মেসেজ ফাংশন ==========
+        // Report type names
+        const reportTypeNames = {
+            'instagram_cookies': 'Instagram Cookies',
+            'instagram_2fa': 'Instagram 2FA',
+            'facebook_cookies': 'Facebook Cookies',
+            'facebook_2fa': 'Facebook 2FA'
+        };
+
+        // Store results for copy
+        window.lastResults = [];
+
+        // ========== টোস্ট ==========
         function showToast(message, duration = 3000) {
             const toast = document.createElement('div');
             toast.className = 'toast-message';
             toast.innerHTML = message;
             toastContainer.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, duration);
-        }
-
-        // ========== চেক ডাটাবেজ খালি কিনা ==========
-        async function checkDatabaseEmpty() {
-            try {
-                const snapshot = await db.ref("users").once("value");
-                return !snapshot.exists(); // true হলে ডাটাবেজ খালি
-            } catch (error) {
-                console.error('Error checking database:', error);
-                return false;
-            }
+            setTimeout(() => toast.remove(), duration);
         }
 
         // ========== এনকোডিং ==========
@@ -587,63 +735,86 @@ username_2"></textarea>
             return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
         }
 
-        // ========== রিপোর্ট সেটিংস লোড (রিয়েলটাইম) ==========
-        function loadSettings() {
-            db.ref("appSettings").on("value", (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    displayDate.innerText = formatDate(data.reportDate || '2026-02-20');
-                    displayReport.innerText = data.reportName || 'INSTAGRAM REPORT';
-                }
+        // ========== ১০ দিনের ডেট লিস্ট জেনারেট ==========
+        function generateDateOptions() {
+            const today = new Date('2026-02-20');
+            const dates = [];
+            
+            for (let i = 0; i < 10; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateString = date.toISOString().split('T')[0];
+                dates.push(dateString);
+            }
+
+            reportDate.innerHTML = '';
+            dates.forEach(date => {
+                const option = document.createElement('option');
+                option.value = date;
+                option.textContent = formatDate(date);
+                reportDate.appendChild(option);
             });
+
+            updateDisplay();
         }
 
-        // ========== ইউজার চেক (আপডেটেড) ==========
+        // ========== ডিসপ্লে আপডেট ==========
+        function updateDisplay() {
+            selectedDateDisplay.innerText = formatDate(reportDate.value);
+            selectedTypeDisplay.innerText = reportTypeNames[reportType.value] || reportType.value;
+        }
+
+        // ========== চেক করার আগে রিপোর্ট আছে কিনা ==========
+        async function checkReportExists() {
+            const date = reportDate.value;
+            const type = reportType.value;
+            
+            try {
+                const snapshot = await db.ref(`reports/${date}/users/${type}`).once("value");
+                return snapshot.exists();
+            } catch (error) {
+                console.error('Error checking report:', error);
+                return false;
+            }
+        }
+
+        // ========== রিসেট ভিজিবিলিটি ==========
+        function resetVisibility() {
+            okCounter.classList.remove('visible');
+            noDataMessage.classList.remove('visible');
+        }
+
+        // ========== ইউজার চেক ==========
         async function checkUsers() {
-            const raw = userInput.value;
+            // আগের সব ভিজিবিলিটি রিসেট করুন
+            resetVisibility();
             
-            // 1. প্রথমে ডাটাবেজ খালি কিনা চেক করুন
-            const isDbEmpty = await checkDatabaseEmpty();
+            const selectedDate = reportDate.value;
+            const selectedType = reportType.value;
+
+            // প্রথমে চেক করুন রিপোর্ট আছে কিনা
+            const hasReport = await checkReportExists();
             
-            if (isDbEmpty) {
-                // ডাটাবেজ খালি থাকলে মেসেজ দেখান
-                resultListDiv.innerHTML = `
-                    <div class="no-data-message">
-                        <i class="fas fa-database"></i>
-                        <h3>কোনো রিপোর্ট দেওয়া হয়নি</h3>
-                        <p>দয়া করে অপেক্ষা করুন রিপোর্ট আসার জন্য</p>
-                        <p style="font-size: 0.8rem; margin-top: 15px;">রিপোর্ট আসলেই দিয়ে দেয়া হবে</p>
-                    </div>
-                `;
-                totalOkSpan.innerText = '0';
+            if (!hasReport) {
+                // রিপোর্ট না থাকলে মেসেজ দেখান
+                noDataMessage.classList.add('visible');
+                resultListDiv.innerHTML = '';
+                okCountSpan.innerText = '0';
                 resultCountSpan.innerText = '0';
-                inputCountSpan.innerText = '0';
+                window.lastResults = [];
                 return;
             }
 
-            // 2. ডুপ্লিকেট ইউজারনেম রিমুভ করুন
-            const lines = raw.split('\n')
-                .map(line => line.trim())
-                .filter(line => line.length > 0);
-            
-            // ডুপ্লিকেট রিমুভ (Set ব্যবহার করে)
+            const raw = userInput.value;
+            const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
             const uniqueUsernames = [...new Set(lines)];
-            const duplicateCount = lines.length - uniqueUsernames.length;
             
-            if (duplicateCount > 0) {
-                showToast(`⚠️ ${duplicateCount} টি ডুপ্লিকেট ইউজারনেম বাদ দেওয়া হয়েছে`, 4000);
-            }
-
-            // ইনপুট বক্স আপডেট করে ইউনিক ইউজারনেম দেখানো (ঐচ্ছিক)
-            // userInput.value = uniqueUsernames.join('\n');
-
-            const usernames = uniqueUsernames;
-            inputCountSpan.innerText = usernames.length;
-
-            if (usernames.length === 0) {
-                resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><br>Enter usernames</div>';
+            if (uniqueUsernames.length === 0) {
+                resultListDiv.innerHTML = '<div class="empty-state">Enter usernames first</div>';
                 return;
             }
+
+            inputCountSpan.innerText = uniqueUsernames.length;
 
             // বাটন লোডিং
             btnIcon.classList.add('hidden');
@@ -652,48 +823,47 @@ username_2"></textarea>
             checkBtn.disabled = true;
 
             resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><br>Checking...</div>';
-            
+
             let okCount = 0;
             const fragment = document.createDocumentFragment();
-            
+            const results = [];
+
             try {
-                const promises = usernames.map(async (username) => {
-                    const encodedUsername = encodeUsername(username);
+                // Promise.all দিয়ে একসাথে সব চেক করুন (সুপারফাস্ট)
+                const promises = uniqueUsernames.map(async (username) => {
+                    const encoded = encodeUsername(username);
                     try {
-                        const snapshot = await db.ref("users/" + encodedUsername).once("value");
-                        return { username, exists: snapshot.exists(), error: false };
+                        const snapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).once("value");
+                        const exists = snapshot.exists();
+                        
+                        // wGate আপডেট (পটভূমিতে)
+                        if (exists) {
+                            const currentWG = snapshot.val()?.wGate || 0;
+                            db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}/wGate`).set(currentWG + 1);
+                        }
+                        
+                        return { username, exists, error: false };
                     } catch (err) {
                         return { username, exists: false, error: true };
                     }
                 });
 
-                const results = await Promise.all(promises);
+                const checkResults = await Promise.all(promises);
                 
-                // ফলাফল সংরক্ষণের জন্য (কপি বাটনের কাজে লাগবে)
-                window.lastCheckResults = results;
-                
-                results.forEach(result => {
+                checkResults.forEach(result => {
+                    results.push(result);
+                    
                     const item = document.createElement('div');
                     item.className = 'result-item';
                     
                     if (result.error) {
                         item.classList.add('error');
-                        item.innerHTML = `<i class="fas fa-minus-circle"></i> <span>${result.username} → ERROR</span>`;
-                    }
-                    else if (result.exists) {
+                        item.innerHTML = `<i class="fas fa-exclamation-circle"></i> <span>${result.username} → Error</span>`;
+                    } else if (result.exists) {
                         item.classList.add('ok');
                         item.innerHTML = `<i class="fas fa-check-circle"></i> <span>${result.username} → OK</span>`;
                         okCount++;
-                        
-                        // wGate আপডেট
-                        const encoded = encodeUsername(result.username);
-                        db.ref("users/" + encoded).once("value").then(snap => {
-                            const data = snap.val();
-                            const currentWG = data?.wGate || 0;
-                            db.ref("users/" + encoded + "/wGate").set(currentWG + 1);
-                        }).catch(console.warn);
-                    }
-                    else {
+                    } else {
                         item.classList.add('new');
                         item.innerHTML = `<i class="fas fa-times-circle"></i> <span>${result.username} → Back</span>`;
                     }
@@ -704,12 +874,20 @@ username_2"></textarea>
                 resultListDiv.innerHTML = '';
                 resultListDiv.appendChild(fragment);
                 
-                totalOkSpan.innerText = okCount;
-                resultCountSpan.innerText = usernames.length;
+                okCountSpan.innerText = okCount;
+                resultCountSpan.innerText = uniqueUsernames.length;
+                window.lastResults = results;
+
+                // OK কাউন্টার দেখান (শুধুমাত্র যখন ফলাফল আছে)
+                if (okCount > 0 || results.length > 0) {
+                    okCounter.classList.add('visible');
+                }
+
+                showToast(`✅ Complete! OK: ${okCount}, Back: ${uniqueUsernames.length - okCount}`);
 
             } catch (error) {
-                console.error('Error:', error);
-                resultListDiv.innerHTML = '<div class="empty-state" style="color:#b71c1c;"><i class="fas fa-bug"></i><br>Network error</div>';
+                console.error(error);
+                resultListDiv.innerHTML = '<div class="empty-state">Network error</div>';
             } finally {
                 btnIcon.classList.remove('hidden');
                 btnText.innerText = 'CHECK NOW';
@@ -718,47 +896,46 @@ username_2"></textarea>
             }
         }
 
-        // ========== কপি বাটনের ফাংশন ==========
-        function copyIdsByType(type) {
-            if (!window.lastCheckResults || window.lastCheckResults.length === 0) {
-                showToast('⚠️ প্রথমে ইউজার চেক করুন!', 3000);
+        // ========== কপি ফাংশন ==========
+        function copyIds(type) {
+            if (!window.lastResults || window.lastResults.length === 0) {
+                showToast('⚠️ First check users!');
                 return;
             }
 
-            // type: 'ok' মানে exists: true, 'back' মানে exists: false (এবং error নয়)
-            const filtered = window.lastCheckResults
-                .filter(r => !r.error) // শুধু যেগুলো error না
+            const filtered = window.lastResults
+                .filter(r => !r.error)
                 .filter(r => type === 'ok' ? r.exists : !r.exists)
                 .map(r => r.username);
 
             if (filtered.length === 0) {
-                showToast(`❌ কোনো ${type === 'ok' ? 'OK' : 'BACK'} ID পাওয়া যায়নি!`, 3000);
+                showToast(`❌ No ${type === 'ok' ? 'OK' : 'BACK'} IDs found!`);
                 return;
             }
 
-            const textToCopy = filtered.join('\n');
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                showToast(`✅ ${filtered.length} টি ${type === 'ok' ? 'OK' : 'BACK'} ID কপি হয়েছে!`, 3000);
-            }).catch(() => {
-                showToast('❌ কপি করা যায়নি!', 3000);
+            navigator.clipboard.writeText(filtered.join('\n')).then(() => {
+                showToast(`✅ ${filtered.length} ${type === 'ok' ? 'OK' : 'BACK'} IDs copied!`);
             });
         }
 
-        // ইনপুট কাউন্ট আপডেট
+        // ========== ইনপুট কাউন্ট ==========
         userInput.addEventListener('input', function() {
             const lines = this.value.split('\n').filter(l => l.trim().length > 0).length;
             inputCountSpan.innerText = lines;
         });
 
-        // ইনিশিয়াল লোড
-        loadSettings();
+        // ========== ইভেন্ট লিসেনার ==========
+        reportType.addEventListener('change', updateDisplay);
+        reportDate.addEventListener('change', updateDisplay);
+        
+        copyOkBtn.addEventListener('click', () => copyIds('ok'));
+        copyBackBtn.addEventListener('click', () => copyIds('back'));
 
-        // গ্লোবাল ফাংশন
+        // ========== গ্লোবাল ফাংশন ==========
         window.checkUsers = checkUsers;
 
-        // কপি বাটনের ইভেন্ট লিসেনার
-        copyOkBtn.addEventListener('click', () => copyIdsByType('ok'));
-        copyBackBtn.addEventListener('click', () => copyIdsByType('back'));
+        // ========== ইনিশিয়ালাইজ ==========
+        generateDateOptions();
     </script>
 </body>
 </html>
