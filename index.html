@@ -255,6 +255,12 @@
             font-size: 0.7rem;
         }
 
+        /* টেক্সটএরিয়া কন্টেইনার */
+        .textarea-container {
+            position: relative;
+            width: 100%;
+        }
+
         textarea {
             width: 100%;
             height: 140px;
@@ -265,11 +271,46 @@
             font-size: 0.9rem;
             resize: vertical;
             outline: none;
-            margin-bottom: 12px;
+            margin-bottom: 40px; /* ক্লিয়ার বাটনের জন্য নিচে জায়গা */
         }
 
         textarea:focus {
             border-color: #f97316;
+        }
+
+        /* ক্লিয়ার বাটন - বক্সের নিচে ডান কোণায় */
+        .clear-btn {
+            position: absolute;
+            bottom: -30px;
+            right: 0;
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .clear-btn i {
+            font-size: 0.9rem;
+        }
+
+        .clear-btn:hover {
+            background: #e5670e;
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
+        }
+
+        .clear-btn:active {
+            transform: scale(0.98);
         }
 
         .check-btn {
@@ -463,7 +504,7 @@
             color: #f97316;
         }
 
-        /* টোস্ট মেসেজ - শুধু এটাই বাংলা ও বড় */
+        /* টোস্ট মেসেজ */
         .toast-message {
             position: fixed;
             bottom: 30px;
@@ -481,7 +522,6 @@
             max-width: 90%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            direction: rtl;
         }
 
         @keyframes slideUp {
@@ -489,10 +529,8 @@
             to { bottom: 30px; opacity: 1; }
         }
 
-        /* টোস্টের আইকন */
         .toast-message i {
-            margin-left: 8px;
-            margin-right: 4px;
+            margin-right: 8px;
             color: #f97316;
         }
 
@@ -516,6 +554,11 @@
             .toast-message {
                 font-size: 0.9rem;
                 padding: 12px 18px;
+            }
+            
+            .clear-btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -604,7 +647,7 @@
                 <p>Please wait for report on this date & type</p>
             </div>
 
-            <!-- ইনপুট এরিয়া -->
+            <!-- ইনপুট এরিয়া - ক্লিয়ার বাটন বক্সের নিচে ডান কোণায় -->
             <div class="input-card">
                 <div class="input-header">
                     <div class="title">
@@ -613,7 +656,13 @@
                     </div>
                     <span class="count-badge" id="inputCount">0</span>
                 </div>
-                <textarea id="userInput" placeholder="One username per line&#10;username_01&#10;username_02&#10;username_03"></textarea>
+                
+                <div class="textarea-container">
+                    <textarea id="userInput" placeholder="One username per line&#10;username_01&#10;username_02&#10;username_03"></textarea>
+                    <button class="clear-btn" onclick="clearAll()">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                </div>
             </div>
 
             <!-- চেক বাটন -->
@@ -706,6 +755,34 @@
 
         // Store results for copy
         window.lastResults = [];
+
+        // ========== ক্লিয়ার অল ফাংশন - সবকিছু রিসেট করে ==========
+        function clearAll() {
+            // টেক্সটএরিয়া খালি করুন
+            userInput.value = '';
+            
+            // ইনপুট কাউন্ট রিসেট
+            inputCountSpan.innerText = '0';
+            
+            // রেজাল্ট লিস্ট খালি করুন
+            resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-magic"></i><br>Select date & type, paste usernames</div>';
+            
+            // ওকে কাউন্টার লুকান
+            okCounter.classList.remove('visible');
+            
+            // নো ডাটা মেসেজ লুকান
+            noDataMessage.classList.remove('visible');
+            
+            // কাউন্টার শূন্য করুন
+            okCountSpan.innerText = '0';
+            resultCountSpan.innerText = '0';
+            
+            // স্টোর করা ফলাফল মুছুন
+            window.lastResults = [];
+            
+            // টোস্ট দেখান
+            showToast('🧹 সব ডাটা ক্লিয়ার করা হয়েছে');
+        }
 
         // ========== বাংলা টোস্ট মেসেজ ==========
         function showToast(message, duration = 3500) {
@@ -988,6 +1065,7 @@
 
         // ========== গ্লোবাল ফাংশন ==========
         window.checkUsers = checkUsers;
+        window.clearAll = clearAll;
 
         // ========== ইনিশিয়ালাইজ ==========
         generateDateOptions();
