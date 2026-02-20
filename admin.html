@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>EBH সুপার অ্যাডমিন · এনকোডেড</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a0f1e, #0b1120);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .phone {
+            max-width: 460px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 48px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 0 2px #f97316 inset;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            padding: 28px 22px 18px 22px;
+            border-bottom: 5px solid #f97316;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fbbf24, #f97316, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(249,115,22,0.3);
+        }
+
+        .admin-tag {
+            background: rgba(249, 115, 22, 0.25);
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: #fcd34d;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border: 1.5px solid #f97316;
+            backdrop-filter: blur(5px);
+        }
+
+        .date-container {
+            background: rgba(0,0,0,0.5);
+            border-radius: 40px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #f97316;
+        }
+
+        .date-container label {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .date-container input {
+            background: transparent;
+            border: none;
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .date-container input::-webkit-calendar-picker-indicator {
+            filter: invert(0.8) sepia(1) hue-rotate(10deg);
+            opacity: 1;
+        }
+
+        .status-bar {
+            background: linear-gradient(90deg, #f97316, #fb923c);
+            margin: -20px 18px 20px 18px;
+            padding: 20px 24px;
+            border-radius: 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 30px -12px #f97316;
+            border: 2px solid rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-left i {
+            font-size: 2.2rem;
+            background: rgba(255,255,255,0.25);
+            padding: 12px;
+            border-radius: 30px;
+        }
+
+        .status-left h3 {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .status-left p {
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .super-badge {
+            background: #0f172a;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            border: 2px solid #fbbf24;
+            color: #fbbf24;
+        }
+
+        .content {
+            padding: 0 18px 20px 18px;
+        }
+
+        .input-card {
+            background: white;
+            border-radius: 36px;
+            padding: 24px 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid #f1f5f9;
+        }
+
+        .input-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1e293b;
+            font-weight: 800;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .input-title i {
+            color: #f97316;
+            font-size: 1.4rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 22px;
+            background: #f1f5f9;
+            border: 3px solid #e2e8f0;
+            border-radius: 30px;
+            font-size: 1rem;
+            resize: vertical;
+            outline: none;
+            transition: 0.2s;
+            color: #0f172a;
+            margin-bottom: 22px;
+            font-weight: 500;
+        }
+
+        textarea:focus {
+            border-color: #f97316;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(249,115,22,0.2);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 20px 12px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #f97316, #fb923c, #fbbf24);
+            color: white;
+            box-shadow: 0 15px 25px -10px #f97316;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 2px solid #fecaca;
+            font-weight: 700;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            margin: 15px 0 10px 0;
+            overflow: hidden;
+            display: none;
+            border: 1px solid #cbd5e1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f97316, #fbbf24);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .stats {
+            font-size: 0.9rem;
+            color: #1e293b;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 30px;
+        }
+
+        .list-card {
+            background: white;
+            border-radius: 36px;
+            padding: 24px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid #f1f5f9;
+        }
+
+        .list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .list-header h4 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1e293b;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .user-badge {
+            background: #f97316;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .user-list {
+            max-height: 270px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            scrollbar-width: thin;
+        }
+
+        .user-item {
+            background: #f8fafc;
+            padding: 15px 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #e2e8f0;
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 1rem;
+            word-break: break-all;
+        }
+
+        .user-item i {
+            color: #f97316;
+            width: 24px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #64748b;
+            padding: 35px 0;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hidden { display: none; }
+
+        .footer {
+            background: #0f172a;
+            padding: 18px 22px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            border-top: 4px solid #f97316;
+            font-weight: 600;
+        }
+        .footer strong { 
+            color: #f97316;
+            font-size: 1rem;
+        }
+
+        .info-note {
+            background: #0f172a;
+            color: #fbbf24;
+            padding: 14px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 6px solid #f97316;
+            font-weight: 600;
+        }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="phone">
+        <div class="header">
+            <div class="top-row">
+                <span class="logo">EBH</span>
+                <span class="admin-tag"><i class="fas fa-infinity"></i> আনলিমিটেড</span>
+            </div>
+            <div class="date-container">
+                <label><i class="far fa-calendar-alt"></i> রিপোর্ট তারিখ</label>
+                <input type="date" id="reportDate" value="2026-02-20">
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-left">
+                <i class="fas fa-shield-halved"></i>
+                <div>
+                    <h3>এনকোডেড ইউজার</h3>
+                    <p id="totalUsers">০</p>
+                </div>
+            </div>
+            <div class="super-badge">
+                <i class="fas fa-bolt"></i> ১০০০০/সেকেন্ড
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="input-card">
+                <div class="input-title">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>ইউজারনেম ইনপুট (যা ইচ্ছা দিন)</span>
+                </div>
+                <textarea id="userInput" placeholder="EBH_SUPER_USERS
+
+[বন্ধনী] $pecial #চিহ্ন
+৫০০০+ ইউজার একসাথে"></textarea>
+                
+                <div class="progress-bar" id="progressBar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="saveStats" class="stats"></div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="saveAllUsers()" id="saveBtn">
+                        <i class="fas fa-save" id="saveIcon"></i>
+                        <span id="saveText">সংরক্ষণ</span>
+                        <span id="saveSpinner" class="spinner hidden"></span>
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteAllUsers()" id="deleteBtn">
+                        <i class="fas fa-trash-alt"></i> সব মুছুন
+                    </button>
+                </div>
+
+                <div class="info-note">
+                    <i class="fas fa-check-double" style="font-size: 1.4rem;"></i>
+                    <span><strong>✅ সব ক্যারেক্টার সাপোর্ট করে</strong> — ডট (.), ড্যাশ, স্পেস, #, $, [, ] যাই থাকুক না কেন, ঠিক আপনার দেওয়া নামটাই সেভ হবে। এনকোডিং টেকনিক ব্যবহার করা হয়েছে।</span>
+                </div>
+            </div>
+
+            <div class="list-card">
+                <div class="list-header">
+                    <h4><i class="fas fa-database"></i> সংরক্ষিত ইউজার (অরিজিনাল)</h4>
+                    <span class="user-badge" id="userCount">০</span>
+                </div>
+                <div id="userList" class="user-list">
+                    <!-- ডায়নামিক লিস্ট -->
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>⚡ EBH আলট্রা অ্যাডমিন ⚡</strong> · সব ক্যারেক্টার সাপোর্ট · ১০০০০+ ব্যাচ
+        </div>
+    </div>
+
+    <script>
+        // Firebase কনফিগার
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmpKkaw_zpNGbgawtQrUPadBEh55e4mLM",
+            authDomain: "free-lancher-24.firebaseapp.com",
+            databaseURL: "https://free-lancher-24-default-rtdb.firebaseio.com/",
+            projectId: "free-lancher-24",
+            storageBucket: "free-lancher-24.firebasestorage.app",
+            messagingSenderId: "667574198748",
+            appId: "1:667574198748:web:cdd8041e5cb3ec7da8af19"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // DOM এলিমেন্ট
+        const userInput = document.getElementById('userInput');
+        const userListDiv = document.getElementById('userList');
+        const userCountSpan = document.getElementById('userCount');
+        const totalUsersSpan = document.getElementById('totalUsers');
+        const saveBtn = document.getElementById('saveBtn');
+        const saveIcon = document.getElementById('saveIcon');
+        const saveText = document.getElementById('saveText');
+        const saveSpinner = document.getElementById('saveSpinner');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const saveStats = document.getElementById('saveStats');
+
+        // ডিফল্ট তারিখ
+        document.getElementById('reportDate').value = new Date().toISOString().slice(0,10);
+
+        // ========== এনকোডিং/ডিকোডিং ফাংশন ==========
+        // Firebase এ不安全 ক্যারেক্টার এনকোড করে
+        function encodeUsername(username) {
+            // প্রতিটি বিশেষ ক্যারেক্টরকে _xXXXX_ ফরম্যাটে এনকোড
+            let encoded = '';
+            for (let i = 0; i < username.length; i++) {
+                const char = username[i];
+                if (char === '.') {
+                    encoded += '_x2E_';
+                } else if (char === '#') {
+                    encoded += '_x23_';
+                } else if (char === '$') {
+                    encoded += '_x24_';
+                } else if (char === '[') {
+                    encoded += '_x5B_';
+                } else if (char === ']') {
+                    encoded += '_x5D_';
+                } else if (char === '/') {
+                    encoded += '_x2F_';
+                } else if (char === '\\') {
+                    encoded += '_x5C_';
+                } else {
+                    encoded += char;
+                }
+            }
+            return encoded;
+        }
+
+        // ডিকোড করে অরিজিনাল ইউজারনেম দেখায়
+        function decodeUsername(encoded) {
+            let decoded = '';
+            for (let i = 0; i < encoded.length; i++) {
+                if (encoded[i] === '_' && i + 5 < encoded.length && encoded[i+1] === 'x') {
+                    const code = encoded.substr(i+2, 2);
+                    if (code === '2E') { decoded += '.'; i += 5; }
+                    else if (code === '23') { decoded += '#'; i += 5; }
+                    else if (code === '24') { decoded += '$'; i += 5; }
+                    else if (code === '5B') { decoded += '['; i += 5; }
+                    else if (code === '5D') { decoded += ']'; i += 5; }
+                    else if (code === '2F') { decoded += '/'; i += 5; }
+                    else if (code === '5C') { decoded += '\\'; i += 5; }
+                    else { decoded += encoded[i]; }
+                } else {
+                    decoded += encoded[i];
+                }
+            }
+            return decoded;
+        }
+
+        // ইউজার লোড (ডিকোড করে দেখায়)
+        async function loadUsers() {
+            userListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i> লোড হচ্ছে...</div>';
+            
+            try {
+                const snapshot = await db.ref("users").once("value");
+                const data = snapshot.val();
+                
+                userListDiv.innerHTML = '';
+                
+                if (data) {
+                    const encodedUsernames = Object.keys(data);
+                    const total = encodedUsernames.length;
+                    userCountSpan.innerText = total;
+                    totalUsersSpan.innerText = total;
+
+                    if (total > 0) {
+                        const showCount = Math.min(total, 150);
+                        for(let i = 0; i < showCount; i++) {
+                            const encoded = encodedUsernames[i];
+                            const original = decodeUsername(encoded); // ডিকোড করে অরিজিনাল
+                            
+                            const item = document.createElement('div');
+                            item.className = 'user-item';
+                            item.innerHTML = `<i class="fas fa-user-check"></i> ${original}`;
+                            userListDiv.appendChild(item);
+                        }
+                        
+                        if(total > 150) {
+                            const more = document.createElement('div');
+                            more.className = 'user-item';
+                            more.style.background = '#e2e8f0';
+                            more.innerHTML = `<i class="fas fa-ellipsis-h"></i> আরও ${total-150}টি ইউজার...`;
+                            userListDiv.appendChild(more);
+                        }
+                    } else {
+                        userListDiv.innerHTML = '<div class="empty-state"><i class="far fa-smile"></i> কোনো ইউজার নেই</div>';
+                    }
+                } else {
+                    userListDiv.innerHTML = '<div class="empty-state"><i class="far fa-smile"></i> কোনো ইউজার নেই</div>';
+                    userCountSpan.innerText = '০';
+                    totalUsersSpan.innerText = '০';
+                }
+            } catch (error) {
+                userListDiv.innerHTML = '<div class="empty-state" style="color:#b91c1c;">এরর: ' + error.message + '</div>';
+            }
+        }
+
+        // সব ইউজার সেভ (এনকোড করে)
+        async function saveAllUsers() {
+            const raw = userInput.value;
+            
+            // প্রতি লাইন, ট্রিম করা, খালি বাদ
+            const usernames = raw.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0);
+
+            const totalUsers = usernames.length;
+            
+            if (totalUsers === 0) {
+                alert('কোনো ইউজারনেম দেওয়া হয়নি!');
+                return;
+            }
+
+            // কনফার্মেশন
+            if (totalUsers > 5000) {
+                if (!confirm(`${totalUsers}টি ইউজার সংরক্ষণ করবেন? এটি একটু সময় নিতে পারে।`)) {
+                    return;
+                }
+            }
+
+            // বাটন ডিজেবল
+            saveIcon.classList.add('hidden');
+            saveText.innerText = 'সংরক্ষণ হচ্ছে...';
+            saveSpinner.classList.remove('hidden');
+            saveBtn.disabled = true;
+            deleteBtn.disabled = true;
+
+            // প্রোগ্রেস বার
+            progressBar.style.display = 'block';
+            progressFill.style.width = '0%';
+            saveStats.innerText = `০/${totalUsers} সম্পন্ন`;
+
+            try {
+                // ডুপ্লিকেট রিমুভ (কেস সেন্সিটিভ)
+                const uniqueMap = new Map();
+                usernames.forEach(u => {
+                    if (!uniqueMap.has(u)) {
+                        uniqueMap.set(u, true);
+                    }
+                });
+                const uniqueUsers = Array.from(uniqueMap.keys());
+                
+                if (uniqueUsers.length < totalUsers) {
+                    saveStats.innerText = `${totalUsers - uniqueUsers.length}টি ডুপ্লিকেট বাদ দেওয়া হয়েছে`;
+                }
+
+                // ব্যাচ প্রসেসিং (১৫০০ করে)
+                const batchSize = 1500;
+                let completed = 0;
+
+                for (let i = 0; i < uniqueUsers.length; i += batchSize) {
+                    const batch = uniqueUsers.slice(i, i + batchSize);
+                    
+                    // এনকোড করে সেভ
+                    const promises = batch.map(originalUsername => {
+                        const encodedUsername = encodeUsername(originalUsername);
+                        
+                        return db.ref("users/" + encodedUsername).set({
+                            original: originalUsername,  // অরিজিনাল নাম
+                            wGate: 0,
+                            createdAt: new Date().toISOString()
+                        });
+                    });
+
+                    await Promise.all(promises);
+                    
+                    completed += batch.length;
+                    const percent = (completed / uniqueUsers.length) * 100;
+                    progressFill.style.width = percent + '%';
+                    saveStats.innerText = `${completed}/${uniqueUsers.length} সম্পন্ন`;
+                }
+
+                // সাফল্য
+                saveText.innerText = 'সম্পন্ন!';
+                setTimeout(() => {
+                    saveIcon.classList.remove('hidden');
+                    saveText.innerText = 'সংরক্ষণ';
+                    saveSpinner.classList.add('hidden');
+                    saveBtn.disabled = false;
+                    deleteBtn.disabled = false;
+                    progressBar.style.display = 'none';
+                    
+                    // ইনপুট বক্সে EBH টেক্সট
+                    userInput.value = 'EBH_SUPER_USERS\nrajib.khan.007\nuser.name@domain.com\nquail.4588451\n[বন্ধনী] $pecial #চিহ্ন\n.....dots.....';
+                    
+                    // ইউজার লিস্ট রিলোড
+                    loadUsers();
+                }, 500);
+
+            } catch (error) {
+                alert('সংরক্ষণে সমস্যা: ' + error.message);
+                saveIcon.classList.remove('hidden');
+                saveText.innerText = 'সংরক্ষণ';
+                saveSpinner.classList.add('hidden');
+                saveBtn.disabled = false;
+                deleteBtn.disabled = false;
+                progressBar.style.display = 'none';
+            }
+        }
+
+        // ডিলিট অল
+        async function deleteAllUsers() {
+            if (!confirm('⚠️ সব ইউজার ডিলিট হবে? এই কাজ অপরিবর্তনীয়!')) return;
+            
+            deleteBtn.disabled = true;
+            deleteBtn.innerHTML = '<span class="spinner"></span> মুছছে...';
+            
+            try {
+                await db.ref("users").remove();
+                await loadUsers();
+                alert('✅ সব ইউজার মুছে ফেলা হয়েছে');
+            } catch (error) {
+                alert('ডিলিট করতে সমস্যা: ' + error.message);
+            } finally {
+                deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> সব মুছুন';
+                deleteBtn.disabled = false;
+            }
+        }
+
+        // ইনপুট বক্সে EBH টেক্সট
+        userInput.value = 'EBH_SUPER_USERS\nrajib.khan.007\nuser.name@domain.com\nquail.4588451\n[বন্ধনী] $pecial #চিহ্ন\n.....dots.....';
+
+        // পৃষ্ঠা লোডে ইউজার লোড
+        loadUsers();
+
+        // গ্লোবাল ফাংশন
+        window.saveAllUsers = saveAllUsers;
+        window.deleteAllUsers = deleteAllUsers;
+    </script>
+</body>
+</html>
