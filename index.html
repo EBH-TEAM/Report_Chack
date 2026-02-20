@@ -463,26 +463,37 @@
             color: #f97316;
         }
 
+        /* টোস্ট মেসেজ - শুধু এটাই বাংলা ও বড় */
         .toast-message {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: #1e293b;
             color: white;
-            padding: 12px 20px;
-            border-radius: 40px;
-            font-size: 0.85rem;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
             border-left: 6px solid #f97316;
             z-index: 1000;
             animation: slideUp 0.3s ease;
             max-width: 90%;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            direction: rtl;
         }
 
         @keyframes slideUp {
             from { bottom: 0; opacity: 0; }
-            to { bottom: 20px; opacity: 1; }
+            to { bottom: 30px; opacity: 1; }
+        }
+
+        /* টোস্টের আইকন */
+        .toast-message i {
+            margin-left: 8px;
+            margin-right: 4px;
+            color: #f97316;
         }
 
         @media (max-width: 380px) {
@@ -500,6 +511,11 @@
                 flex-direction: column;
                 gap: 10px;
                 text-align: center;
+            }
+            
+            .toast-message {
+                font-size: 0.9rem;
+                padding: 12px 18px;
             }
         }
     </style>
@@ -549,7 +565,7 @@
                             <i class="fas fa-calendar-alt"></i> SELECT DATE
                         </div>
                         <select id="reportDate">
-                            <!-- JavaScript দিয়ে dynamically ভর্তি হবে এবং অটো রোল হবে -->
+                            <!-- JavaScript দিয়ে dynamically ভর্তি হবে -->
                         </select>
                     </div>
                 </div>
@@ -584,8 +600,8 @@
             <!-- নো ডাটা মেসেজ -->
             <div id="noDataMessage" class="no-data-message">
                 <i class="fas fa-database"></i>
-                <h3>কোনো রিপোর্ট দেওয়া হয়নি</h3>
-                <p>এই তারিখ ও টাইপের রিপোর্ট এর জন্য অপেক্ষা করুন</p>
+                <h3>No Report Available</h3>
+                <p>Please wait for report on this date & type</p>
             </div>
 
             <!-- ইনপুট এরিয়া -->
@@ -597,7 +613,7 @@
                     </div>
                     <span class="count-badge" id="inputCount">0</span>
                 </div>
-                <textarea id="userInput" placeholder="এক লাইনে একটি ইউজারনেম&#10;username_01&#10;username_02&#10;username_03"></textarea>
+                <textarea id="userInput" placeholder="One username per line&#10;username_01&#10;username_02&#10;username_03"></textarea>
             </div>
 
             <!-- চেক বাটন -->
@@ -638,7 +654,7 @@
 
         <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH USER PANEL</strong> · Auto Date Rollover · Last 10 Days Only
+            <strong>EBH USER PANEL</strong> · Auto Date Rollover · Last 10 Days
         </div>
     </div>
 
@@ -691,8 +707,8 @@
         // Store results for copy
         window.lastResults = [];
 
-        // ========== টোস্ট ==========
-        function showToast(message, duration = 3000) {
+        // ========== বাংলা টোস্ট মেসেজ ==========
+        function showToast(message, duration = 3500) {
             const toast = document.createElement('div');
             toast.className = 'toast-message';
             toast.innerHTML = message;
@@ -724,6 +740,12 @@
             return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
         }
 
+        // ========== বাংলা সংখ্যায় রূপান্তর ==========
+        function toBengaliNumber(num) {
+            const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return num.toString().split('').map(digit => bengaliDigits[parseInt(digit)] || digit).join('');
+        }
+
         // ========== বর্তমান তারিখ (বাংলাদেশ সময়) ==========
         function getCurrentDate() {
             const now = new Date();
@@ -738,36 +760,22 @@
             const currentDate = getCurrentDate();
             const today = new Date(currentDate);
             
-            // গতকালের তারিখ বের করুন
-            const yesterday = new Date(today);
-            yesterday.setDate(today.getDate() - 1);
-            const yesterdayStr = yesterday.toISOString().split('T')[0];
-            
-            // শেষ চেকের তারিখ যদি গতকালের আগে হয়, তাহলে রোল করুন
             if (!lastCheck || lastCheck !== currentDate) {
                 console.log('Date rollover triggered:', { lastCheck, currentDate });
                 
                 try {
-                    // ১০ দিন আগের তারিখ বের করুন (যেটা ডিলিট হবে)
                     const tenDaysAgo = new Date(today);
                     tenDaysAgo.setDate(today.getDate() - 10);
                     const deleteDate = tenDaysAgo.toISOString().split('T')[0];
                     
-                    // পুরনো ডাটা ডিলিট করুন
                     const oldDataSnapshot = await db.ref(`reports/${deleteDate}`).once("value");
                     if (oldDataSnapshot.exists()) {
                         await db.ref(`reports/${deleteDate}`).remove();
                         console.log(`Deleted old data for date: ${deleteDate}`);
-                        showToast(`📅 ${formatDate(deleteDate)} এর ডাটা অটো ডিলিট হয়েছে`, 4000);
+                        showToast(`📅 ${formatDate(deleteDate)} এর পুরনো ডাটা অটো ডিলিট হয়েছে`);
                     }
                     
-                    // নতুন তারিখের জন্য খালি জায়গা তৈরি করুন (ঐচ্ছিক)
-                    // এখানে কিছু না করলেও চলবে, প্রয়োজনে এডমিন পরে ডাটা দেবেন
-                    
-                    // শেষ চেকের তারিখ আপডেট করুন
                     localStorage.setItem('lastDateCheck', currentDate);
-                    
-                    // ডেট অপশন রিজেনারেট করুন
                     generateDateOptions();
                     
                 } catch (error) {
@@ -781,7 +789,6 @@
             const today = new Date(getCurrentDate());
             const dates = [];
             
-            // আজকের তারিখ থেকে ১০ দিন পিছনে
             for (let i = 0; i < 10; i++) {
                 const date = new Date(today);
                 date.setDate(today.getDate() - i);
@@ -789,7 +796,6 @@
                 dates.push(dateString);
             }
 
-            // বর্তমান সিলেক্টেড ভ্যালু রাখার জন্য
             const currentValue = reportDate.value;
             
             reportDate.innerHTML = '';
@@ -800,11 +806,10 @@
                 reportDate.appendChild(option);
             });
 
-            // আগের সিলেক্টেড ভ্যালু থাকলে সেট রাখুন, না হলে আজকের তারিখ
             if (currentValue && dates.includes(currentValue)) {
                 reportDate.value = currentValue;
             } else {
-                reportDate.value = dates[0]; // আজকের তারিখ
+                reportDate.value = dates[0];
             }
             
             updateDisplay();
@@ -843,6 +848,16 @@
             const selectedDate = reportDate.value;
             const selectedType = reportType.value;
 
+            // ডুপ্লিকেট রিমুভ ও মেসেজ
+            const raw = userInput.value;
+            const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const uniqueUsernames = [...new Set(lines)];
+            const duplicateCount = lines.length - uniqueUsernames.length;
+            
+            if (duplicateCount > 0) {
+                showToast(`⚠️ ${toBengaliNumber(duplicateCount)} টি ডুপ্লিকেট ইউজারনেম বাদ দেওয়া হয়েছে`);
+            }
+
             const hasReport = await checkReportExists();
             
             if (!hasReport) {
@@ -854,10 +869,6 @@
                 return;
             }
 
-            const raw = userInput.value;
-            const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            const uniqueUsernames = [...new Set(lines)];
-            
             if (uniqueUsernames.length === 0) {
                 resultListDiv.innerHTML = '<div class="empty-state">Enter usernames first</div>';
                 return;
@@ -927,7 +938,7 @@
                     okCounter.classList.add('visible');
                 }
 
-                showToast(`✅ Complete! OK: ${okCount}, Back: ${uniqueUsernames.length - okCount}`);
+                showToast(`✅ চেক সম্পন্ন! ওকে: ${toBengaliNumber(okCount)}টি, ব্যাক: ${toBengaliNumber(uniqueUsernames.length - okCount)}টি`);
 
             } catch (error) {
                 console.error(error);
@@ -943,7 +954,7 @@
         // ========== কপি ফাংশন ==========
         function copyIds(type) {
             if (!window.lastResults || window.lastResults.length === 0) {
-                showToast('⚠️ First check users!');
+                showToast('⚠️ আগে ইউজার চেক করুন!');
                 return;
             }
 
@@ -953,12 +964,12 @@
                 .map(r => r.username);
 
             if (filtered.length === 0) {
-                showToast(`❌ No ${type === 'ok' ? 'OK' : 'BACK'} IDs found!`);
+                showToast(`❌ কোনো ${type === 'ok' ? 'ওকে' : 'ব্যাক'} আইডি পাওয়া যায়নি!`);
                 return;
             }
 
             navigator.clipboard.writeText(filtered.join('\n')).then(() => {
-                showToast(`✅ ${filtered.length} ${type === 'ok' ? 'OK' : 'BACK'} IDs copied!`);
+                showToast(`✅ ${toBengaliNumber(filtered.length)} টি ${type === 'ok' ? 'ওকে' : 'ব্যাক'} আইডি কপি হয়েছে!`);
             });
         }
 
@@ -980,10 +991,8 @@
 
         // ========== ইনিশিয়ালাইজ ==========
         generateDateOptions();
-        
-        // প্রতি মিনিটে ডেট রোল চেক করুন (ব্যাকগ্রাউন্ডে)
-        setInterval(checkAndRolloverDate, 60000); // 1 মিনিট
-        checkAndRolloverDate(); // প্রথমবার চেক
+        setInterval(checkAndRolloverDate, 60000);
+        checkAndRolloverDate();
     </script>
 </body>
 </html>
