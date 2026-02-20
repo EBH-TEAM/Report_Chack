@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH · অ্যাডমিন প্রো</title>
+    <title>EBH · অ্যাডমিন প্যানেল</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -19,15 +19,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px;
+            padding: 10px;
         }
 
         .admin-panel {
-            max-width: 480px;
+            max-width: 460px;
             width: 100%;
             background: #ffffff;
-            border-radius: 40px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+            border-radius: 36px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             overflow: hidden;
             border: 2px solid #f97316;
         }
@@ -35,7 +35,7 @@
         /* হেডার */
         .admin-header {
             background: #000000;
-            padding: 20px 20px 16px 20px;
+            padding: 18px 18px 14px 18px;
             color: white;
             border-bottom: 4px solid #f97316;
         }
@@ -44,47 +44,45 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 800;
             color: #f97316;
-            letter-spacing: -1px;
         }
 
         .admin-badge {
             background: #f97316;
             color: #000;
-            padding: 5px 14px;
+            padding: 4px 12px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
 
         .header-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 2px;
         }
 
         .header-sub {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #aaa;
         }
 
-        /* কন্ট্রোল এরিয়া */
-        .control-area {
-            padding: 16px;
+        /* মূল কন্টেন্ট */
+        .content {
+            padding: 14px;
         }
 
-        /* === কম্প্যাক্ট রিপোর্ট সেটিংস কার্ড === */
-        .compact-card {
+        /* কার্ড স্টাইল */
+        .card {
             background: #f8fafc;
-            border-radius: 32px;
+            border-radius: 28px;
             padding: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             border: 2px solid #e2e8f0;
         }
 
@@ -102,33 +100,27 @@
 
         .card-title i {
             color: #f97316;
-            font-size: 0.9rem;
         }
 
-        /* থ্রি-ইন-ওয়ান রো - মোবাইলে স্ট্যাক হবে */
-        .settings-row {
+        /* ফর্ম রো */
+        .form-row {
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
         }
 
-        .date-compact {
-            flex: 1.2;
-            min-width: 130px;
+        .form-row .field {
+            flex: 1;
+            min-width: 120px;
         }
 
-        .name-compact {
-            flex: 2;
-            min-width: 150px;
-        }
-
-        .btn-compact {
+        .form-row .btn-field {
             flex: 0.7;
             min-width: 80px;
         }
 
-        .compact-input {
+        input, select {
             width: 100%;
             padding: 12px 14px;
             background: white;
@@ -136,90 +128,16 @@
             border-radius: 30px;
             font-size: 0.85rem;
             outline: none;
-            transition: 0.2s;
         }
 
-        .compact-input:focus {
+        input:focus, select:focus {
             border-color: #f97316;
-            box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
-        }
-
-        .compact-btn {
-            width: 100%;
-            background: #f97316;
-            color: #000;
-            border: none;
-            padding: 12px 8px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 2px solid #f97316;
-            white-space: nowrap;
-        }
-
-        .compact-btn i {
-            font-size: 0.8rem;
-        }
-
-        .compact-btn:active {
-            transform: scale(0.96);
-            background: #e5670e;
-        }
-
-        /* ইউজার ম্যানেজমেন্ট কার্ড */
-        .control-card {
-            background: #f8fafc;
-            border-radius: 32px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .input-group textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 28px;
-            font-size: 0.85rem;
-            resize: vertical;
-            outline: none;
-            height: 100px;
-        }
-
-        .input-group textarea:focus {
-            border-color: #f97316;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
         }
 
         .btn {
-            flex: 1;
-            padding: 14px 8px;
-            border-radius: 36px;
+            width: 100%;
+            padding: 12px 8px;
+            border-radius: 30px;
             font-weight: 700;
             font-size: 0.85rem;
             display: flex;
@@ -231,46 +149,120 @@
             transition: 0.2s;
         }
 
-        .btn-primary {
+        .btn-orange {
+            background: #f97316;
+            color: #000;
+            border: 2px solid #f97316;
+        }
+
+        .btn-black {
             background: #000000;
             color: white;
             border: 2px solid #f97316;
         }
 
-        .btn-danger {
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 2px solid #fecaca;
+        .btn-red {
+            background: #dc2626;
+            color: white;
+            border: 2px solid #b91c1c;
+        }
+
+        .btn-dark-red {
+            background: #7f1d1d;
+            color: white;
+            border: 2px solid #991b1b;
         }
 
         .btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
+        }
+
+        /* ইউজার এরিয়া */
+        .user-input-area {
+            margin-top: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            resize: vertical;
+            outline: none;
+            height: 100px;
+            margin: 10px 0;
+        }
+
+        textarea:focus {
+            border-color: #f97316;
+        }
+
+        /* ডিলিট সেকশন */
+        .delete-section {
+            background: #fee2e2;
+            border-radius: 28px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 2px solid #fecaca;
+        }
+
+        .delete-title {
+            color: #b91c1c;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .delete-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .delete-row select, .delete-row input {
+            flex: 1;
+            min-width: 110px;
+            border-color: #fecaca;
+            background: white;
+        }
+
+        .delete-row button {
+            flex: 0.8;
+            min-width: 80px;
+            padding: 12px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         /* প্রিভিউ বক্স */
         .preview-box {
             background: #000;
             color: white;
-            border-radius: 32px;
-            padding: 16px 18px;
-            margin: 16px 0;
+            border-radius: 28px;
+            padding: 14px 16px;
+            margin: 14px 0;
             border: 3px solid #f97316;
-        }
-
-        .preview-title {
-            color: #f97316;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
         }
 
         .preview-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
+            padding: 6px 0;
             border-bottom: 1px dashed #333;
             font-size: 0.85rem;
         }
@@ -288,44 +280,52 @@
             color: #f97316;
         }
 
-        /* ইউজার লিস্ট */
-        .user-list-card {
-            background: #f8fafc;
-            border-radius: 32px;
-            padding: 16px;
-            border: 2px solid #e2e8f0;
+        /* ডেট লিস্ট */
+        .date-list {
+            max-height: 200px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
-        .list-header {
+        .date-item {
+            background: white;
+            padding: 12px 14px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
         }
 
-        .list-header h3 {
+        .date-item:hover {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+
+        .date-info {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            font-weight: 700;
+            gap: 10px;
         }
 
-        .list-header h3 i {
-            font-size: 0.9rem;
+        .date-info i {
+            color: #f97316;
         }
 
-        .user-count {
-            background: #f97316;
-            color: #000;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-weight: 700;
+        .user-badge {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 30px;
             font-size: 0.75rem;
+            color: #333;
         }
 
+        /* ইউজার লিস্ট */
         .user-grid {
-            max-height: 160px;
+            max-height: 150px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -335,18 +335,16 @@
         .user-item {
             background: white;
             padding: 10px 14px;
-            border-radius: 28px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             gap: 8px;
             border: 2px solid #e2e8f0;
-            word-break: break-all;
             font-size: 0.8rem;
         }
 
         .user-item i {
             color: #f97316;
-            font-size: 0.8rem;
         }
 
         .empty-state {
@@ -354,9 +352,18 @@
             padding: 20px;
             color: #94a3b8;
             background: white;
-            border-radius: 28px;
+            border-radius: 24px;
             border: 2px dashed #cbd5e1;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+        }
+
+        .count-badge {
+            background: #f97316;
+            color: #000;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.7rem;
         }
 
         .spinner {
@@ -368,14 +375,15 @@
             border-top-color: #f97316;
             animation: spin 0.6s linear infinite;
         }
+
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .footer {
             background: #f1f5f9;
-            padding: 14px 16px;
+            padding: 12px;
             text-align: center;
             border-top: 2px solid #e2e8f0;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #64748b;
         }
 
@@ -383,39 +391,24 @@
             color: #f97316;
         }
 
-        /* ছোট স্ক্রিনের জন্য অতিরিক্ত অ্যাডজাস্টমেন্ট */
+        /* মোবাইল অ্যাডজাস্টমেন্ট */
         @media (max-width: 380px) {
-            .settings-row {
+            .form-row, .delete-row {
                 flex-direction: column;
                 align-items: stretch;
             }
             
-            .date-compact, .name-compact, .btn-compact {
+            .form-row .field,
+            .form-row .btn-field,
+            .delete-row select,
+            .delete-row input,
+            .delete-row button {
                 width: 100%;
                 min-width: 100%;
             }
             
-            .btn-group {
-                flex-direction: column;
-            }
-            
             .admin-panel {
-                border-radius: 32px;
-            }
-            
-            .compact-card, .control-card, .user-list-card {
                 border-radius: 28px;
-                padding: 14px;
-            }
-            
-            .compact-input, .compact-btn, .btn {
-                padding: 12px 10px;
-                font-size: 0.8rem;
-            }
-            
-            .user-item {
-                padding: 8px 12px;
-                font-size: 0.75rem;
             }
         }
     </style>
@@ -426,73 +419,91 @@
 </head>
 <body>
     <div class="admin-panel">
+        <!-- হেডার -->
         <div class="admin-header">
             <div class="header-top">
                 <span class="logo">EBH_TEAM</span>
-                <span class="admin-badge">MASTER</span>
+                <span class="admin-badge">ADMIN</span>
             </div>
-            <div class="header-title">Admin Control</div>
-            <div class="header-sub">Manage users & report settings</div>
+            <div class="header-title">Admin Control Panel</div>
+            <div class="header-sub">Manage your reports by date</div>
         </div>
 
-        <div class="control-area">
-            <!-- === কম্প্যাক্ট রিপোর্ট সেটিংস (এক লাইনে) === -->
-            <div class="compact-card">
+        <!-- মূল কন্টেন্ট -->
+        <div class="content">
+            <!-- রিপোর্ট সেটিংস -->
+            <div class="card">
                 <div class="card-title">
                     <i class="fas fa-sliders-h"></i>
                     <span>REPORT SETTINGS</span>
                 </div>
 
-                <!-- থ্রি-ইন-ওয়ান রো -->
-                <div class="settings-row">
-                    <!-- তারিখ -->
-                    <div class="date-compact">
+                <div class="form-row">
+                    <div class="field">
                         <input type="date" id="adminDate" class="compact-input" value="2026-02-20">
                     </div>
                     
-                    <!-- রিপোর্ট নাম -->
-                    <div class="name-compact">
-                        <input type="text" id="adminReportName" class="compact-input" placeholder="Report name" value="INSTAGRAM REPORT">
+                    <div class="field">
+                        <input type="text" id="adminReportName" placeholder="Report name" value="INSTAGRAM REPORT">
                     </div>
                     
-                    <!-- সেভ বাটন -->
-                    <div class="btn-compact">
-                        <button class="compact-btn" onclick="saveSettings()">
+                    <div class="btn-field">
+                        <button class="btn btn-orange" onclick="saveSettings()">
                             <i class="fas fa-save"></i> SAVE
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- ইউজার ম্যানেজমেন্ট কার্ড -->
-            <div class="control-card">
+            <!-- ইউজার অ্যাড করার সেকশন -->
+            <div class="card">
                 <div class="card-title">
-                    <i class="fas fa-users"></i>
-                    <span>USER MANAGEMENT</span>
+                    <i class="fas fa-user-plus"></i>
+                    <span>ADD NEW USERS</span>
                 </div>
 
-                <div class="input-group">
-                    <label><i class="fas fa-paste"></i> USERNAMES (ONE PER LINE)</label>
-                    <textarea id="userInput" placeholder="rajib.khan.007
-user.name@domain
-quail.4588451"></textarea>
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn btn-primary" onclick="saveUsers()">
-                        <i class="fas fa-save"></i> SAVE
+                <div class="user-input-area">
+                    <textarea id="userInput" placeholder="এক লাইনে একটি ইউজারনেম&#10;username1&#10;username2&#10;username3"></textarea>
+                    
+                    <button class="btn btn-black" onclick="saveUsers()">
+                        <i class="fas fa-save"></i> SAVE TO SELECTED DATE
                     </button>
-                    <button class="btn btn-danger" onclick="deleteAllUsers()">
+                </div>
+            </div>
+
+            <!-- ডিলিট সেকশন - টাইপ + তারিখ -->
+            <div class="delete-section">
+                <div class="delete-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>DELETE SPECIFIC REPORT</span>
+                </div>
+                
+                <div class="delete-row">
+                    <select id="deleteType">
+                        <option value="instagram">Instagram 2FA</option>
+                        <option value="instagram_cookies">Instagram Cookies</option>
+                        <option value="facebook">Facebook 2FA</option>
+                        <option value="facebook_cookies">Facebook Cookies</option>
+                        <option value="tiktok">Others Report</option>
+                    </select>
+                    
+                    <input type="date" id="deleteDate" value="2026-02-20">
+                    
+                    <button onclick="deleteSpecificReport()">
                         <i class="fas fa-trash-alt"></i> DELETE
                     </button>
                 </div>
             </div>
 
+            <!-- ডিলিট অল বাটন -->
+            <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%; margin-bottom: 14px; padding: 16px;">
+                <i class="fas fa-skull-crosswalk"></i> DELETE ALL DATA (DANGER)
+            </button>
+
             <!-- প্রিভিউ বক্স -->
             <div class="preview-box">
-                <div class="preview-title">CURRENT SETTINGS</div>
                 <div class="preview-row">
-                    <span class="preview-label">Report Date</span>
+                    <span class="preview-label">Selected Date</span>
                     <span class="preview-value" id="previewDate">20 FEB 2026</span>
                 </div>
                 <div class="preview-row">
@@ -501,22 +512,38 @@ quail.4588451"></textarea>
                 </div>
             </div>
 
-            <!-- ইউজার লিস্ট -->
-            <div class="user-list-card">
-                <div class="list-header">
-                    <h3><i class="fas fa-database"></i> STORED USERS</h3>
-                    <span class="user-count" id="userCount">0</span>
+            <!-- তারিখ অনুযায়ী স্টোরেজ -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>📅 DATE WISE STORAGE (ক্লিক করুন)</span>
                 </div>
+                
+                <div id="dateStats" class="date-list">
+                    <div class="empty-state">Loading dates...</div>
+                </div>
+            </div>
+
+            <!-- ইউজার লিস্ট -->
+            <div class="card">
+                <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><i class="fas fa-database"></i> STORED USERS</span>
+                    <span class="count-badge" id="userCount">0</span>
+                </div>
+                
                 <div id="userList" class="user-grid">
-                    <div class="empty-state">Loading users...</div>
+                    <div class="empty-state">তারিখে ক্লিক করে ইউজার দেখুন</div>
                 </div>
             </div>
         </div>
 
+        <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH ADMIN PRO</strong> · Compact Design · Real-time Sync
+            <strong>EBH ADMIN</strong> · Mobile Optimized · Click to View
         </div>
     </div>
+
+    <div id="toastContainer"></div>
 
     <script>
         // Firebase Config
@@ -534,13 +561,50 @@ quail.4588451"></textarea>
         const db = firebase.database();
 
         // DOM Elements
-        const userInput = document.getElementById('userInput');
-        const userListDiv = document.getElementById('userList');
-        const userCountSpan = document.getElementById('userCount');
         const adminDate = document.getElementById('adminDate');
         const adminReportName = document.getElementById('adminReportName');
         const previewDate = document.getElementById('previewDate');
         const previewName = document.getElementById('previewName');
+        const userInput = document.getElementById('userInput');
+        const userListDiv = document.getElementById('userList');
+        const userCountSpan = document.getElementById('userCount');
+        const dateStatsDiv = document.getElementById('dateStats');
+        const deleteType = document.getElementById('deleteType');
+        const deleteDate = document.getElementById('deleteDate');
+        const toastContainer = document.getElementById('toastContainer');
+
+        // Report type names
+        const reportTypeNames = {
+            'instagram': 'Instagram 2FA',
+            'instagram_cookies': 'Instagram Cookies',
+            'facebook': 'Facebook 2FA',
+            'facebook_cookies': 'Facebook Cookies',
+            'tiktok': 'Others Report'
+        };
+
+        // ========== টোস্ট ==========
+        function showToast(message, duration = 3000) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #1e293b;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 40px;
+                font-size: 0.85rem;
+                border-left: 6px solid #f97316;
+                z-index: 1000;
+                animation: slideUp 0.3s ease;
+                max-width: 90%;
+                text-align: center;
+            `;
+            toast.innerHTML = message;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), duration);
+        }
 
         // ========== এনকোডিং ==========
         function encodeUsername(username) {
@@ -588,29 +652,36 @@ quail.4588451"></textarea>
 
         // ========== সেটিংস সেভ ==========
         async function saveSettings() {
-            const settings = {
-                reportDate: adminDate.value,
-                reportName: adminReportName.value
-            };
+            const selectedDate = adminDate.value;
+            const reportName = adminReportName.value;
+
+            if (!selectedDate || !reportName) {
+                alert('Please fill all fields!');
+                return;
+            }
 
             try {
-                await db.ref("appSettings").set(settings);
-                alert('✅ Settings updated successfully!');
+                await db.ref("adminSettings").set({
+                    lastDate: selectedDate,
+                    lastReportName: reportName
+                });
+
                 updatePreview();
+                showToast(`✅ Settings saved for ${formatDate(selectedDate)}`);
             } catch (error) {
                 alert('Error: ' + error.message);
             }
         }
 
-        // ========== সেটিংস লোড ==========
-        function loadSettings() {
-            db.ref("appSettings").on("value", (snapshot) => {
+        // ========== লাস্ট সেটিংস লোড ==========
+        function loadLastSettings() {
+            db.ref("adminSettings").once("value", (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    adminDate.value = data.reportDate || '2026-02-20';
-                    adminReportName.value = data.reportName || 'INSTAGRAM REPORT';
+                    adminDate.value = data.lastDate || new Date().toISOString().split('T')[0];
+                    adminReportName.value = data.lastReportName || 'INSTAGRAM REPORT';
+                    updatePreview();
                 }
-                updatePreview();
             });
         }
 
@@ -623,6 +694,13 @@ quail.4588451"></textarea>
         // ========== ইউজার সেভ ==========
         async function saveUsers() {
             const raw = userInput.value;
+            const selectedDate = adminDate.value;
+
+            if (!selectedDate) {
+                alert('Please select date first!');
+                return;
+            }
+
             const usernames = raw.split('\n')
                 .map(u => u.trim())
                 .filter(u => u.length > 0);
@@ -633,25 +711,37 @@ quail.4588451"></textarea>
             }
 
             const uniqueUsers = [...new Set(usernames)];
-            const saveBtn = document.querySelector('.btn-primary');
+            const saveBtn = event.target;
             const originalText = saveBtn.innerHTML;
             saveBtn.innerHTML = '<span class="spinner"></span> SAVING...';
             saveBtn.disabled = true;
 
             try {
-                const promises = uniqueUsers.map(username => {
+                // ইউজার সেভ
+                for (const username of uniqueUsers) {
                     const encoded = encodeUsername(username);
-                    return db.ref("users/" + encoded).set({
+                    await db.ref(`reports/${selectedDate}/users/${encoded}`).set({
                         username: username,
                         wGate: 0,
-                        createdAt: new Date().toISOString()
+                        checked: false,
+                        addedAt: new Date().toISOString()
                     });
+                }
+
+                // মেটাডেটা আপডেট
+                const usersSnapshot = await db.ref(`reports/${selectedDate}/users`).once("value");
+                const totalUsers = usersSnapshot.val() ? Object.keys(usersSnapshot.val()).length : 0;
+                
+                await db.ref(`reports/${selectedDate}/metadata`).set({
+                    reportName: adminReportName.value,
+                    totalUsers: totalUsers,
+                    lastUpdated: new Date().toISOString()
                 });
 
-                await Promise.all(promises);
-                alert(`✅ ${uniqueUsers.length} users saved!`);
+                showToast(`✅ ${uniqueUsers.length} users saved for ${formatDate(selectedDate)}`);
                 userInput.value = '';
-                loadUsers();
+                loadDateStats();
+                loadUsersForDate(selectedDate);
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
@@ -660,9 +750,49 @@ quail.4588451"></textarea>
             }
         }
 
-        // ========== ইউজার লোড ==========
-        function loadUsers() {
-            db.ref("users").on("value", (snapshot) => {
+        // ========== সব তারিখ লোড ==========
+        function loadDateStats() {
+            db.ref("reports").once("value", (snapshot) => {
+                const data = snapshot.val();
+                dateStatsDiv.innerHTML = '';
+
+                if (!data) {
+                    dateStatsDiv.innerHTML = '<div class="empty-state">No reports found</div>';
+                    return;
+                }
+
+                const dates = Object.keys(data).sort().reverse();
+                
+                dates.forEach(date => {
+                    let totalUsers = data[date].users ? Object.keys(data[date].users).length : 0;
+
+                    const dateItem = document.createElement('div');
+                    dateItem.className = 'date-item';
+                    dateItem.onclick = () => {
+                        loadUsersForDate(date);
+                        adminDate.value = date;
+                        if (data[date].metadata?.reportName) {
+                            adminReportName.value = data[date].metadata.reportName;
+                        }
+                        updatePreview();
+                    };
+                    
+                    dateItem.innerHTML = `
+                        <div class="date-info">
+                            <i class="fas fa-calendar-day"></i>
+                            <strong>${formatDate(date)}</strong>
+                        </div>
+                        <span class="user-badge">${totalUsers} users</span>
+                    `;
+                    
+                    dateStatsDiv.appendChild(dateItem);
+                });
+            });
+        }
+
+        // ========== নির্দিষ্ট তারিখের ইউজার লোড ==========
+        function loadUsersForDate(date) {
+            db.ref(`reports/${date}/users`).once("value", (snapshot) => {
                 const data = snapshot.val();
                 userListDiv.innerHTML = '';
 
@@ -685,24 +815,77 @@ quail.4588451"></textarea>
                         userListDiv.appendChild(more);
                     }
                 } else {
-                    userListDiv.innerHTML = '<div class="empty-state">No users found</div>';
+                    userListDiv.innerHTML = '<div class="empty-state">No users for this date</div>';
                     userCountSpan.innerText = '0';
                 }
             });
         }
 
-        // ========== ডিলিট অল ==========
-        async function deleteAllUsers() {
-            if (!confirm('⚠️ Delete ALL users?')) return;
+        // ========== নির্দিষ্ট রিপোর্ট ডিলিট ==========
+        async function deleteSpecificReport() {
+            const selectedType = deleteType.value;
+            const selectedDate = deleteDate.value;
+            
+            if (!selectedDate || !selectedType) {
+                alert('Please select date and type!');
+                return;
+            }
 
-            const deleteBtn = document.querySelector('.btn-danger');
+            const typeName = reportTypeNames[selectedType] || selectedType;
+            
+            if (!confirm(`⚠️ ${formatDate(selectedDate)} - ${typeName} ডিলিট করবেন?`)) return;
+
+            const deleteBtn = event.target;
             const originalText = deleteBtn.innerHTML;
-            deleteBtn.innerHTML = '<span class="spinner"></span> DELETING...';
+            deleteBtn.innerHTML = '<span class="spinner"></span>';
             deleteBtn.disabled = true;
 
             try {
-                await db.ref("users").remove();
-                alert('✅ All users deleted');
+                // এই তারিখের এই টাইপের সব ইউজার ডিলিট
+                await db.ref(`reports/${selectedDate}/users`).remove();
+                
+                // মেটাডেটা আপডেট
+                await db.ref(`reports/${selectedDate}/metadata`).update({
+                    totalUsers: 0
+                });
+
+                showToast(`✅ ${formatDate(selectedDate)} - ${typeName} ডিলিট করা হয়েছে`);
+                loadDateStats();
+                
+                if (adminDate.value === selectedDate) {
+                    loadUsersForDate(selectedDate);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> DELETE';
+                deleteBtn.disabled = false;
+            }
+        }
+
+        // ========== সব ডাটা ডিলিট ==========
+        async function deleteAllData() {
+            if (!confirm('⚠️⚠️⚠️ সম্পূর্ণ ডাটাবেজ ডিলিট হবে! কোন কিছু ফেরত আসবে না!')) return;
+            if (!confirm('আরও একবার নিশ্চিত করুন: সব ডাটা চিরতরে চলে যাবে?')) return;
+
+            const deleteBtn = event.target;
+            const originalText = deleteBtn.innerHTML;
+            deleteBtn.innerHTML = '<span class="spinner"></span> DELETING ALL...';
+            deleteBtn.disabled = true;
+
+            try {
+                await db.ref().set({
+                    adminSettings: {
+                        lastDate: new Date().toISOString().split('T')[0],
+                        lastReportName: 'INSTAGRAM REPORT'
+                    }
+                });
+                
+                showToast('✅ সম্পূর্ণ ডাটাবেজ ক্লিয়ার করা হয়েছে');
+                loadDateStats();
+                userListDiv.innerHTML = '<div class="empty-state">No data</div>';
+                userCountSpan.innerText = '0';
+                loadLastSettings();
             } catch (error) {
                 alert('Error: ' + error.message);
             } finally {
@@ -711,14 +894,19 @@ quail.4588451"></textarea>
             }
         }
 
-        // ইনিশিয়াল লোড
-        loadSettings();
-        loadUsers();
+        // Event listeners
+        adminDate.addEventListener('change', updatePreview);
+        adminReportName.addEventListener('input', updatePreview);
 
-        // গ্লোবাল ফাংশন
+        // Global functions
         window.saveSettings = saveSettings;
         window.saveUsers = saveUsers;
-        window.deleteAllUsers = deleteAllUsers;
+        window.deleteSpecificReport = deleteSpecificReport;
+        window.deleteAllData = deleteAllData;
+
+        // Initial load
+        loadLastSettings();
+        loadDateStats();
     </script>
 </body>
 </html>
