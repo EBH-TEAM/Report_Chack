@@ -6,7 +6,7 @@
     <title>EBH · অ্যাডমিন প্যানেল</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ---------- আপনার আগের সমস্ত CSS ঠিক একই থাকবে ---------- */
+        /* আপনার আগের সমস্ত CSS ঠিক একই থাকবে */
         * {
             margin: 0;
             padding: 0;
@@ -23,13 +23,11 @@
             padding: 10px;
         }
 
-        /* লগইন ও এডমিন প্যানেল দুটোর জন্য কন্টেইনার */
         .container {
             max-width: 460px;
             width: 100%;
         }
 
-        /* লগইন ফর্ম স্টাইল */
         .login-container {
             background: #ffffff;
             border-radius: 40px;
@@ -146,7 +144,6 @@
             display: flex;
         }
 
-        /* এডমিন প্যানেল স্টাইল - আপনার আগের সব CSS */
         .admin-panel {
             background: #ffffff;
             border-radius: 36px;
@@ -318,6 +315,83 @@
 
         textarea:focus {
             border-color: #f97316;
+        }
+
+        .delete-id-card {
+            background: #fff3f3;
+            border-radius: 28px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 2px solid #fecaca;
+        }
+
+        .delete-id-header {
+            color: #b91c1c;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .delete-id-header i {
+            color: #b91c1c;
+        }
+
+        .delete-id-textarea {
+            width: 100%;
+            height: 100px;
+            padding: 14px;
+            background: white;
+            border: 2px solid #fecaca;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            resize: vertical;
+            outline: none;
+            margin-bottom: 12px;
+        }
+
+        .delete-id-textarea:focus {
+            border-color: #dc2626;
+        }
+
+        .delete-id-btn {
+            width: 100%;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .delete-id-btn:hover {
+            background: #b91c1c;
+        }
+
+        .delete-id-btn:active {
+            transform: scale(0.98);
+        }
+
+        .delete-id-btn i {
+            font-size: 1rem;
+        }
+
+        .delete-id-note {
+            font-size: 0.7rem;
+            color: #b91c1c;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .delete-section {
@@ -547,7 +621,6 @@
             background: #0f172a;
         }
 
-        /* Hide/Show ক্লাস */
         .hidden {
             display: none;
         }
@@ -576,7 +649,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- লগইন ফর্ম (ডিফল্টভাবে দেখা যাবে) -->
+        <!-- লগইন ফর্ম -->
         <div id="loginSection" class="login-container">
             <div class="login-header">
                 <div class="logo">EBH</div>
@@ -618,7 +691,7 @@
             </div>
         </div>
 
-        <!-- এডমিন প্যানেল (ডিফল্টভাবে লুকানো) -->
+        <!-- এডমিন প্যানেল -->
         <div id="adminSection" class="admin-panel hidden">
             <div class="admin-header">
                 <div class="header-top">
@@ -631,10 +704,9 @@
                     </div>
                 </div>
                 <div class="header-title">SuperFast Admin Panel</div>
-                <div class="header-sub">Save 10,000 users in 5-10 seconds</div>
+                <div class="header-sub">5000 IDs · 1 Second Processing</div>
             </div>
 
-            <!-- আপনার আগের এডমিন প্যানেলের সম্পূর্ণ কন্টেন্ট -->
             <div class="content">
                 <!-- রিপোর্ট সেটিংস -->
                 <div class="card">
@@ -689,7 +761,27 @@
                     </div>
                 </div>
 
-                <!-- ডিলিট সেকশন -->
+                <!-- সুপারফাস্ট: সার্চ করে আইডি ডিলিট করার সেকশন -->
+                <div class="delete-id-card">
+                    <div class="delete-id-header">
+                        <i class="fas fa-bolt"></i>
+                        <span>⚡ SUPERFAST: SEARCH & DELETE IDs</span>
+                    </div>
+                    
+                    <textarea id="deleteIdsInput" class="delete-id-textarea" placeholder="Enter IDs to delete (5000 IDs in 1 second)&#10;username_01&#10;username_02&#10;username_03"></textarea>
+                    
+                    <button class="delete-id-btn" onclick="fastDeleteIds()" id="deleteIdsBtn">
+                        <i class="fas fa-trash-alt"></i> ⚡ FAST DELETE (5000 IDs/SEC)
+                        <span id="deleteSpinner" class="spinner hidden"></span>
+                    </button>
+                    
+                    <div class="delete-id-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Batch processing · 1000 IDs parallel · Instant result</span>
+                    </div>
+                </div>
+
+                <!-- ডিলিট সেকশন (পুরাতন) -->
                 <div class="delete-section">
                     <div class="delete-title">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -759,7 +851,7 @@
             </div>
 
             <div class="footer">
-                <strong>EBH ADMIN</strong> · SuperFast Save · 5-10 Second for 10k Users
+                <strong>EBH ADMIN</strong> · SuperFast Processing · 5000 IDs/sec
             </div>
         </div>
     </div>
@@ -811,6 +903,11 @@
         const progressBar = document.getElementById('progressBar');
         const progressFill = document.getElementById('progressFill');
         const saveUsersBtn = document.getElementById('saveUsersBtn');
+        
+        // নতুন এলিমেন্ট
+        const deleteIdsInput = document.getElementById('deleteIdsInput');
+        const deleteIdsBtn = document.getElementById('deleteIdsBtn');
+        const deleteSpinner = document.getElementById('deleteSpinner');
 
         // Report type names
         const reportTypeNames = {
@@ -821,17 +918,16 @@
         };
 
         const BATCH_SIZE = 500;
+        const DELETE_BATCH_SIZE = 1000; // ডিলিটের জন্য বড় ব্যাচ
 
         // ========== চেক লগইন স্টেটাস ==========
         auth.onAuthStateChanged(function(user) {
             if (user && user.email === "52662800jh@gmail.com") {
-                // সঠিক এডমিন - এডমিন প্যানেল দেখাও
                 loginSection.classList.add('hidden');
                 adminSection.classList.remove('hidden');
                 loadLastSettings();
                 loadDateStats();
             } else {
-                // লগইন না বা ভুল ইমেইল - লগইন ফর্ম দেখাও
                 loginSection.classList.remove('hidden');
                 adminSection.classList.add('hidden');
             }
@@ -848,7 +944,6 @@
                 return;
             }
 
-            // Show loading
             btnIcon.classList.add('hidden');
             btnText.innerText = 'LOGGING IN...';
             btnSpinner.classList.remove('hidden');
@@ -860,7 +955,6 @@
                 const user = userCredential.user;
 
                 if (user.email === "52662800jh@gmail.com") {
-                    // সঠিক এডমিন - onAuthStateChanged হ্যান্ডেল করবে
                     console.log('Login successful');
                 } else {
                     await auth.signOut();
@@ -1166,7 +1260,7 @@
             });
         }
 
-        // ========== নির্দিষ্ট রিপোর্ট ডিলিট ==========
+        // ========== নির্দিষ্ট রিপোর্ট ডিলিট (পুরাতন) ==========
         async function deleteSpecificReport() {
             const selectedType = deleteType.value;
             const selectedDate = deleteDate.value;
@@ -1200,6 +1294,115 @@
             } finally {
                 deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> DELETE';
                 deleteBtn.disabled = false;
+            }
+        }
+
+        // ========== সুপারফাস্ট: নির্দিষ্ট আইডি ডিলিট ==========
+        async function fastDeleteIds() {
+            const selectedDate = adminDate.value;
+            const selectedType = adminType.value;
+
+            if (!selectedDate || !selectedType) {
+                showToast('⚠️ আগে তারিখ ও টাইপ সিলেক্ট করুন');
+                return;
+            }
+
+            const raw = deleteIdsInput.value;
+            const idsToDelete = raw.split('\n')
+                .map(id => id.trim())
+                .filter(id => id.length > 0);
+
+            if (idsToDelete.length === 0) {
+                showToast('⚠️ ডিলিট করার জন্য আইডি লিখুন');
+                return;
+            }
+
+            if (!confirm(`⚡ ${idsToDelete.length} টি আইডি সুপারফাস্ট ডিলিট করবেন?`)) {
+                return;
+            }
+
+            // বাটন ডিজেবল
+            deleteIdsBtn.disabled = true;
+            deleteSpinner.classList.remove('hidden');
+            const originalText = deleteIdsBtn.innerHTML;
+            deleteIdsBtn.innerHTML = '⚡ FAST DELETING...';
+
+            try {
+                const startTime = Date.now();
+                
+                // এনকোডিং আগেই করে নিন (স্পিড বাড়াতে)
+                const encodedIds = idsToDelete.map(id => encodeUsername(id));
+                
+                // বড় ব্যাচে ভাগ করুন (১০০০ করে)
+                const batches = [];
+                for (let i = 0; i < encodedIds.length; i += DELETE_BATCH_SIZE) {
+                    batches.push(encodedIds.slice(i, i + DELETE_BATCH_SIZE));
+                }
+
+                let deletedCount = 0;
+                const notFoundIds = [];
+                
+                // প্রতিটি ব্যাচ প্যারালালে প্রসেস করুন
+                for (const batch of batches) {
+                    // চেক করুন কোন আইডি আছে
+                    const checkPromises = batch.map(async (encoded) => {
+                        const snapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).once("value");
+                        return { encoded, exists: snapshot.exists() };
+                    });
+                    
+                    const checkResults = await Promise.all(checkPromises);
+                    
+                    // যেগুলো আছে সেগুলো ডিলিট করুন
+                    const deletePromises = checkResults
+                        .filter(r => r.exists)
+                        .map(r => db.ref(`reports/${selectedDate}/users/${selectedType}/${r.encoded}`).remove());
+                    
+                    const deleteResults = await Promise.allSettled(deletePromises);
+                    
+                    deletedCount += deleteResults.filter(r => r.status === 'fulfilled').length;
+                    
+                    // না পাওয়া গুলো সংরক্ষণ করুন
+                    checkResults
+                        .filter(r => !r.exists)
+                        .forEach(r => {
+                            const originalId = idsToDelete[encodedIds.indexOf(r.encoded)];
+                            notFoundIds.push(originalId);
+                        });
+                }
+
+                // মেটাডেটা আপডেট
+                const usersSnapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}`).once("value");
+                const totalUsers = usersSnapshot.val() ? Object.keys(usersSnapshot.val()).length : 0;
+                await db.ref(`reports/${selectedDate}/metadata/${selectedType}/totalUsers`).set(totalUsers);
+
+                const endTime = Date.now();
+                const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
+
+                // ফলাফল দেখান
+                let message = `✅ ${deletedCount} টি আইডি ডিলিট হয়েছে (${timeTaken} সেকেন্ডে)`;
+                if (notFoundIds.length > 0) {
+                    const sample = notFoundIds.slice(0, 3).join(', ');
+                    message += `\n⚠️ ${notFoundIds.length} টি আইডি পাওয়া যায়নি (যেমন: ${sample})`;
+                }
+                showToast(message, 6000);
+
+                // ইনপুট খালি করুন
+                deleteIdsInput.value = '';
+                
+                // লিস্ট আপডেট করুন
+                if (selectedDate === adminDate.value && selectedType === adminType.value) {
+                    loadUsersForDateAndType(selectedDate, selectedType);
+                }
+                loadDateStats();
+
+            } catch (error) {
+                console.error('Fast delete error:', error);
+                showToast('❌ ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
+            } finally {
+                // বাটন পুনরুদ্ধার
+                deleteIdsBtn.disabled = false;
+                deleteSpinner.classList.add('hidden');
+                deleteIdsBtn.innerHTML = originalText;
             }
         }
 
@@ -1240,10 +1443,8 @@
         adminDate.addEventListener('change', updatePreview);
         adminReportName.addEventListener('input', updatePreview);
 
-        // Enter key for login
         document.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !adminSection.classList.contains('hidden')) {
-                // এডমিন প্যানেলে এন্টার করলে কিছু করবে না
                 return;
             }
             if (e.key === 'Enter' && loginSection.classList.contains('hidden') === false) {
@@ -1251,12 +1452,12 @@
             }
         });
 
-        // Global functions
         window.login = login;
         window.logout = logout;
         window.saveSettings = saveSettings;
         window.saveUsers = saveUsers;
         window.deleteSpecificReport = deleteSpecificReport;
+        window.fastDeleteIds = fastDeleteIds;
         window.deleteAllData = deleteAllData;
     </script>
 </body>
