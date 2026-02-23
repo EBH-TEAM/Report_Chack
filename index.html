@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH_TEAM_REPORT</title>
+    <title>EBH_TEAM_REPORT (Turbo)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* আপনার দেওয়া CSS সম্পূর্ণ অপরিবর্তিত রাখা হয়েছে */
+        /* আপনার দেওয়া CSS সম্পূর্ণ অপরিবর্তিত রাখা হয়েছে (কপি করা হয়েছে) */
         * {
             margin: 0;
             padding: 0;
@@ -573,7 +573,7 @@
         <div class="user-header">
             <div class="header-top">
                 <span class="logo">EBH_TEAM_REPORT</span>
-                <span class="badge">USER PANEL</span>
+                <span class="badge">TURBO MODE</span> <!-- ব্যাজ আপডেট করা হয়েছে -->
             </div>
             <div class="header-title">SuperFast Report Checker</div>
             <div class="header-sub">Auto Date Rollover · Last 10 Days</div>
@@ -666,9 +666,9 @@
             </div>
 
             <!-- চেক বাটন -->
-            <button class="check-btn" onclick="checkUsers()" id="checkBtn">
+            <button class="check-btn" onclick="checkUsersTurbo()" id="checkBtn"> <!-- ফাংশনের নাম আপডেট -->
                 <i class="fas fa-search" id="btnIcon"></i>
-                <span id="btnText">CHECK NOW</span>
+                <span id="btnText">CHECK NOW (TURBO)</span> <!-- টেক্সট আপডেট -->
                 <span id="btnSpinner" class="spinner hidden"></span>
             </button>
 
@@ -703,7 +703,7 @@
 
         <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH USER PANEL</strong> · Auto Date Rollover · Last 10 Days
+            <strong>EBH USER PANEL (TURBO)</strong> · Auto Date Rollover · Last 10 Days
         </div>
     </div>
 
@@ -756,31 +756,51 @@
         // Store results for copy
         window.lastResults = [];
 
-        // ========== ক্লিয়ার অল ফাংশন - সবকিছু রিসেট করে ==========
+        // ========== ক্যাশে ম্যানেজার (Turbo Speed এর মূল চাবিকাঠি) ==========
+        const reportCache = {
+            data: null,          // লাস্ট লোড করা রিপোর্টের ডাটা
+            date: null,          // ডেট
+            type: null,          // টাইপ
+            timestamp: 0,        // কখন লোড করা হয়েছিল
+            expiryTime: 60000,   // ক্যাশের মেয়াদ (1 মিনিট)
+            
+            // ক্যাশ ভ্যালিড কিনা চেক করে
+            isValid(date, type) {
+                const now = Date.now();
+                return this.date === date && 
+                       this.type === type && 
+                       this.data !== null && 
+                       (now - this.timestamp) < this.expiryTime;
+            },
+            
+            // ক্যাশ সেট করে
+            set(date, type, data) {
+                this.date = date;
+                this.type = type;
+                this.data = data;
+                this.timestamp = Date.now();
+            },
+            
+            // ক্যাশ ক্লিয়ার করে
+            clear() {
+                this.data = null;
+                this.date = null;
+                this.type = null;
+                this.timestamp = 0;
+            }
+        };
+
+        // ========== ক্লিয়ার অল ফাংশন ==========
         function clearAll() {
-            // টেক্সটএরিয়া খালি করুন
             userInput.value = '';
-            
-            // ইনপুট কাউন্ট রিসেট
             inputCountSpan.innerText = '0';
-            
-            // রেজাল্ট লিস্ট খালি করুন
             resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-magic"></i><br>Select date & type, paste usernames</div>';
-            
-            // ওকে কাউন্টার লুকান
             okCounter.classList.remove('visible');
-            
-            // নো ডাটা মেসেজ লুকান
             noDataMessage.classList.remove('visible');
-            
-            // কাউন্টার শূন্য করুন
             okCountSpan.innerText = '0';
             resultCountSpan.innerText = '0';
-            
-            // স্টোর করা ফলাফল মুছুন
             window.lastResults = [];
-            
-            // টোস্ট দেখান
+            reportCache.clear(); // ক্যাশ ক্লিয়ার করে দিচ্ছি
             showToast('🧹 সব ডাটা ক্লিয়ার করা হয়েছে');
         }
 
@@ -898,28 +918,36 @@
             selectedTypeDisplay.innerText = reportTypeNames[reportType.value] || reportType.value;
         }
 
-        // ========== চেক করার আগে রিপোর্ট আছে কিনা ==========
-        async function checkReportExists() {
-            const date = reportDate.value;
-            const type = reportType.value;
-            
-            try {
-                const snapshot = await db.ref(`reports/${date}/users/${type}`).once("value");
-                return snapshot.exists();
-            } catch (error) {
-                console.error('Error checking report:', error);
-                return false;
-            }
-        }
-
         // ========== রিসেট ভিজিবিলিটি ==========
         function resetVisibility() {
             okCounter.classList.remove('visible');
             noDataMessage.classList.remove('visible');
         }
 
-        // ========== ইউজার চেক ==========
-        async function checkUsers() {
+        // ========== রিপোর্ট ডাটা ফেচ (Turbo Mode) ==========
+        async function fetchReportData(date, type) {
+            // ক্যাশে থাকলে সেখান থেকে ডাটা রিটার্ন করো
+            if (reportCache.isValid(date, type)) {
+                console.log('⚡ Serving from cache!');
+                return reportCache.data;
+            }
+            
+            console.log('🌐 Fetching fresh data from Firebase...');
+            try {
+                const snapshot = await db.ref(`reports/${date}/users/${type}`).once("value");
+                const data = snapshot.val() || {}; // null হলে খালি অবজেক্ট
+                
+                // ক্যাশে সেট করো
+                reportCache.set(date, type, data);
+                return data;
+            } catch (error) {
+                console.error('Error fetching report:', error);
+                return null;
+            }
+        }
+
+        // ========== টার্বো ইউজার চেক (বাল্ক অপারেশন) ==========
+        async function checkUsersTurbo() {
             resetVisibility();
             
             const selectedDate = reportDate.value;
@@ -935,26 +963,32 @@
                 showToast(`⚠️ ${toBengaliNumber(duplicateCount)} টি ডুপ্লিকেট ইউজারনেম বাদ দেওয়া হয়েছে`);
             }
 
-            const hasReport = await checkReportExists();
+            // ---------- গুরুত্বপূর্ণ: রিপোর্ট আছে কিনা চেক করা হচ্ছে (Turbo Mode) ----------
+            // আমরা সরাসরি ডাটা ফেচ করছি। যদি ডাটা খালি থাকে বা null হয়, তাহলে রিপোর্ট নেই।
+            const reportData = await fetchReportData(selectedDate, selectedType);
             
-            if (!hasReport) {
+            // রিপোর্ট ডাটা চেক করুন (যদি null বা খালি অবজেক্ট হয়)
+            if (!reportData || Object.keys(reportData).length === 0) {
                 noDataMessage.classList.add('visible');
-                resultListDiv.innerHTML = '';
+                resultListDiv.innerHTML = ''; // খালি করি
                 okCountSpan.innerText = '0';
                 resultCountSpan.innerText = '0';
                 window.lastResults = [];
                 return;
             }
 
+            // যদি কোনো ইউজার ইনপুট না থাকে
             if (uniqueUsernames.length === 0) {
                 resultListDiv.innerHTML = '<div class="empty-state">Enter usernames first</div>';
                 return;
             }
 
+            // ইনপুট কাউন্ট আপডেট
             inputCountSpan.innerText = uniqueUsernames.length;
 
+            // বাটনের অবস্থা চেঞ্জ (লোডিং)
             btnIcon.classList.add('hidden');
-            btnText.innerText = 'CHECKING...';
+            btnText.innerText = 'CHECKING (TURBO)...';
             btnSpinner.classList.remove('hidden');
             checkBtn.disabled = true;
 
@@ -964,46 +998,59 @@
             const fragment = document.createDocumentFragment();
             const results = [];
 
+            // ---------- Turbo Speed Check: লোকালি চেক করা হচ্ছে ----------
             try {
-                const promises = uniqueUsernames.map(async (username) => {
-                    const encoded = encodeUsername(username);
-                    try {
-                        const snapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).once("value");
-                        const exists = snapshot.exists();
-                        
-                        if (exists) {
-                            const currentWG = snapshot.val()?.wGate || 0;
-                            db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}/wGate`).set(currentWG + 1);
-                        }
-                        
-                        return { username, exists, error: false };
-                    } catch (err) {
-                        return { username, exists: false, error: true };
-                    }
-                });
-
-                const checkResults = await Promise.all(promises);
+                // একটি সেট বানাই OK ইউজারনেমের জন্য (দ্রুত খোঁজার জন্য)
+                const okUsernamesSet = new Set();
                 
-                checkResults.forEach(result => {
-                    results.push(result);
+                // রিপোর্ট ডাটা থেকে শুধু এনকোডেড নামগুলো বের করে ডিকোড করে সেটে রাখি
+                // 💡 মনে রাখবেন: Firebase-এ ডাটা এনকোডেড আকারে থাকে।
+                for (const encodedUsername in reportData) {
+                    // এনকোডেড ইউজারনেমকে ডিকোড করার কোনো সোজা উপায় নেই।
+                    // তাই আমরা চেক করার সময় উল্টো পদ্ধতি ব্যবহার করব: 
+                    // প্রতিটি ইনপুট ইউজারনেমকে এনকোড করে reportData-তে খোঁজব।
+                    // কিন্তু এটা তো আগের মতোই অনেকগুলো রিকুয়েস্টের মতো মনে হচ্ছে? 
+                    // না, কারণ reportData ইতিমধ্যেই লোকাল মেমোরিতে আছে।
                     
+                    // আমরা এখানে কিছু করছি না, শুধু লুপটা দেখানোর জন্য।
+                    // নিচের চেকিং অংশেই আমরা লোকালি খুঁজব।
+                }
+
+                // ম্যাপ তৈরি করি (এনকোডেড নাম -> ডাটা)
+                const reportMap = reportData; // reportData ই হলো ম্যাপ
+
+                // এখন প্রতিটি ইউজারনেমের জন্য দ্রুত চেক
+                uniqueUsernames.forEach(username => {
+                    const encoded = encodeUsername(username);
+                    const exists = reportMap.hasOwnProperty(encoded);
+                    
+                    // যদি exists হয়, তাহলে wGate আপডেটের জন্য ব্যাকগ্রাউন্ডে একটা প্রমিস তৈরি করি
+                    if (exists) {
+                        okCount++;
+                        // wGate আপডেট (ফায়ার অ্যান্ড ফরগেট - দ্রুততার জন্য আমরা এটা await করছি না)
+                        const currentWG = reportMap[encoded]?.wGate || 0;
+                        db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}/wGate`).set(currentWG + 1)
+                            .catch(err => console.error('wGate update failed:', err));
+                    }
+                    
+                    results.push({ username, exists, error: false });
+                    
+                    // UI তে দেখানোর জন্য ডিভ তৈরি
                     const item = document.createElement('div');
                     item.className = 'result-item';
                     
-                    if (result.error) {
-                        item.innerHTML = `<i class="fas fa-exclamation-circle"></i> <span>${result.username} → Error</span>`;
-                    } else if (result.exists) {
+                    if (exists) {
                         item.classList.add('ok');
-                        item.innerHTML = `<i class="fas fa-check-circle"></i> <span>${result.username} → OK</span>`;
-                        okCount++;
+                        item.innerHTML = `<i class="fas fa-check-circle"></i> <span>${username} → OK</span>`;
                     } else {
                         item.classList.add('new');
-                        item.innerHTML = `<i class="fas fa-times-circle"></i> <span>${result.username} → Back</span>`;
+                        item.innerHTML = `<i class="fas fa-times-circle"></i> <span>${username} → Back</span>`;
                     }
                     
                     fragment.appendChild(item);
                 });
 
+                // রেজাল্ট UI-তে বসানো
                 resultListDiv.innerHTML = '';
                 resultListDiv.appendChild(fragment);
                 
@@ -1018,11 +1065,12 @@
                 showToast(`✅ চেক সম্পন্ন! ওকে: ${toBengaliNumber(okCount)}টি, ব্যাক: ${toBengaliNumber(uniqueUsernames.length - okCount)}টি`);
 
             } catch (error) {
-                console.error(error);
+                console.error('Turbo check error:', error);
                 resultListDiv.innerHTML = '<div class="empty-state">Network error</div>';
             } finally {
+                // বাটনের অবস্থা পূর্বাবস্থায় ফিরিয়ে আনা
                 btnIcon.classList.remove('hidden');
-                btnText.innerText = 'CHECK NOW';
+                btnText.innerText = 'CHECK NOW (TURBO)';
                 btnSpinner.classList.add('hidden');
                 checkBtn.disabled = false;
             }
@@ -1057,14 +1105,22 @@
         });
 
         // ========== ইভেন্ট লিসেনার ==========
-        reportType.addEventListener('change', updateDisplay);
-        reportDate.addEventListener('change', updateDisplay);
+        reportType.addEventListener('change', () => {
+            updateDisplay();
+            // টাইপ চেঞ্জ হলে ক্যাশ ক্লিয়ার করে দিচ্ছি, কারণ আগের টাইপের ডাটা এখন আর কাজে লাগবে না
+            reportCache.clear(); 
+        });
+        reportDate.addEventListener('change', () => {
+            updateDisplay();
+            // ডেট চেঞ্জ হলেও ক্যাশ ক্লিয়ার করা উচিত
+            reportCache.clear();
+        });
         
         copyOkBtn.addEventListener('click', () => copyIds('ok'));
         copyBackBtn.addEventListener('click', () => copyIds('back'));
 
         // ========== গ্লোবাল ফাংশন ==========
-        window.checkUsers = checkUsers;
+        window.checkUsersTurbo = checkUsersTurbo; // নতুন ফাংশন এক্সপোজ
         window.clearAll = clearAll;
 
         // ========== ইনিশিয়ালাইজ ==========
