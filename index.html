@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH_TEAM_REPORT (Turbo)</title>
+    <title>EBH_TEAM | COSMIC</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* আপনার দেওয়া CSS সম্পূর্ণ অপরিবর্তিত রাখা হয়েছে (কপি করা হয়েছে) */
         * {
             margin: 0;
             padding: 0;
@@ -15,178 +14,226 @@
         }
 
         body {
-            background: linear-gradient(145deg, #0a0f1f, #0b1120);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 12px;
+            background: linear-gradient(145deg, #eef2f6, #e0e5ec);
+            transition: background 0.3s ease;
         }
 
+        /* প্রিমিয়াম নিওমরফিজম ডিজাইন */
         .user-panel {
-            max-width: 440px;
+            max-width: 460px;
             width: 100%;
-            background: #ffffff;
-            border-radius: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            background: #f0f3f8;
+            border-radius: 48px;
+            box-shadow: 
+                20px 20px 40px rgba(0, 0, 0, 0.08),
+                -20px -20px 40px rgba(255, 255, 255, 0.9);
             overflow: hidden;
-            border: 2px solid #f97316;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .user-header {
-            background: #000000;
-            padding: 18px 18px 14px 18px;
-            color: white;
-            border-bottom: 4px solid #f97316;
+            background: #ffffff;
+            padding: 24px 22px 18px 22px;
+            border-bottom: 4px solid #ff6a00;
+            position: relative;
         }
 
         .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            color: #f97316;
+            background: linear-gradient(135deg, #ff6a00, #ff3300);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
         .badge {
-            background: #f97316;
-            color: #000;
-            padding: 4px 12px;
+            background: #ff6a00;
+            color: white;
+            padding: 8px 18px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
         }
 
         .header-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 2px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
         }
 
         .header-sub {
-            font-size: 0.65rem;
-            color: #aaa;
+            font-size: 0.75rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-sub i {
+            color: #ff6a00;
         }
 
         .content {
-            padding: 16px;
+            padding: 22px 20px;
+            background: #f0f3f8;
         }
 
-        .selector-card {
-            background: #f8fafc;
-            border-radius: 30px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 2px solid #e2e8f0;
+        /* কার্ড ডিজাইন - নিওমরফিজম */
+        .selector-card, .input-card, .result-card {
+            background: #f0f3f8;
+            border-radius: 40px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.02),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.8),
+                8px 8px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.7);
         }
 
         .card-title {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
+            gap: 10px;
+            font-size: 0.95rem;
             font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 14px;
+            color: #ff6a00;
+            margin-bottom: 18px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #f97316;
-        }
-
-        .card-title i {
-            color: #f97316;
+            border-bottom: 2px dashed #ff6a00;
         }
 
         .selector-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .selector-item {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
 
         .selector-label {
             font-size: 0.7rem;
             font-weight: 600;
-            color: #475569;
+            color: #555;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            margin-left: 8px;
         }
 
         .selector-label i {
-            color: #f97316;
+            color: #ff6a00;
         }
 
         select {
             width: 100%;
-            padding: 14px 16px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 30px;
-            font-size: 0.9rem;
+            padding: 16px 22px;
+            background: #f0f3f8;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
             outline: none;
-            cursor: pointer;
+            color: #333;
+            font-weight: 500;
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.05),
+                inset -3px -3px 7px rgba(255, 255, 255, 0.9);
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff6a00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 16px center;
+            background-position: right 18px center;
+            cursor: pointer;
         }
 
         select:focus {
-            border-color: #f97316;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.08),
+                inset -3px -3px 8px rgba(255, 255, 255, 1);
         }
 
+        select option {
+            background: #ffffff;
+            color: #333;
+        }
+
+        /* ডার্ক মোডে অপশন কালার */
+        @media (prefers-color-scheme: dark) {
+            select option {
+                background: #1a1e2a;
+                color: #f0f0f0;
+            }
+        }
+
+        /* ইনফো বার - স্পেশাল ডিজাইন */
         .info-bar {
-            background: #000;
-            color: white;
-            border-radius: 30px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-            border: 3px solid #f97316;
+            background: #ffffff;
+            border-radius: 60px;
+            padding: 18px 22px;
+            margin-bottom: 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 
+                0 10px 20px rgba(255, 106, 0, 0.1),
+                inset 1px 1px 3px rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 106, 0, 0.3);
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
         .info-item i {
-            color: #f97316;
+            color: #ff6a00;
+            font-size: 1.2rem;
         }
 
         .info-text {
             font-size: 0.8rem;
+            color: #666;
         }
 
         .info-value {
             font-weight: 700;
-            color: #f97316;
+            color: #ff6a00;
+            font-size: 0.95rem;
         }
 
+        /* OK কাউন্টার - মডার্ন */
         .ok-counter {
-            background: linear-gradient(145deg, #000, #1a1a1a);
-            border-radius: 40px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 3px solid #f97316;
+            background: #ffffff;
+            border-radius: 60px;
+            padding: 22px 25px;
+            margin-bottom: 22px;
             display: none;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 15px 30px rgba(255, 106, 0, 0.15);
+            border: 1px solid #ff6a00;
         }
 
         .ok-counter.visible {
@@ -194,68 +241,59 @@
         }
 
         .ok-counter-left .label {
-            font-size: 0.75rem;
-            color: #aaa;
+            font-size: 0.8rem;
+            color: #666;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
         }
 
         .ok-counter-left .number {
             font-size: 3.2rem;
             font-weight: 800;
-            color: #f97316;
+            color: #ff6a00;
             line-height: 1;
         }
 
         .ok-badge {
-            background: #f97316;
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 40px;
+            background: #ff6a00;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4);
         }
 
-        .ok-badge i {
-            font-size: 1.2rem;
-        }
-
-        .input-card {
-            background: #f8fafc;
-            border-radius: 30px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 2px solid #e2e8f0;
-        }
-
+        /* ইনপুট সেকশন */
         .input-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .input-header .title {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-weight: 600;
-            color: #333;
-            font-size: 0.85rem;
+            color: #ff6a00;
+            font-size: 0.95rem;
         }
 
         .count-badge {
-            background: #f97316;
-            color: #000;
-            padding: 4px 12px;
-            border-radius: 30px;
+            background: #ff6a00;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
         }
 
-        /* টেক্সটএরিয়া কন্টেইনার */
         .textarea-container {
             position: relative;
             width: 100%;
@@ -264,89 +302,87 @@
         textarea {
             width: 100%;
             height: 140px;
-            padding: 16px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 24px;
-            font-size: 0.9rem;
+            padding: 18px 20px;
+            background: #f0f3f8;
+            border: none;
+            border-radius: 35px;
+            font-size: 0.95rem;
             resize: vertical;
             outline: none;
-            margin-bottom: 40px; /* ক্লিয়ার বাটনের জন্য নিচে জায়গা */
+            color: #333;
+            margin-bottom: 45px;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.05),
+                inset -5px -5px 12px rgba(255, 255, 255, 0.9);
         }
 
         textarea:focus {
-            border-color: #f97316;
+            box-shadow: 
+                inset 4px 4px 10px rgba(0, 0, 0, 0.08),
+                inset -4px -4px 10px rgba(255, 255, 255, 1);
         }
 
-        /* ক্লিয়ার বাটন - বক্সের নিচে ডান কোণায় */
+        /* ক্লিয়ার বাটন - ঠিক পজিশন */
         .clear-btn {
             position: absolute;
-            bottom: -30px;
-            right: 0;
-            background: #f97316;
+            bottom: 5px;
+            right: 5px;
+            background: #ff6a00;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.8rem;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-size: 0.85rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 106, 0, 0.3);
             transition: all 0.2s ease;
-            z-index: 10;
-        }
-
-        .clear-btn i {
-            font-size: 0.9rem;
+            border: 1px solid #ffd966;
         }
 
         .clear-btn:hover {
-            background: #e5670e;
-            transform: scale(1.02);
-            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
+            background: #ff8533;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 106, 0, 0.4);
         }
 
-        .clear-btn:active {
-            transform: scale(0.98);
-        }
-
+        /* চেক বাটন */
         .check-btn {
             width: 100%;
-            background: #000;
+            background: linear-gradient(135deg, #ff6a00, #ff4500);
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 40px;
+            padding: 22px;
+            border-radius: 60px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
-            border: 2px solid #f97316;
-            margin-bottom: 16px;
+            margin-bottom: 22px;
+            box-shadow: 0 15px 30px rgba(255, 106, 0, 0.3);
+            transition: all 0.2s;
+            letter-spacing: 1px;
         }
 
         .check-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4);
         }
 
-        .check-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
+        /* নো ডাটা মেসেজ */
         .no-data-message {
-            background: #fff3e0;
-            border-radius: 30px;
-            padding: 30px 20px;
+            background: #fff1e6;
+            border-radius: 45px;
+            padding: 35px 20px;
             text-align: center;
-            border: 2px dashed #f97316;
-            margin-bottom: 16px;
+            border: 2px dashed #ff6a00;
+            margin-bottom: 20px;
             display: none;
         }
 
@@ -355,130 +391,137 @@
         }
 
         .no-data-message i {
-            font-size: 2.5rem;
-            color: #f97316;
+            font-size: 3rem;
+            color: #ff6a00;
             margin-bottom: 10px;
         }
 
         .no-data-message h3 {
-            color: #b45309;
-            font-size: 1.2rem;
+            color: #ff6a00;
+            font-size: 1.4rem;
             margin-bottom: 5px;
         }
 
-        .no-data-message p {
-            color: #b45309;
-            font-size: 0.9rem;
-        }
-
-        .result-card {
-            background: #f8fafc;
-            border-radius: 30px;
-            padding: 16px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .result-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .result-header h3 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
+        /* রেজাল্ট লিস্ট */
         .result-list {
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-right: 5px;
+        }
+
+        .result-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .result-list::-webkit-scrollbar-track {
+            background: #e0e5ec;
+            border-radius: 10px;
+        }
+
+        .result-list::-webkit-scrollbar-thumb {
+            background: #ff6a00;
+            border-radius: 10px;
         }
 
         .result-item {
-            padding: 12px 14px;
-            border-radius: 24px;
-            font-size: 0.85rem;
+            padding: 15px 20px;
+            border-radius: 40px;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border: 2px solid transparent;
-            animation: fadeIn 0.2s ease;
+            gap: 12px;
+            animation: slideIn 0.2s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-5px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .result-item.ok {
-            background: #e8f5e9;
-            border-left: 6px solid #2e7d32;
-            color: #1b5e20;
+            background: #e3f5e3;
+            border-left: 8px solid #00b300;
+            color: #006600;
         }
 
         .result-item.new {
-            background: #ffebee;
-            border-left: 6px solid #c62828;
-            color: #b71c1c;
+            background: #ffe8e8;
+            border-left: 8px solid #ff4444;
+            color: #990000;
         }
 
         .result-item i {
-            font-size: 1rem;
+            font-size: 1.2rem;
         }
 
         .empty-state {
             text-align: center;
-            padding: 30px 20px;
-            color: #94a3b8;
-            background: white;
-            border-radius: 24px;
-            border: 2px dashed #cbd5e1;
-            font-size: 0.85rem;
+            padding: 40px 20px;
+            color: #888;
+            background: #f8fafc;
+            border-radius: 40px;
+            border: 2px dashed #ccc;
+            font-size: 0.95rem;
         }
 
+        /* কপি বাটন - সঠিক পজিশন ও সাইজ */
         .copy-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 15px;
+            margin-top: 5px;
         }
 
         .copy-btn {
             flex: 1;
-            background: white;
-            border: 2px solid #e2e8f0;
+            background: #ffffff;
+            border: none;
             color: #333;
-            padding: 12px 0;
-            border-radius: 30px;
+            padding: 16px 0;
+            border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             cursor: pointer;
+            box-shadow: 
+                8px 8px 16px rgba(0, 0, 0, 0.05),
+                -8px -8px 16px rgba(255, 255, 255, 0.8);
+            transition: all 0.2s;
         }
 
-        .copy-btn i {
-            color: #f97316;
+        .copy-btn:first-child i {
+            color: #00b300;
+        }
+
+        .copy-btn:last-child i {
+            color: #ff4444;
+        }
+
+        .copy-btn:hover {
+            box-shadow: 
+                4px 4px 10px rgba(0, 0, 0, 0.08),
+                -4px -4px 10px rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
         }
 
         .copy-btn:active {
-            background: #f8fafc;
-            border-color: #f97316;
+            transform: translateY(1px);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.05),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.8);
         }
 
         .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: white;
@@ -491,74 +534,255 @@
             display: none;
         }
 
+        /* ফুটার */
         .footer {
-            background: #f1f5f9;
-            padding: 12px;
+            background: #ffffff;
+            padding: 18px;
             text-align: center;
-            border-top: 2px solid #e2e8f0;
-            font-size: 0.65rem;
-            color: #64748b;
+            border-top: 3px solid #ff6a00;
+            font-size: 0.7rem;
+            color: #666;
         }
 
         .footer strong {
-            color: #f97316;
+            color: #ff6a00;
         }
 
-        /* টোস্ট মেসেজ */
+        /* টোস্ট */
         .toast-message {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1e293b;
+            background: #333;
             color: white;
-            padding: 16px 24px;
-            border-radius: 50px;
+            padding: 16px 30px;
+            border-radius: 60px;
             font-size: 1rem;
-            font-weight: 500;
-            border-left: 6px solid #f97316;
+            border-left: 6px solid #ff6a00;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            animation: slideUp 0.3s ease;
-            max-width: 90%;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: toastSlide 0.3s ease;
         }
 
-        @keyframes slideUp {
+        @keyframes toastSlide {
             from { bottom: 0; opacity: 0; }
             to { bottom: 30px; opacity: 1; }
         }
 
-        .toast-message i {
-            margin-right: 8px;
-            color: #f97316;
-        }
-
-        @media (max-width: 380px) {
+        /* মোবাইল রেস্পন্সিভ */
+        @media (max-width: 420px) {
             .info-bar {
                 flex-direction: column;
-                gap: 8px;
                 align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
             }
-            
-            .copy-buttons {
-                flex-direction: column;
+
+            .info-item {
+                width: 100%;
+                justify-content: space-between;
             }
 
             .ok-counter {
                 flex-direction: column;
-                gap: 10px;
                 text-align: center;
+                gap: 15px;
+                padding: 20px;
             }
-            
-            .toast-message {
-                font-size: 0.9rem;
-                padding: 12px 18px;
+
+            .ok-counter-left .number {
+                font-size: 2.8rem;
             }
-            
+
+            .ok-badge {
+                padding: 12px 25px;
+            }
+
+            .copy-buttons {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .copy-btn {
+                padding: 14px 0;
+                font-size: 0.85rem;
+            }
+
             .clear-btn {
-                padding: 6px 12px;
-                font-size: 0.7rem;
+                padding: 8px 18px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* অটো ডার্ক মোড - সিস্টেম থিম অনুযায়ী */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f1219;
+            }
+
+            .user-panel {
+                background: #1a1e2a;
+                box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            .user-header {
+                background: #131826;
+                border-bottom-color: #ff8c00;
+            }
+
+            .logo {
+                background: linear-gradient(135deg, #ffa600, #ff4800);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .badge {
+                background: #ff8c00;
+                color: #000;
+                box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+            }
+
+            .header-title {
+                color: #fff;
+            }
+
+            .header-sub {
+                color: #aaa;
+            }
+
+            .content {
+                background: #1a1e2a;
+            }
+
+            .selector-card, .input-card, .result-card {
+                background: #1a1e2a;
+                box-shadow: 
+                    inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+                    inset -3px -3px 7px rgba(255, 255, 255, 0.05),
+                    8px 8px 16px rgba(0, 0, 0, 0.4);
+            }
+
+            .card-title {
+                color: #ffb347;
+            }
+
+            select {
+                background: #1a1e2a;
+                color: #f0f0f0;
+                box-shadow: 
+                    inset 2px 2px 5px rgba(0, 0, 0, 0.4),
+                    inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+            }
+
+            .selector-label {
+                color: #aaa;
+            }
+
+            .info-bar {
+                background: #131826;
+                border-color: #ff8c00;
+            }
+
+            .info-text {
+                color: #bbb;
+            }
+
+            .info-value {
+                color: #ffa600;
+            }
+
+            .ok-counter {
+                background: #131826;
+                border-color: #ff8c00;
+            }
+
+            .ok-counter-left .label {
+                color: #ccc;
+            }
+
+            .ok-counter-left .number {
+                color: #ffb347;
+            }
+
+            .ok-badge {
+                background: #ff8c00;
+                color: #000;
+            }
+
+            textarea {
+                background: #1a1e2a;
+                color: #eee;
+                box-shadow: 
+                    inset 3px 3px 8px rgba(0, 0, 0, 0.4),
+                    inset -5px -5px 12px rgba(255, 255, 255, 0.05);
+            }
+
+            textarea::placeholder {
+                color: #5f6b7e;
+            }
+
+            .clear-btn {
+                background: linear-gradient(145deg, #ff8c00, #ff5100);
+                color: white;
+            }
+
+            .check-btn {
+                background: linear-gradient(135deg, #ff8800, #ff4400);
+            }
+
+            .no-data-message {
+                background: #1e1b1a;
+                border-color: #ff8c00;
+            }
+
+            .no-data-message h3 {
+                color: #ffb347;
+            }
+
+            .no-data-message p {
+                color: #cc9156;
+            }
+
+            .result-item {
+                background: #1f2535;
+                border-left: 8px solid;
+            }
+
+            .result-item.ok {
+                background: #0e2b1a;
+                border-left-color: #33ff77;
+                color: #b0ffc0;
+            }
+
+            .result-item.new {
+                background: #2a1720;
+                border-left-color: #ff5555;
+                color: #ffb3b3;
+            }
+
+            .empty-state {
+                background: #1f2535;
+                border-color: #3e4b5e;
+                color: #8a9bb5;
+            }
+
+            .copy-btn {
+                background: #1f2535;
+                color: #ffb86b;
+                box-shadow: 
+                    8px 8px 16px rgba(0, 0, 0, 0.4),
+                    -8px -8px 16px rgba(255, 255, 255, 0.02);
+            }
+
+            .footer {
+                background: #131826;
+                color: #a0aec0;
+                border-top-color: #ff8c00;
+            }
+
+            .footer strong {
+                color: #ffb347;
             }
         }
     </style>
@@ -569,32 +793,32 @@
 </head>
 <body>
     <div class="user-panel">
-        <!-- হেডার -->
         <div class="user-header">
             <div class="header-top">
-                <span class="logo">EBH_TEAM_REPORT</span>
-                <span class="badge">TURBO MODE</span> <!-- ব্যাজ আপডেট করা হয়েছে -->
+                <span class="logo">EBH_TEAM</span>
+                <span class="badge">EBH</span>
             </div>
-            <div class="header-title">SuperFast Report Checker</div>
-            <div class="header-sub">Auto Date Rollover · Last 10 Days</div>
+            <div class="header-title">Premium Report Checker</div>
+            <div class="header-sub">
+                <i class="fas fa-adjust"></i> Auto Theme · Turbo Fast
+            </div>
         </div>
 
-        <!-- কন্টেন্ট -->
         <div class="content">
             <!-- সিলেক্টর কার্ড -->
             <div class="selector-card">
                 <div class="card-title">
-                    <i class="fas fa-filter"></i>
-                    <span>SELECT REPORT TYPE & DATE</span>
+                    <i class="fas fa-cog"></i>
+                    <span>FILTER OPTIONS</span>
                 </div>
 
                 <div class="selector-grid">
-                    <!-- টাইপ সিলেক্টর -->
                     <div class="selector-item">
                         <div class="selector-label">
                             <i class="fas fa-tag"></i> REPORT TYPE
                         </div>
                         <select id="reportType">
+                            <option value="" disabled selected>📌 Select Type</option>
                             <option value="instagram_cookies">Instagram Cookies</option>
                             <option value="instagram_2fa">Instagram 2FA</option>
                             <option value="facebook_cookies">Facebook Cookies</option>
@@ -602,13 +826,12 @@
                         </select>
                     </div>
 
-                    <!-- ডেট সিলেক্টর -->
                     <div class="selector-item">
                         <div class="selector-label">
                             <i class="fas fa-calendar-alt"></i> SELECT DATE
                         </div>
                         <select id="reportDate">
-                            <!-- JavaScript দিয়ে dynamically ভর্তি হবে -->
+                            <option value="" disabled selected>📅 Select Date</option>
                         </select>
                     </div>
                 </div>
@@ -617,97 +840,90 @@
             <!-- ইনফো বার -->
             <div class="info-bar">
                 <div class="info-item">
-                    <i class="far fa-calendar-alt"></i>
                     <span class="info-text">Date:</span>
                     <span class="info-value" id="selectedDateDisplay">-</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-tag"></i>
                     <span class="info-text">Type:</span>
-                    <span class="info-value" id="selectedTypeDisplay">Instagram Cookies</span>
+                    <span class="info-value" id="selectedTypeDisplay">-</span>
                 </div>
             </div>
 
-            <!-- ওকে কাউন্টার -->
+            <!-- OK কাউন্টার -->
             <div class="ok-counter" id="okCounter">
                 <div class="ok-counter-left">
-                    <div class="label">OK IDs FOUND</div>
+                    <div class="label">✅ OK FOUND</div>
                     <div class="number" id="okCount">0</div>
                 </div>
                 <div class="ok-badge">
                     <i class="fas fa-check-circle"></i>
-                    <span>OK ID</span>
+                    <span>GOOD ID ✅</span>
                 </div>
             </div>
 
             <!-- নো ডাটা মেসেজ -->
             <div id="noDataMessage" class="no-data-message">
                 <i class="fas fa-database"></i>
-                <h3>No Report Available</h3>
-                <p>Please wait for report on this date & type</p>
+                <h3>No Report</h3>
+                <p>Data not available</p>
             </div>
 
-            <!-- ইনপুট এরিয়া - ক্লিয়ার বাটন বক্সের নিচে ডান কোণায় -->
+            <!-- ইনপুট এরিয়া - ক্লিয়ার বাটন ঠিক নিচে ডানে -->
             <div class="input-card">
                 <div class="input-header">
                     <div class="title">
-                        <i class="fas fa-paste" style="color: #f97316;"></i>
-                        <span>ENTER USERNAMES</span>
+                        <i class="fas fa-pen-fancy"></i>
+                        <span>USERNAMES</span>
                     </div>
                     <span class="count-badge" id="inputCount">0</span>
                 </div>
                 
                 <div class="textarea-container">
-                    <textarea id="userInput" placeholder="One username per line&#10;username_01&#10;username_02&#10;username_03"></textarea>
+                    <textarea id="userInput" placeholder="Enter one per line&#10;user_01&#10;user_02&#10;user_03"></textarea>
                     <button class="clear-btn" onclick="clearAll()">
-                        <i class="fas fa-eraser"></i> Clear
+                        <i class="fas fa-eraser"></i> CLEAR
                     </button>
                 </div>
             </div>
 
             <!-- চেক বাটন -->
-            <button class="check-btn" onclick="checkUsersTurbo()" id="checkBtn"> <!-- ফাংশনের নাম আপডেট -->
-                <i class="fas fa-search" id="btnIcon"></i>
-                <span id="btnText">CHECK NOW (TURBO)</span> <!-- টেক্সট আপডেট -->
+            <button class="check-btn" onclick="checkUsersTurbo()" id="checkBtn">
+                <i class="fas fa-bolt" id="btnIcon"></i>
+                <span id="btnText">REPORT CHECK</span>
                 <span id="btnSpinner" class="spinner hidden"></span>
             </button>
 
-            <!-- রেজাল্ট কার্ড -->
+            <!-- রেজাল্ট কার্ড - বাটন সহ -->
             <div class="result-card">
-                <div class="result-header">
-                    <h3>
-                        <i class="fas fa-list" style="color: #f97316;"></i>
-                        RESULTS
-                    </h3>
+                <div class="result-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: #ff6a00;"><i class="fas fa-list"></i> RESULTS</h3>
                     <span class="count-badge" id="resultCount">0</span>
                 </div>
 
                 <div id="resultList" class="result-list">
                     <div class="empty-state">
                         <i class="fas fa-magic"></i><br>
-                        Select date & type, paste usernames
+                        Waiting for input...
                     </div>
                 </div>
 
-                <!-- কপি বাটন -->
+                <!-- বাটন দুটি একই লাইনে ডানে-বামে -->
                 <div class="copy-buttons">
                     <button class="copy-btn" id="copyOkBtn">
-                        <i class="fas fa-check-circle"></i> OK ID COPY
+                        <i class="fas fa-check-circle"></i>Copy OK ID
                     </button>
                     <button class="copy-btn" id="copyBackBtn">
-                        <i class="fas fa-times-circle"></i> BACK ID COPY
+                        <i class="fas fa-times-circle"></i>Copy BACK ID
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- ফুটার -->
         <div class="footer">
-            <strong>EBH USER PANEL (TURBO)</strong> · Auto Date Rollover · Last 10 Days
+            <strong>EBH COSMIC</strong> · Auto Day/Night · v4.0
         </div>
     </div>
 
-    <!-- টোস্ট কন্টেইনার -->
     <div id="toastContainer"></div>
 
     <script>
@@ -721,7 +937,6 @@
             messagingSenderId: "667574198748",
             appId: "1:667574198748:web:cdd8041e5cb3ec7da8af19"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
@@ -745,7 +960,6 @@
         const okCounter = document.getElementById('okCounter');
         const toastContainer = document.getElementById('toastContainer');
 
-        // Report type names
         const reportTypeNames = {
             'instagram_cookies': 'Instagram Cookies',
             'instagram_2fa': 'Instagram 2FA',
@@ -753,149 +967,62 @@
             'facebook_2fa': 'Facebook 2FA'
         };
 
-        // Store results for copy
         window.lastResults = [];
 
-        // ========== ক্যাশে ম্যানেজার (Turbo Speed এর মূল চাবিকাঠি) ==========
+        // Cache System
         const reportCache = {
-            data: null,          // লাস্ট লোড করা রিপোর্টের ডাটা
-            date: null,          // ডেট
-            type: null,          // টাইপ
-            timestamp: 0,        // কখন লোড করা হয়েছিল
-            expiryTime: 60000,   // ক্যাশের মেয়াদ (1 মিনিট)
-            
-            // ক্যাশ ভ্যালিড কিনা চেক করে
-            isValid(date, type) {
-                const now = Date.now();
-                return this.date === date && 
-                       this.type === type && 
-                       this.data !== null && 
-                       (now - this.timestamp) < this.expiryTime;
-            },
-            
-            // ক্যাশ সেট করে
-            set(date, type, data) {
-                this.date = date;
-                this.type = type;
-                this.data = data;
-                this.timestamp = Date.now();
-            },
-            
-            // ক্যাশ ক্লিয়ার করে
-            clear() {
-                this.data = null;
-                this.date = null;
-                this.type = null;
-                this.timestamp = 0;
-            }
+            data: null, date: null, type: null, timestamp: 0, expiryTime: 60000,
+            isValid(date, type) { return this.date === date && this.type === type && this.data && (Date.now() - this.timestamp) < this.expiryTime; },
+            set(date, type, data) { this.date = date; this.type = type; this.data = data; this.timestamp = Date.now(); },
+            clear() { this.data = null; this.date = null; this.type = null; this.timestamp = 0; }
         };
 
-        // ========== ক্লিয়ার অল ফাংশন ==========
-        function clearAll() {
-            userInput.value = '';
-            inputCountSpan.innerText = '0';
-            resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-magic"></i><br>Select date & type, paste usernames</div>';
-            okCounter.classList.remove('visible');
-            noDataMessage.classList.remove('visible');
-            okCountSpan.innerText = '0';
-            resultCountSpan.innerText = '0';
-            window.lastResults = [];
-            reportCache.clear(); // ক্যাশ ক্লিয়ার করে দিচ্ছি
-            showToast('🧹 সব ডাটা ক্লিয়ার করা হয়েছে');
+        // Utility Functions
+        function showToast(msg, d=3500) {
+            const t = document.createElement('div'); t.className = 'toast-message'; t.innerHTML = msg;
+            toastContainer.appendChild(t); setTimeout(() => t.remove(), d);
         }
 
-        // ========== বাংলা টোস্ট মেসেজ ==========
-        function showToast(message, duration = 3500) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-message';
-            toast.innerHTML = message;
-            toastContainer.appendChild(toast);
-            setTimeout(() => toast.remove(), duration);
+        function encodeUsername(u) {
+            let e=''; for(let i=0;i<u.length;i++){ const c=u[i];
+                if(c==='.') e+='_x2E_'; else if(c==='#') e+='_x23_'; else if(c==='$') e+='_x24_';
+                else if(c==='[') e+='_x5B_'; else if(c===']') e+='_x5D_'; else if(c==='/') e+='_x2F_';
+                else if(c==='\\') e+='_x5C_'; else e+=c;
+            } return e;
         }
 
-        // ========== এনকোডিং ==========
-        function encodeUsername(username) {
-            let encoded = '';
-            for (let i = 0; i < username.length; i++) {
-                const char = username[i];
-                if (char === '.') encoded += '_x2E_';
-                else if (char === '#') encoded += '_x23_';
-                else if (char === '$') encoded += '_x24_';
-                else if (char === '[') encoded += '_x5B_';
-                else if (char === ']') encoded += '_x5D_';
-                else if (char === '/') encoded += '_x2F_';
-                else if (char === '\\') encoded += '_x5C_';
-                else encoded += char;
-            }
-            return encoded;
+        function formatDate(ds) {
+            const d=new Date(ds); const m=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+            return `${d.getDate().toString().padStart(2,'0')} ${m[d.getMonth()]} ${d.getFullYear()}`;
         }
 
-        // ========== ডেট ফরম্যাট ==========
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-            return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        function toBengaliNumber(n) { 
+            if(!n && n!==0) return '';
+            const b=['০','১','২','৩','৪','৫','৬','৭','৮','৯']; 
+            return n.toString().split('').map(d=>b[parseInt(d)]||d).join(''); 
         }
 
-        // ========== বাংলা সংখ্যায় রূপান্তর ==========
-        function toBengaliNumber(num) {
-            const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-            return num.toString().split('').map(digit => bengaliDigits[parseInt(digit)] || digit).join('');
+        function getCurrentDate() { 
+            const n=new Date(); 
+            const b=new Date(n.getTime()+6*60*60*1000); 
+            return b.toISOString().split('T')[0]; 
         }
 
-        // ========== বর্তমান তারিখ (বাংলাদেশ সময়) ==========
-        function getCurrentDate() {
-            const now = new Date();
-            // বাংলাদেশ সময় (UTC+6)
-            const bdTime = new Date(now.getTime() + (6 * 60 * 60 * 1000));
-            return bdTime.toISOString().split('T')[0];
-        }
-
-        // ========== ডেট রোল চেক ও এক্সিকিউট ==========
-        async function checkAndRolloverDate() {
-            const lastCheck = localStorage.getItem('lastDateCheck');
-            const currentDate = getCurrentDate();
-            const today = new Date(currentDate);
-            
-            if (!lastCheck || lastCheck !== currentDate) {
-                console.log('Date rollover triggered:', { lastCheck, currentDate });
-                
-                try {
-                    const tenDaysAgo = new Date(today);
-                    tenDaysAgo.setDate(today.getDate() - 10);
-                    const deleteDate = tenDaysAgo.toISOString().split('T')[0];
-                    
-                    const oldDataSnapshot = await db.ref(`reports/${deleteDate}`).once("value");
-                    if (oldDataSnapshot.exists()) {
-                        await db.ref(`reports/${deleteDate}`).remove();
-                        console.log(`Deleted old data for date: ${deleteDate}`);
-                        showToast(`📅 ${formatDate(deleteDate)} এর পুরনো ডাটা অটো ডিলিট হয়েছে`);
-                    }
-                    
-                    localStorage.setItem('lastDateCheck', currentDate);
-                    generateDateOptions();
-                    
-                } catch (error) {
-                    console.error('Error in date rollover:', error);
-                }
-            }
-        }
-
-        // ========== ১০ দিনের ডেট লিস্ট জেনারেট ==========
         function generateDateOptions() {
-            const today = new Date(getCurrentDate());
+            const t = new Date(getCurrentDate());
             const dates = [];
-            
-            for (let i = 0; i < 10; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                const dateString = date.toISOString().split('T')[0];
-                dates.push(dateString);
+            for(let i = 0; i < 10; i++) {
+                const d = new Date(t);
+                d.setDate(t.getDate() - i);
+                dates.push(d.toISOString().split('T')[0]);
             }
-
-            const currentValue = reportDate.value;
             
-            reportDate.innerHTML = '';
+            // আগের ভ্যালু সেভ করুন
+            const previousValue = reportDate.value;
+            
+            // অপশনগুলো তৈরি করুন - প্রথম অপশন প্লেসহোল্ডার
+            reportDate.innerHTML = '<option value="" disabled selected>📅 Select Date</option>';
+            
             dates.forEach(date => {
                 const option = document.createElement('option');
                 option.value = date;
@@ -903,230 +1030,164 @@
                 reportDate.appendChild(option);
             });
 
-            if (currentValue && dates.includes(currentValue)) {
-                reportDate.value = currentValue;
-            } else {
-                reportDate.value = dates[0];
+            // আগের ভ্যালু থাকলে সেট করুন, তবে সেটা যেন প্লেসহোল্ডার না হয়
+            if (previousValue && previousValue !== "" && dates.includes(previousValue)) {
+                reportDate.value = previousValue;
             }
             
             updateDisplay();
         }
 
-        // ========== ডিসপ্লে আপডেট ==========
-        function updateDisplay() {
-            selectedDateDisplay.innerText = formatDate(reportDate.value);
-            selectedTypeDisplay.innerText = reportTypeNames[reportType.value] || reportType.value;
-        }
-
-        // ========== রিসেট ভিজিবিলিটি ==========
-        function resetVisibility() {
-            okCounter.classList.remove('visible');
-            noDataMessage.classList.remove('visible');
-        }
-
-        // ========== রিপোর্ট ডাটা ফেচ (Turbo Mode) ==========
-        async function fetchReportData(date, type) {
-            // ক্যাশে থাকলে সেখান থেকে ডাটা রিটার্ন করো
-            if (reportCache.isValid(date, type)) {
-                console.log('⚡ Serving from cache!');
-                return reportCache.data;
+        function updateDisplay() { 
+            // শুধু তখনই আপডেট করবে যখন সিলেক্ট করা ভ্যালু আছে
+            if (reportDate.value && reportDate.value !== "") {
+                selectedDateDisplay.innerText = formatDate(reportDate.value);
+            } else {
+                selectedDateDisplay.innerText = "-";
             }
             
-            console.log('🌐 Fetching fresh data from Firebase...');
+            if (reportType.value && reportType.value !== "") {
+                selectedTypeDisplay.innerText = reportTypeNames[reportType.value] || reportType.value;
+            } else {
+                selectedTypeDisplay.innerText = "-";
+            }
+        }
+
+        function resetVisibility() { 
+            okCounter.classList.remove('visible'); 
+            noDataMessage.classList.remove('visible'); 
+        }
+
+        // Fetch Report
+        async function fetchReportData(date, type) {
+            if(reportCache.isValid(date, type)) { return reportCache.data; }
             try {
-                const snapshot = await db.ref(`reports/${date}/users/${type}`).once("value");
-                const data = snapshot.val() || {}; // null হলে খালি অবজেক্ট
-                
-                // ক্যাশে সেট করো
+                const snap = await db.ref(`reports/${date}/users/${type}`).once('value');
+                const data = snap.val() || {};
                 reportCache.set(date, type, data);
                 return data;
-            } catch (error) {
-                console.error('Error fetching report:', error);
-                return null;
-            }
+            } catch(e) { console.error(e); return null; }
         }
 
-        // ========== টার্বো ইউজার চেক (বাল্ক অপারেশন) ==========
+        // Turbo Check
         async function checkUsersTurbo() {
+            // ভ্যালিডেশন - টাইপ এবং ডেট সিলেক্ট করা আছে কিনা
+            if (!reportType.value || reportType.value === "") {
+                showToast('⚠️ Please select report type first');
+                return;
+            }
+            
+            if (!reportDate.value || reportDate.value === "") {
+                showToast('⚠️ Please select date first');
+                return;
+            }
+            
             resetVisibility();
-            
-            const selectedDate = reportDate.value;
-            const selectedType = reportType.value;
-
-            // ডুপ্লিকেট রিমুভ ও মেসেজ
+            const selDate = reportDate.value, selType = reportType.value;
             const raw = userInput.value;
-            const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            const uniqueUsernames = [...new Set(lines)];
-            const duplicateCount = lines.length - uniqueUsernames.length;
+            const lines = raw.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+            const unique = [...new Set(lines)];
+            if(lines.length-unique.length>0) showToast(`⚠️ Duplicates removed: ${toBengaliNumber(lines.length-unique.length)}`);
             
-            if (duplicateCount > 0) {
-                showToast(`⚠️ ${toBengaliNumber(duplicateCount)} টি ডুপ্লিকেট ইউজারনেম বাদ দেওয়া হয়েছে`);
-            }
-
-            // ---------- গুরুত্বপূর্ণ: রিপোর্ট আছে কিনা চেক করা হচ্ছে (Turbo Mode) ----------
-            // আমরা সরাসরি ডাটা ফেচ করছি। যদি ডাটা খালি থাকে বা null হয়, তাহলে রিপোর্ট নেই।
-            const reportData = await fetchReportData(selectedDate, selectedType);
-            
-            // রিপোর্ট ডাটা চেক করুন (যদি null বা খালি অবজেক্ট হয়)
-            if (!reportData || Object.keys(reportData).length === 0) {
+            const reportData = await fetchReportData(selDate, selType);
+            if(!reportData || Object.keys(reportData).length===0) {
                 noDataMessage.classList.add('visible');
-                resultListDiv.innerHTML = ''; // খালি করি
-                okCountSpan.innerText = '0';
-                resultCountSpan.innerText = '0';
-                window.lastResults = [];
+                resultListDiv.innerHTML = '';
+                okCountSpan.innerText='0'; resultCountSpan.innerText='0'; window.lastResults=[];
                 return;
             }
+            if(unique.length===0) { resultListDiv.innerHTML='<div class="empty-state">Enter usernames first</div>'; return; }
 
-            // যদি কোনো ইউজার ইনপুট না থাকে
-            if (uniqueUsernames.length === 0) {
-                resultListDiv.innerHTML = '<div class="empty-state">Enter usernames first</div>';
-                return;
-            }
+            inputCountSpan.innerText = unique.length;
+            btnIcon.classList.add('hidden'); btnText.innerText='CHECKING...'; btnSpinner.classList.remove('hidden'); checkBtn.disabled=true;
+            resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><br>Scanning...</div>';
 
-            // ইনপুট কাউন্ট আপডেট
-            inputCountSpan.innerText = uniqueUsernames.length;
+            let okCount=0; const frag=document.createDocumentFragment(); const results=[];
 
-            // বাটনের অবস্থা চেঞ্জ (লোডিং)
-            btnIcon.classList.add('hidden');
-            btnText.innerText = 'CHECKING (TURBO)...';
-            btnSpinner.classList.remove('hidden');
-            checkBtn.disabled = true;
-
-            resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><br>Checking...</div>';
-
-            let okCount = 0;
-            const fragment = document.createDocumentFragment();
-            const results = [];
-
-            // ---------- Turbo Speed Check: লোকালি চেক করা হচ্ছে ----------
             try {
-                // একটি সেট বানাই OK ইউজারনেমের জন্য (দ্রুত খোঁজার জন্য)
-                const okUsernamesSet = new Set();
-                
-                // রিপোর্ট ডাটা থেকে শুধু এনকোডেড নামগুলো বের করে ডিকোড করে সেটে রাখি
-                // 💡 মনে রাখবেন: Firebase-এ ডাটা এনকোডেড আকারে থাকে।
-                for (const encodedUsername in reportData) {
-                    // এনকোডেড ইউজারনেমকে ডিকোড করার কোনো সোজা উপায় নেই।
-                    // তাই আমরা চেক করার সময় উল্টো পদ্ধতি ব্যবহার করব: 
-                    // প্রতিটি ইনপুট ইউজারনেমকে এনকোড করে reportData-তে খোঁজব।
-                    // কিন্তু এটা তো আগের মতোই অনেকগুলো রিকুয়েস্টের মতো মনে হচ্ছে? 
-                    // না, কারণ reportData ইতিমধ্যেই লোকাল মেমোরিতে আছে।
-                    
-                    // আমরা এখানে কিছু করছি না, শুধু লুপটা দেখানোর জন্য।
-                    // নিচের চেকিং অংশেই আমরা লোকালি খুঁজব।
-                }
-
-                // ম্যাপ তৈরি করি (এনকোডেড নাম -> ডাটা)
-                const reportMap = reportData; // reportData ই হলো ম্যাপ
-
-                // এখন প্রতিটি ইউজারনেমের জন্য দ্রুত চেক
-                uniqueUsernames.forEach(username => {
+                unique.forEach(username => {
                     const encoded = encodeUsername(username);
-                    const exists = reportMap.hasOwnProperty(encoded);
-                    
-                    // যদি exists হয়, তাহলে wGate আপডেটের জন্য ব্যাকগ্রাউন্ডে একটা প্রমিস তৈরি করি
-                    if (exists) {
+                    const exists = reportData.hasOwnProperty(encoded);
+                    if(exists) {
                         okCount++;
-                        // wGate আপডেট (ফায়ার অ্যান্ড ফরগেট - দ্রুততার জন্য আমরা এটা await করছি না)
-                        const currentWG = reportMap[encoded]?.wGate || 0;
-                        db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}/wGate`).set(currentWG + 1)
-                            .catch(err => console.error('wGate update failed:', err));
+                        const cwg = reportData[encoded]?.wGate || 0;
+                        db.ref(`reports/${selDate}/users/${selType}/${encoded}/wGate`).set(cwg+1).catch(()=>{});
                     }
-                    
-                    results.push({ username, exists, error: false });
-                    
-                    // UI তে দেখানোর জন্য ডিভ তৈরি
-                    const item = document.createElement('div');
-                    item.className = 'result-item';
-                    
-                    if (exists) {
-                        item.classList.add('ok');
-                        item.innerHTML = `<i class="fas fa-check-circle"></i> <span>${username} → OK</span>`;
-                    } else {
-                        item.classList.add('new');
-                        item.innerHTML = `<i class="fas fa-times-circle"></i> <span>${username} → Back</span>`;
-                    }
-                    
-                    fragment.appendChild(item);
+                    results.push({username, exists, error:false});
+                    const it=document.createElement('div'); it.className='result-item'+(exists?' ok':' new');
+                    it.innerHTML = exists ? `<i class="fas fa-check-circle"></i><span>${username} → OK</span>` : `<i class="fas fa-times-circle"></i><span>${username} → Back</span>`;
+                    frag.appendChild(it);
                 });
 
-                // রেজাল্ট UI-তে বসানো
-                resultListDiv.innerHTML = '';
-                resultListDiv.appendChild(fragment);
-                
-                okCountSpan.innerText = okCount;
-                resultCountSpan.innerText = uniqueUsernames.length;
-                window.lastResults = results;
-
-                if (okCount > 0 || results.length > 0) {
-                    okCounter.classList.add('visible');
-                }
-
-                showToast(`✅ চেক সম্পন্ন! ওকে: ${toBengaliNumber(okCount)}টি, ব্যাক: ${toBengaliNumber(uniqueUsernames.length - okCount)}টি`);
-
-            } catch (error) {
-                console.error('Turbo check error:', error);
-                resultListDiv.innerHTML = '<div class="empty-state">Network error</div>';
+                resultListDiv.innerHTML=''; resultListDiv.appendChild(frag);
+                okCountSpan.innerText=okCount; resultCountSpan.innerText=unique.length;
+                window.lastResults=results;
+                if(okCount>0||results.length>0) okCounter.classList.add('visible');
+                showToast(`✅ Done! OK: ${toBengaliNumber(okCount)} / Back: ${toBengaliNumber(unique.length-okCount)}`);
+            } catch(e) {
+                console.error(e); resultListDiv.innerHTML='<div class="empty-state">Error occurred</div>';
             } finally {
-                // বাটনের অবস্থা পূর্বাবস্থায় ফিরিয়ে আনা
-                btnIcon.classList.remove('hidden');
-                btnText.innerText = 'CHECK NOW (TURBO)';
-                btnSpinner.classList.add('hidden');
-                checkBtn.disabled = false;
+                btnIcon.classList.remove('hidden'); btnText.innerText='REPORT CHECK'; btnSpinner.classList.add('hidden'); checkBtn.disabled=false;
             }
         }
 
-        // ========== কপি ফাংশন ==========
+        // Copy Function
         function copyIds(type) {
-            if (!window.lastResults || window.lastResults.length === 0) {
-                showToast('⚠️ আগে ইউজার চেক করুন!');
-                return;
-            }
-
-            const filtered = window.lastResults
-                .filter(r => !r.error)
-                .filter(r => type === 'ok' ? r.exists : !r.exists)
-                .map(r => r.username);
-
-            if (filtered.length === 0) {
-                showToast(`❌ কোনো ${type === 'ok' ? 'ওকে' : 'ব্যাক'} আইডি পাওয়া যায়নি!`);
-                return;
-            }
-
-            navigator.clipboard.writeText(filtered.join('\n')).then(() => {
-                showToast(`✅ ${toBengaliNumber(filtered.length)} টি ${type === 'ok' ? 'ওকে' : 'ব্যাক'} আইডি কপি হয়েছে!`);
-            });
+            if(!window.lastResults?.length) { showToast('⚠️ Check first!'); return; }
+            const f = window.lastResults.filter(r=>!r.error).filter(r=>type==='ok'?r.exists:!r.exists).map(r=>r.username);
+            if(!f.length) { showToast(`❌ No ${type==='ok'?'OK':'BACK'} IDs`); return; }
+            navigator.clipboard.writeText(f.join('\n')).then(()=>showToast(`✅ ${toBengaliNumber(f.length)} ${type==='ok'?'OK':'BACK'} copied`));
         }
 
-        // ========== ইনপুট কাউন্ট ==========
-        userInput.addEventListener('input', function() {
-            const lines = this.value.split('\n').filter(l => l.trim().length > 0).length;
-            inputCountSpan.innerText = lines;
-        });
+        // Clear All
+        window.clearAll = function() {
+            userInput.value=''; inputCountSpan.innerText='0';
+            resultListDiv.innerHTML='<div class="empty-state"><i class="fas fa-magic"></i><br>Waiting for input...</div>';
+            okCounter.classList.remove('visible'); noDataMessage.classList.remove('visible');
+            okCountSpan.innerText='0'; resultCountSpan.innerText='0'; window.lastResults=[]; reportCache.clear();
+            
+            // সিলেক্ট বক্স রিসেট
+            reportType.value = '';
+            reportDate.value = '';
+            updateDisplay();
+            
+            showToast('🧹 Everything cleared');
+        };
 
-        // ========== ইভেন্ট লিসেনার ==========
-        reportType.addEventListener('change', () => {
-            updateDisplay();
-            // টাইপ চেঞ্জ হলে ক্যাশ ক্লিয়ার করে দিচ্ছি, কারণ আগের টাইপের ডাটা এখন আর কাজে লাগবে না
-            reportCache.clear(); 
-        });
-        reportDate.addEventListener('change', () => {
-            updateDisplay();
-            // ডেট চেঞ্জ হলেও ক্যাশ ক্লিয়ার করা উচিত
-            reportCache.clear();
+        // Event Listeners
+        userInput.addEventListener('input', function() {
+            inputCountSpan.innerText = this.value.split('\n').filter(l=>l.trim().length>0).length;
         });
         
-        copyOkBtn.addEventListener('click', () => copyIds('ok'));
-        copyBackBtn.addEventListener('click', () => copyIds('back'));
+        reportType.addEventListener('change', () => { 
+            updateDisplay(); 
+            reportCache.clear(); 
+        });
+        
+        reportDate.addEventListener('change', () => { 
+            updateDisplay(); 
+            reportCache.clear(); 
+        });
+        
+        copyOkBtn.addEventListener('click', ()=>copyIds('ok'));
+        copyBackBtn.addEventListener('click', ()=>copyIds('back'));
 
-        // ========== গ্লোবাল ফাংশন ==========
-        window.checkUsersTurbo = checkUsersTurbo; // নতুন ফাংশন এক্সপোজ
-        window.clearAll = clearAll;
-
-        // ========== ইনিশিয়ালাইজ ==========
+        // Initialize
+        window.checkUsersTurbo = checkUsersTurbo;
         generateDateOptions();
-        setInterval(checkAndRolloverDate, 60000);
-        checkAndRolloverDate();
+        
+        // Auto Date Rollover
+        setInterval(async ()=>{
+            const last = localStorage.getItem('lastDateCheck'); const cur = getCurrentDate();
+            if(last!==cur) {
+                try {
+                    const ten = new Date(cur); ten.setDate(ten.getDate()-10); const del = ten.toISOString().split('T')[0];
+                    const old = await db.ref(`reports/${del}`).once('value');
+                    if(old.exists()) { await db.ref(`reports/${del}`).remove(); showToast(`📅 Old data (${formatDate(del)}) auto-deleted`); }
+                    localStorage.setItem('lastDateCheck', cur); generateDateOptions();
+                } catch(e) { console.error('Rollover err', e); }
+            }
+        }, 60000);
     </script>
 </body>
 </html>
