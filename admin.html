@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH · অ্যাডমিন প্যানেল</title>
+    <title>EBH | ADMIN COSMIC</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* আপনার আগের সমস্ত CSS ঠিক একই থাকবে */
         * {
             margin: 0;
             padding: 0;
@@ -15,54 +14,74 @@
         }
 
         body {
-            background: linear-gradient(145deg, #0a0f1f, #0b1120);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 12px;
+            background: linear-gradient(145deg, #eef2f6, #e0e5ec);
+            transition: background 0.3s ease;
         }
 
+        /* কসমিক ডিজাইন - ইউজার প্যানেলের মতো */
         .container {
-            max-width: 460px;
+            max-width: 480px;
             width: 100%;
         }
 
+        /* লগইন প্যানেল */
         .login-container {
-            background: #ffffff;
-            border-radius: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            background: #f0f3f8;
+            border-radius: 48px;
+            box-shadow: 
+                20px 20px 40px rgba(0, 0, 0, 0.08),
+                -20px -20px 40px rgba(255, 255, 255, 0.9);
             overflow: hidden;
-            border: 2px solid #f97316;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .login-header {
-            background: #000000;
+            background: #ffffff;
             padding: 30px 20px 20px 20px;
-            color: white;
-            border-bottom: 4px solid #f97316;
+            border-bottom: 4px solid #ff6a00;
             text-align: center;
         }
 
         .logo {
             font-size: 2.5rem;
             font-weight: 800;
-            color: #f97316;
+            background: linear-gradient(135deg, #ff6a00, #ff3300);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
             margin-bottom: 10px;
+        }
+
+        .badge {
+            background: #ff6a00;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
         }
 
         .login-header h2 {
             font-size: 1.3rem;
-            margin-bottom: 5px;
+            color: #1a1a1a;
+            margin: 10px 0 5px;
         }
 
         .login-header p {
             font-size: 0.8rem;
-            color: #aaa;
+            color: #666;
         }
 
         .login-form {
             padding: 30px 24px;
+            background: #f0f3f8;
         }
 
         .input-group {
@@ -73,10 +92,15 @@
             display: block;
             font-size: 0.75rem;
             font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
+            color: #555;
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-left: 8px;
+        }
+
+        .input-group label i {
+            color: #ff6a00;
         }
 
         .input-wrapper {
@@ -87,136 +111,160 @@
 
         .input-wrapper i {
             position: absolute;
-            left: 16px;
-            color: #f97316;
+            left: 18px;
+            color: #ff6a00;
+            font-size: 1rem;
         }
 
         .input-wrapper input {
             width: 100%;
-            padding: 16px 16px 16px 45px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 30px;
+            padding: 16px 16px 16px 48px;
+            background: #f0f3f8;
+            border: none;
+            border-radius: 40px;
             font-size: 0.95rem;
             outline: none;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.05),
+                inset -5px -5px 12px rgba(255, 255, 255, 0.9);
         }
 
         .input-wrapper input:focus {
-            border-color: #f97316;
+            box-shadow: 
+                inset 4px 4px 10px rgba(0, 0, 0, 0.08),
+                inset -4px -4px 10px rgba(255, 255, 255, 1);
         }
 
         .login-btn {
             width: 100%;
-            background: #000;
+            background: linear-gradient(135deg, #ff6a00, #ff4500);
             color: white;
             border: none;
-            padding: 16px;
-            border-radius: 40px;
+            padding: 18px;
+            border-radius: 50px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             cursor: pointer;
-            border: 2px solid #f97316;
             margin-top: 10px;
+            box-shadow: 0 10px 25px rgba(255, 106, 0, 0.3);
+            transition: all 0.2s;
         }
 
         .login-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
 
         .error-message {
-            background: #fee2e2;
+            background: #ffebee;
             color: #b91c1c;
-            padding: 12px 16px;
-            border-radius: 30px;
+            padding: 14px 18px;
+            border-radius: 40px;
             font-size: 0.85rem;
             margin-top: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
             display: none;
+            border: 1px solid #ffcdd2;
         }
 
         .error-message.show {
             display: flex;
         }
 
+        /* এডমিন প্যানেল - কসমিক ডিজাইন */
         .admin-panel {
-            background: #ffffff;
-            border-radius: 36px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            background: #f0f3f8;
+            border-radius: 48px;
+            box-shadow: 
+                20px 20px 40px rgba(0, 0, 0, 0.08),
+                -20px -20px 40px rgba(255, 255, 255, 0.9);
             overflow: hidden;
-            border: 2px solid #f97316;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .admin-header {
-            background: #000000;
-            padding: 18px 18px 14px 18px;
-            color: white;
-            border-bottom: 4px solid #f97316;
+            background: #ffffff;
+            padding: 22px 20px 18px 20px;
+            border-bottom: 4px solid #ff6a00;
+            position: relative;
         }
 
         .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
         }
 
         .admin-badge {
-            background: #f97316;
-            color: #000;
-            padding: 4px 12px;
+            background: #ff6a00;
+            color: white;
+            padding: 6px 16px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
         }
 
         .header-title {
-            font-size: 1rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
         }
 
         .header-sub {
-            font-size: 0.65rem;
-            color: #aaa;
+            font-size: 0.75rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-sub i {
+            color: #ff6a00;
         }
 
         .content {
-            padding: 14px;
+            padding: 20px;
+            background: #f0f3f8;
         }
 
+        /* কার্ড ডিজাইন - নিওমরফিজম */
         .card {
-            background: #f8fafc;
-            border-radius: 28px;
-            padding: 16px;
-            margin-bottom: 14px;
-            border: 2px solid #e2e8f0;
+            background: #f0f3f8;
+            border-radius: 36px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.02),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.8),
+                8px 8px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.7);
         }
 
         .card-title {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
+            gap: 10px;
+            font-size: 0.95rem;
             font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 14px;
+            color: #ff6a00;
+            margin-bottom: 18px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #f97316;
+            border-bottom: 2px dashed #ff6a00;
         }
 
-        .card-title i {
-            color: #f97316;
-        }
-
+        /* ফর্ম রো */
         .form-row {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
@@ -230,183 +278,166 @@
             min-width: 80px;
         }
 
-        input, select {
+        /* ইনপুট ও সিলেক্ট */
+        input, select, textarea {
             width: 100%;
-            padding: 12px 14px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 30px;
-            font-size: 0.85rem;
+            padding: 14px 18px;
+            background: #f0f3f8;
+            border: none;
+            border-radius: 40px;
+            font-size: 0.9rem;
             outline: none;
+            color: #333;
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.05),
+                inset -3px -3px 7px rgba(255, 255, 255, 0.9);
         }
 
         select {
-            cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff6a00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 16px center;
+            background-position: right 18px center;
+            cursor: pointer;
         }
 
-        input:focus, select:focus {
-            border-color: #f97316;
+        input:focus, select:focus, textarea:focus {
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.08),
+                inset -3px -3px 8px rgba(255, 255, 255, 1);
         }
 
+        /* বাটন স্টাইল */
         .btn {
             width: 100%;
-            padding: 12px 8px;
-            border-radius: 30px;
+            padding: 14px 8px;
+            border-radius: 40px;
             font-weight: 700;
             font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             border: none;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-orange {
-            background: #f97316;
-            color: #000;
-            border: 2px solid #f97316;
-        }
-
-        .btn-black {
-            background: #000000;
-            color: white;
-            border: 2px solid #f97316;
-        }
-
-        .btn-red {
-            background: #dc2626;
-            color: white;
-            border: 2px solid #b91c1c;
-        }
-
-        .btn-dark-red {
-            background: #7f1d1d;
-            color: white;
-            border: 2px solid #991b1b;
-            margin-bottom: 14px;
+            transition: all 0.2s;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
 
         .btn:active {
             transform: scale(0.97);
         }
 
-        .user-input-area {
-            margin-top: 8px;
+        .btn-orange {
+            background: linear-gradient(135deg, #ff6a00, #ff4500);
+            color: white;
         }
 
+        .btn-black {
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #ff6a00;
+        }
+
+        .btn-red {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-dark-red {
+            background: #7f1d1d;
+            color: white;
+        }
+
+        /* টেক্সট এরিয়া */
         textarea {
-            width: 100%;
-            padding: 14px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 24px;
-            font-size: 0.85rem;
+            min-height: 100px;
             resize: vertical;
-            outline: none;
-            height: 100px;
             margin: 10px 0;
         }
 
-        textarea:focus {
-            border-color: #f97316;
-        }
-
+        /* ডিলিট আইডি কার্ড */
         .delete-id-card {
-            background: #fff3f3;
-            border-radius: 28px;
-            padding: 16px;
-            margin-bottom: 14px;
-            border: 2px solid #fecaca;
+            background: #f0f3f8;
+            border-radius: 36px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 
+                inset 3px 3px 8px rgba(220, 38, 38, 0.05),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.8),
+                8px 8px 16px rgba(0, 0, 0, 0.05);
+            border: 2px solid #ff6a00;
         }
 
         .delete-id-header {
-            color: #b91c1c;
-            font-size: 0.8rem;
+            color: #ff6a00;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .delete-id-header i {
-            color: #b91c1c;
+            color: #ff6a00;
         }
 
         .delete-id-textarea {
+            background: #f0f3f8;
+            border: 2px solid #ff6a00;
+            border-radius: 30px;
+            padding: 16px;
             width: 100%;
-            height: 100px;
-            padding: 14px;
-            background: white;
-            border: 2px solid #fecaca;
-            border-radius: 24px;
-            font-size: 0.85rem;
-            resize: vertical;
-            outline: none;
-            margin-bottom: 12px;
-        }
-
-        .delete-id-textarea:focus {
-            border-color: #dc2626;
+            min-height: 100px;
+            margin-bottom: 15px;
         }
 
         .delete-id-btn {
             width: 100%;
-            background: #dc2626;
+            background: linear-gradient(135deg, #ff6a00, #ff4500);
             color: white;
             border: none;
-            padding: 14px;
-            border-radius: 30px;
+            padding: 16px;
+            border-radius: 40px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .delete-id-btn:hover {
-            background: #b91c1c;
+            box-shadow: 0 10px 20px rgba(255, 106, 0, 0.3);
+            transition: all 0.2s;
         }
 
         .delete-id-btn:active {
             transform: scale(0.98);
         }
 
-        .delete-id-btn i {
-            font-size: 1rem;
-        }
-
         .delete-id-note {
             font-size: 0.7rem;
-            color: #b91c1c;
-            margin-top: 8px;
+            color: #ff6a00;
+            margin-top: 10px;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
+        /* ডিলিট সেকশন (পুরাতন) */
         .delete-section {
-            background: #fee2e2;
-            border-radius: 28px;
-            padding: 16px;
-            margin-bottom: 14px;
-            border: 2px solid #fecaca;
+            background: #f0f3f8;
+            border-radius: 36px;
+            padding: 18px;
+            margin-bottom: 18px;
+            border: 2px solid #ff6a00;
         }
 
         .delete-title {
-            color: #b91c1c;
-            font-size: 0.8rem;
+            color: #ff6a00;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -415,49 +446,49 @@
         .delete-row {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .delete-row select, .delete-row input {
             flex: 1;
             min-width: 110px;
-            border-color: #fecaca;
-            background: white;
         }
 
         .delete-row button {
             flex: 0.8;
             min-width: 80px;
-            padding: 12px;
+            padding: 14px;
             background: #dc2626;
             color: white;
             border: none;
-            border-radius: 30px;
+            border-radius: 40px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
+            box-shadow: 0 8px 16px rgba(220, 38, 38, 0.2);
         }
 
+        /* প্রিভিউ বক্স */
         .preview-box {
-            background: #000;
-            color: white;
-            border-radius: 28px;
-            padding: 14px 16px;
-            margin: 14px 0;
-            border: 3px solid #f97316;
+            background: #f0f3f8;
+            border-radius: 30px;
+            padding: 16px;
+            margin: 15px 0;
+            border: 2px solid #ff6a00;
+            box-shadow: 0 10px 20px rgba(255, 106, 0, 0.1);
         }
 
         .preview-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px dashed #333;
-            font-size: 0.85rem;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ccc;
+            font-size: 0.9rem;
         }
 
         .preview-row:last-child {
@@ -465,36 +496,53 @@
         }
 
         .preview-label {
-            color: #aaa;
+            color: #666;
         }
 
         .preview-value {
             font-weight: 700;
-            color: #f97316;
+            color: #ff6a00;
         }
 
+        /* ডেট লিস্ট */
         .date-list {
             max-height: 200px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
+        }
+
+        .date-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .date-list::-webkit-scrollbar-track {
+            background: #e0e5ec;
+            border-radius: 10px;
+        }
+
+        .date-list::-webkit-scrollbar-thumb {
+            background: #ff6a00;
+            border-radius: 10px;
         }
 
         .date-item {
-            background: white;
-            padding: 12px 14px;
-            border-radius: 24px;
+            background: #f0f3f8;
+            padding: 14px 16px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 2px solid #e2e8f0;
             cursor: pointer;
+            box-shadow: 
+                inset 1px 1px 3px rgba(255,255,255,0.9),
+                inset -1px -1px 3px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,106,0,0.2);
         }
 
         .date-item:hover {
-            border-color: #f97316;
-            background: #fff7ed;
+            border: 2px solid #ff6a00;
         }
 
         .date-info {
@@ -504,88 +552,68 @@
         }
 
         .date-info i {
-            color: #f97316;
+            color: #ff6a00;
         }
 
         .user-badge {
-            background: #f1f5f9;
+            background: #ff6a00;
+            color: white;
             padding: 4px 12px;
             border-radius: 30px;
-            font-size: 0.75rem;
-            color: #333;
+            font-size: 0.7rem;
         }
 
+        /* ইউজার লিস্ট */
         .user-grid {
             max-height: 150px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
 
         .user-item {
-            background: white;
-            padding: 10px 14px;
-            border-radius: 24px;
+            background: #f0f3f8;
+            padding: 12px 16px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 2px solid #e2e8f0;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            box-shadow: 
+                inset 1px 1px 3px rgba(255,255,255,0.9),
+                inset -1px -1px 3px rgba(0,0,0,0.05);
         }
 
         .user-item i {
-            color: #f97316;
+            color: #ff6a00;
         }
 
+        /* এম্পটি স্টেট */
         .empty-state {
             text-align: center;
-            padding: 20px;
-            color: #94a3b8;
-            background: white;
-            border-radius: 24px;
-            border: 2px dashed #cbd5e1;
-            font-size: 0.8rem;
+            padding: 30px 20px;
+            color: #888;
+            background: #f8fafc;
+            border-radius: 30px;
+            border: 2px dashed #ccc;
+            font-size: 0.85rem;
         }
 
         .count-badge {
-            background: #f97316;
-            color: #000;
+            background: #ff6a00;
+            color: white;
             padding: 4px 14px;
-            border-radius: 40px;
+            border-radius: 30px;
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
         }
 
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 3px solid rgba(0,0,0,0.1);
-            border-radius: 50%;
-            border-top-color: #f97316;
-            animation: spin 0.6s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .footer {
-            background: #f1f5f9;
-            padding: 12px;
-            text-align: center;
-            border-top: 2px solid #e2e8f0;
-            font-size: 0.6rem;
-            color: #64748b;
-        }
-
-        .footer strong {
-            color: #f97316;
-        }
-
+        /* প্রোগ্রেস বার */
         .progress-bar {
             width: 100%;
             height: 6px;
-            background: #e2e8f0;
+            background: #e0e5ec;
             border-radius: 3px;
             margin: 10px 0;
             overflow: hidden;
@@ -598,34 +626,88 @@
 
         .progress-fill {
             height: 100%;
-            background: #f97316;
+            background: linear-gradient(90deg, #ff6a00, #ff4500);
             width: 0%;
             transition: width 0.3s ease;
         }
 
-        .logout-btn {
-            background: #1e293b;
-            color: white;
-            border: 2px solid #f97316;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        /* স্পিনার */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
         }
 
-        .logout-btn:hover {
-            background: #0f172a;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .hidden {
             display: none;
         }
 
-        @media (max-width: 380px) {
+        /* লগআউট বাটন */
+        .logout-btn {
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #ff6a00;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #333;
+        }
+
+        /* ফুটার */
+        .footer {
+            background: #ffffff;
+            padding: 16px;
+            text-align: center;
+            border-top: 3px solid #ff6a00;
+            font-size: 0.65rem;
+            color: #666;
+        }
+
+        .footer strong {
+            color: #ff6a00;
+        }
+
+        /* টোস্ট */
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border-left: 6px solid #ff6a00;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from { bottom: 0; opacity: 0; }
+            to { bottom: 20px; opacity: 1; }
+        }
+
+        /* মোবাইল রেস্পন্সিভ */
+        @media (max-width: 420px) {
             .form-row, .delete-row {
                 flex-direction: column;
                 align-items: stretch;
@@ -638,6 +720,71 @@
             .delete-row button {
                 width: 100%;
                 min-width: 100%;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+
+        /* অটো ডার্ক মোড */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f1219;
+            }
+
+            .login-container, .admin-panel {
+                background: #1a1e2a;
+                box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            .login-header, .admin-header, .footer {
+                background: #131826;
+            }
+
+            .login-header h2, .header-title {
+                color: #fff;
+            }
+
+            .login-header p, .header-sub {
+                color: #aaa;
+            }
+
+            .login-form, .content, .card, .delete-id-card, .delete-section {
+                background: #1a1e2a;
+            }
+
+            .input-wrapper input, select, textarea, .date-item, .user-item {
+                background: #1a1e2a;
+                color: #f0f0f0;
+                box-shadow: 
+                    inset 2px 2px 5px rgba(0, 0, 0, 0.4),
+                    inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+            }
+
+            .card-title, .delete-id-header, .delete-title, .preview-value {
+                color: #ffb347;
+            }
+
+            .preview-label, .info-text {
+                color: #aaa;
+            }
+
+            .empty-state {
+                background: #1f2535;
+                border-color: #3e4b5e;
+                color: #8a9bb5;
+            }
+
+            .footer {
+                color: #a0aec0;
+                border-top-color: #ff8c00;
+            }
+
+            .footer strong {
+                color: #ffb347;
             }
         }
     </style>
@@ -653,13 +800,14 @@
         <div id="loginSection" class="login-container">
             <div class="login-header">
                 <div class="logo">EBH</div>
+                <span class="badge">ADMIN</span>
                 <h2>Admin Login</h2>
-                <p>Enter your credentials to access admin panel</p>
+                <p>Enter your credentials</p>
             </div>
 
             <div class="login-form">
                 <div class="input-group">
-                    <label><i class="fas fa-envelope" style="margin-right: 5px;"></i> EMAIL</label>
+                    <label><i class="fas fa-envelope"></i> EMAIL</label>
                     <div class="input-wrapper">
                         <i class="fas fa-envelope"></i>
                         <input type="email" id="email" placeholder="admin@ebh.com" value="52662800jh@gmail.com">
@@ -667,7 +815,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label><i class="fas fa-lock" style="margin-right: 5px;"></i> PASSWORD</label>
+                    <label><i class="fas fa-lock"></i> PASSWORD</label>
                     <div class="input-wrapper">
                         <i class="fas fa-lock"></i>
                         <input type="password" id="password" placeholder="••••••••">
@@ -682,7 +830,7 @@
 
                 <div id="errorMessage" class="error-message">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span id="errorText">Invalid email or password</span>
+                    <span id="errorText">Invalid credentials</span>
                 </div>
             </div>
 
@@ -691,37 +839,39 @@
             </div>
         </div>
 
-        <!-- এডমিন প্যানেল -->
+        <!-- এডমিন প্যানেল - কসমিক ডিজাইন -->
         <div id="adminSection" class="admin-panel hidden">
             <div class="admin-header">
                 <div class="header-top">
-                    <span class="logo">EBH</span>
+                    <span class="logo" style="font-size: 2rem;">EBH TEAM</span>
                     <div style="display: flex; gap: 8px;">
-                        <span class="admin-badge">ADMIN PANEL</span>
+                        <span class="admin-badge">ADMIN</span>
                         <button class="logout-btn" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i> LOGOUT
+                            <i class="fas fa-sign-out-alt"></i> EXIT
                         </button>
                     </div>
                 </div>
-                <div class="header-title">SuperFast Admin Panel</div>
-                <div class="header-sub">5000 IDs · 1 Second Processing</div>
+                <div class="header-title">Cosmic Admin Panel</div>
+                <div class="header-sub">
+                    <i class="fas fa-adjust"></i> Auto Theme · 5000 IDs/sec
+                </div>
             </div>
 
             <div class="content">
                 <!-- রিপোর্ট সেটিংস -->
                 <div class="card">
                     <div class="card-title">
-                        <i class="fas fa-sliders-h"></i>
+                        <i class="fas fa-cog"></i>
                         <span>REPORT SETTINGS</span>
                     </div>
 
                     <div class="form-row">
                         <div class="field">
                             <select id="adminType">
-                                <option value="instagram_cookies">Instagram Cookies</option>
-                                <option value="instagram_2fa">Instagram 2FA</option>
-                                <option value="facebook_cookies">Facebook Cookies</option>
-                                <option value="facebook_2fa">Facebook 2FA</option>
+                                <option value="instagram_cookies">📌 Instagram Cookies</option>
+                                <option value="instagram_2fa">📌 Instagram 2FA</option>
+                                <option value="facebook_cookies">📌 Facebook Cookies</option>
+                                <option value="facebook_2fa">📌 Facebook 2FA</option>
                             </select>
                         </div>
 
@@ -749,14 +899,14 @@
                     </div>
 
                     <div class="user-input-area">
-                        <textarea id="userInput" placeholder="এক লাইনে একটি ইউজারনেম&#10;username1&#10;username2&#10;username3"></textarea>
+                        <textarea id="userInput" placeholder="এক লাইনে একটি ইউজারনেম&#10;user_01&#10;user_02&#10;user_03"></textarea>
                         
                         <div class="progress-bar" id="progressBar">
                             <div class="progress-fill" id="progressFill"></div>
                         </div>
                         
                         <button class="btn btn-black" onclick="saveUsers()" id="saveUsersBtn">
-                            <i class="fas fa-save"></i> SAVE TO SELECTED DATE
+                            <i class="fas fa-cloud-upload-alt"></i> SAVE TO SELECTED DATE
                         </button>
                     </div>
                 </div>
@@ -765,10 +915,10 @@
                 <div class="delete-id-card">
                     <div class="delete-id-header">
                         <i class="fas fa-bolt"></i>
-                        <span>⚡ SUPERFAST: SEARCH & DELETE IDs</span>
+                        <span>⚡ SUPERFAST DELETE</span>
                     </div>
                     
-                    <textarea id="deleteIdsInput" class="delete-id-textarea" placeholder="Enter IDs to delete (5000 IDs in 1 second)&#10;username_01&#10;username_02&#10;username_03"></textarea>
+                    <textarea id="deleteIdsInput" class="delete-id-textarea" placeholder="Enter IDs to delete (5000 IDs in 1 sec)&#10;user_01&#10;user_02&#10;user_03"></textarea>
                     
                     <button class="delete-id-btn" onclick="fastDeleteIds()" id="deleteIdsBtn">
                         <i class="fas fa-trash-alt"></i> ⚡ FAST DELETE (5000 IDs/SEC)
@@ -777,7 +927,7 @@
                     
                     <div class="delete-id-note">
                         <i class="fas fa-info-circle"></i>
-                        <span>Batch processing · 1000 IDs parallel · Instant result</span>
+                        <span>Batch processing · Parallel execution</span>
                     </div>
                 </div>
 
@@ -785,7 +935,7 @@
                 <div class="delete-section">
                     <div class="delete-title">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <span>DELETE SPECIFIC REPORT</span>
+                        <span>DELETE REPORT</span>
                     </div>
                     
                     <div class="delete-row">
@@ -805,7 +955,7 @@
                 </div>
 
                 <!-- ডিলিট অল বাটন -->
-                <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%;">
+                <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%; margin-bottom: 15px;">
                     <i class="fas fa-skull-crosswalk"></i> DELETE ALL DATA (DANGER)
                 </button>
 
@@ -829,7 +979,7 @@
                 <div class="card">
                     <div class="card-title">
                         <i class="fas fa-calendar-alt"></i>
-                        <span>📅 DATE WISE STORAGE (ক্লিক করুন)</span>
+                        <span>📅 DATE WISE STORAGE</span>
                     </div>
                     
                     <div id="dateStats" class="date-list">
@@ -839,19 +989,19 @@
 
                 <!-- ইউজার লিস্ট -->
                 <div class="card">
-                    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="card-title" style="display: flex; justify-content: space-between;">
                         <span><i class="fas fa-database"></i> STORED USERS</span>
                         <span class="count-badge" id="userCount">0</span>
                     </div>
                     
                     <div id="userList" class="user-grid">
-                        <div class="empty-state">তারিখে ক্লিক করে ইউজার দেখুন</div>
+                        <div class="empty-state">Click a date to view users</div>
                     </div>
                 </div>
             </div>
 
             <div class="footer">
-                <strong>EBH ADMIN</strong> · SuperFast Processing · 5000 IDs/sec
+                <strong>EBH COSMIC ADMIN</strong> · Auto Day/Night · v5.0
             </div>
         </div>
     </div>
@@ -918,7 +1068,7 @@
         };
 
         const BATCH_SIZE = 500;
-        const DELETE_BATCH_SIZE = 1000; // ডিলিটের জন্য বড় ব্যাচ
+        const DELETE_BATCH_SIZE = 1000;
 
         // ========== চেক লগইন স্টেটাস ==========
         auth.onAuthStateChanged(function(user) {
@@ -932,6 +1082,15 @@
                 adminSection.classList.add('hidden');
             }
         });
+
+        // ========== টোস্ট ==========
+        function showToast(message, duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-message';
+            toast.innerHTML = message;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), duration);
+        }
 
         // ========== লগইন ফাংশন ==========
         async function login() {
@@ -986,30 +1145,6 @@
         // ========== লগআউট ==========
         async function logout() {
             await auth.signOut();
-        }
-
-        // ========== টোস্ট ==========
-        function showToast(message, duration = 3000) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: #1e293b;
-                color: white;
-                padding: 12px 20px;
-                border-radius: 40px;
-                font-size: 0.85rem;
-                border-left: 6px solid #f97316;
-                z-index: 1000;
-                animation: slideUp 0.3s ease;
-                max-width: 90%;
-                text-align: center;
-            `;
-            toast.innerHTML = message;
-            toastContainer.appendChild(toast);
-            setTimeout(() => toast.remove(), duration);
         }
 
         // ========== এনকোডিং ==========
@@ -1070,7 +1205,7 @@
             const reportName = adminReportName.value;
 
             if (!selectedType || !selectedDate || !reportName) {
-                alert('Please fill all fields!');
+                showToast('⚠️ Please fill all fields!');
                 return;
             }
 
@@ -1082,9 +1217,9 @@
                 });
 
                 updatePreview();
-                showToast(`✅ Settings saved for ${formatDate(selectedDate)} - ${reportTypeNames[selectedType]}`);
+                showToast(`✅ Settings saved for ${formatDate(selectedDate)}`);
             } catch (error) {
-                alert('Error: ' + error.message);
+                showToast('❌ Error: ' + error.message);
             }
         }
 
@@ -1111,7 +1246,7 @@
             const selectedType = adminType.value;
 
             if (!selectedDate || !selectedType) {
-                alert('Please select date and type first!');
+                showToast('⚠️ Please select date and type first!');
                 return;
             }
 
@@ -1120,7 +1255,7 @@
                 .filter(u => u.length > 0);
 
             if (usernames.length === 0) {
-                alert('No usernames entered!');
+                showToast('⚠️ No usernames entered!');
                 return;
             }
 
@@ -1177,10 +1312,10 @@
                 
             } catch (error) {
                 console.error('Save error:', error);
-                alert('Error saving users: ' + error.message);
+                showToast('❌ Error: ' + error.message);
             } finally {
                 saveUsersBtn.disabled = false;
-                saveUsersBtn.innerHTML = '<i class="fas fa-save"></i> SAVE TO SELECTED DATE';
+                saveUsersBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> SAVE TO SELECTED DATE';
                 progressBar.classList.remove('visible');
                 progressFill.style.width = '0%';
             }
@@ -1221,7 +1356,7 @@
                             <i class="fas fa-calendar-day"></i>
                             <strong>${formatDate(date)}</strong>
                         </div>
-                        <span class="user-badge">${totalUsers} users</span>
+                        <span class="user-badge">${totalUsers}</span>
                     `;
                     
                     dateStatsDiv.appendChild(dateItem);
@@ -1260,13 +1395,13 @@
             });
         }
 
-        // ========== নির্দিষ্ট রিপোর্ট ডিলিট (পুরাতন) ==========
+        // ========== নির্দিষ্ট রিপোর্ট ডিলিট ==========
         async function deleteSpecificReport() {
             const selectedType = deleteType.value;
             const selectedDate = deleteDate.value;
             
             if (!selectedDate || !selectedType) {
-                alert('Please select date and type!');
+                showToast('⚠️ Please select date and type!');
                 return;
             }
 
@@ -1283,14 +1418,14 @@
                 await db.ref(`reports/${selectedDate}/users/${selectedType}`).remove();
                 await db.ref(`reports/${selectedDate}/metadata/${selectedType}`).remove();
 
-                showToast(`✅ ${formatDate(selectedDate)} - ${typeName} ডিলিট করা হয়েছে`);
+                showToast(`✅ ${formatDate(selectedDate)} - ${typeName} ডিলিট হয়েছে`);
                 loadDateStats();
                 
                 if (adminDate.value === selectedDate && adminType.value === selectedType) {
                     loadUsersForDateAndType(selectedDate, selectedType);
                 }
             } catch (error) {
-                alert('Error: ' + error.message);
+                showToast('❌ Error: ' + error.message);
             } finally {
                 deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> DELETE';
                 deleteBtn.disabled = false;
@@ -1321,7 +1456,6 @@
                 return;
             }
 
-            // বাটন ডিজেবল
             deleteIdsBtn.disabled = true;
             deleteSpinner.classList.remove('hidden');
             const originalText = deleteIdsBtn.innerHTML;
@@ -1330,10 +1464,8 @@
             try {
                 const startTime = Date.now();
                 
-                // এনকোডিং আগেই করে নিন (স্পিড বাড়াতে)
                 const encodedIds = idsToDelete.map(id => encodeUsername(id));
                 
-                // বড় ব্যাচে ভাগ করুন (১০০০ করে)
                 const batches = [];
                 for (let i = 0; i < encodedIds.length; i += DELETE_BATCH_SIZE) {
                     batches.push(encodedIds.slice(i, i + DELETE_BATCH_SIZE));
@@ -1342,9 +1474,7 @@
                 let deletedCount = 0;
                 const notFoundIds = [];
                 
-                // প্রতিটি ব্যাচ প্যারালালে প্রসেস করুন
                 for (const batch of batches) {
-                    // চেক করুন কোন আইডি আছে
                     const checkPromises = batch.map(async (encoded) => {
                         const snapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}/${encoded}`).once("value");
                         return { encoded, exists: snapshot.exists() };
@@ -1352,7 +1482,6 @@
                     
                     const checkResults = await Promise.all(checkPromises);
                     
-                    // যেগুলো আছে সেগুলো ডিলিট করুন
                     const deletePromises = checkResults
                         .filter(r => r.exists)
                         .map(r => db.ref(`reports/${selectedDate}/users/${selectedType}/${r.encoded}`).remove());
@@ -1361,7 +1490,6 @@
                     
                     deletedCount += deleteResults.filter(r => r.status === 'fulfilled').length;
                     
-                    // না পাওয়া গুলো সংরক্ষণ করুন
                     checkResults
                         .filter(r => !r.exists)
                         .forEach(r => {
@@ -1370,7 +1498,6 @@
                         });
                 }
 
-                // মেটাডেটা আপডেট
                 const usersSnapshot = await db.ref(`reports/${selectedDate}/users/${selectedType}`).once("value");
                 const totalUsers = usersSnapshot.val() ? Object.keys(usersSnapshot.val()).length : 0;
                 await db.ref(`reports/${selectedDate}/metadata/${selectedType}/totalUsers`).set(totalUsers);
@@ -1378,18 +1505,15 @@
                 const endTime = Date.now();
                 const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
 
-                // ফলাফল দেখান
                 let message = `✅ ${deletedCount} টি আইডি ডিলিট হয়েছে (${timeTaken} সেকেন্ডে)`;
                 if (notFoundIds.length > 0) {
                     const sample = notFoundIds.slice(0, 3).join(', ');
-                    message += `\n⚠️ ${notFoundIds.length} টি আইডি পাওয়া যায়নি (যেমন: ${sample})`;
+                    message += `\n⚠️ ${notFoundIds.length} টি আইডি পাওয়া যায়নি`;
                 }
                 showToast(message, 6000);
 
-                // ইনপুট খালি করুন
                 deleteIdsInput.value = '';
                 
-                // লিস্ট আপডেট করুন
                 if (selectedDate === adminDate.value && selectedType === adminType.value) {
                     loadUsersForDateAndType(selectedDate, selectedType);
                 }
@@ -1399,7 +1523,6 @@
                 console.error('Fast delete error:', error);
                 showToast('❌ ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
             } finally {
-                // বাটন পুনরুদ্ধার
                 deleteIdsBtn.disabled = false;
                 deleteSpinner.classList.add('hidden');
                 deleteIdsBtn.innerHTML = originalText;
@@ -1431,7 +1554,7 @@
                 userCountSpan.innerText = '0';
                 loadLastSettings();
             } catch (error) {
-                alert('Error: ' + error.message);
+                showToast('❌ Error: ' + error.message);
             } finally {
                 deleteBtn.innerHTML = originalText;
                 deleteBtn.disabled = false;
