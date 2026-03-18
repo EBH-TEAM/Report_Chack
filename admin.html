@@ -23,13 +23,11 @@
             transition: background 0.3s ease;
         }
 
-        /* কসমিক ডিজাইন - ইউজার প্যানেলের মতো */
         .container {
             max-width: 480px;
             width: 100%;
         }
 
-        /* লগইন প্যানেল */
         .login-container {
             background: #f0f3f8;
             border-radius: 48px;
@@ -176,7 +174,6 @@
             display: flex;
         }
 
-        /* এডমিন প্যানেল - কসমিক ডিজাইন */
         .admin-panel {
             background: #f0f3f8;
             border-radius: 48px;
@@ -235,7 +232,6 @@
             background: #f0f3f8;
         }
 
-        /* কার্ড ডিজাইন - নিওমরফিজম */
         .card {
             background: #f0f3f8;
             border-radius: 36px;
@@ -260,7 +256,6 @@
             border-bottom: 2px dashed #ff6a00;
         }
 
-        /* ফর্ম রো */
         .form-row {
             display: flex;
             align-items: center;
@@ -278,7 +273,6 @@
             min-width: 80px;
         }
 
-        /* ইনপুট ও সিলেক্ট */
         input, select, textarea {
             width: 100%;
             padding: 14px 18px;
@@ -307,7 +301,6 @@
                 inset -3px -3px 8px rgba(255, 255, 255, 1);
         }
 
-        /* বাটন স্টাইল */
         .btn {
             width: 100%;
             padding: 14px 8px;
@@ -349,14 +342,17 @@
             color: white;
         }
 
-        /* টেক্সট এরিয়া */
+        .btn-purple {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+        }
+
         textarea {
             min-height: 100px;
             resize: vertical;
             margin: 10px 0;
         }
 
-        /* ডিলিট আইডি কার্ড */
         .delete-id-card {
             background: #f0f3f8;
             border-radius: 36px;
@@ -424,7 +420,6 @@
             gap: 5px;
         }
 
-        /* ডিলিট সেকশন (পুরাতন) */
         .delete-section {
             background: #f0f3f8;
             border-radius: 36px;
@@ -472,7 +467,6 @@
             box-shadow: 0 8px 16px rgba(220, 38, 38, 0.2);
         }
 
-        /* প্রিভিউ বক্স */
         .preview-box {
             background: #f0f3f8;
             border-radius: 30px;
@@ -504,7 +498,6 @@
             color: #ff6a00;
         }
 
-        /* ডেট লিস্ট */
         .date-list {
             max-height: 200px;
             overflow-y: auto;
@@ -563,7 +556,6 @@
             font-size: 0.7rem;
         }
 
-        /* ইউজার লিস্ট */
         .user-grid {
             max-height: 150px;
             overflow-y: auto;
@@ -589,7 +581,6 @@
             color: #ff6a00;
         }
 
-        /* এম্পটি স্টেট */
         .empty-state {
             text-align: center;
             padding: 30px 20px;
@@ -609,7 +600,6 @@
             font-size: 0.75rem;
         }
 
-        /* প্রোগ্রেস বার */
         .progress-bar {
             width: 100%;
             height: 6px;
@@ -631,7 +621,6 @@
             transition: width 0.3s ease;
         }
 
-        /* স্পিনার */
         .spinner {
             display: inline-block;
             width: 18px;
@@ -648,7 +637,6 @@
             display: none;
         }
 
-        /* লগআউট বাটন */
         .logout-btn {
             background: #1a1a1a;
             color: white;
@@ -668,7 +656,6 @@
             background: #333;
         }
 
-        /* ফুটার */
         .footer {
             background: #ffffff;
             padding: 16px;
@@ -682,7 +669,6 @@
             color: #ff6a00;
         }
 
-        /* টোস্ট */
         .toast-message {
             position: fixed;
             bottom: 20px;
@@ -706,7 +692,6 @@
             to { bottom: 20px; opacity: 1; }
         }
 
-        /* মোবাইল রেস্পন্সিভ */
         @media (max-width: 420px) {
             .form-row, .delete-row {
                 flex-direction: column;
@@ -729,7 +714,6 @@
             }
         }
 
-        /* অটো ডার্ক মোড */
         @media (prefers-color-scheme: dark) {
             body {
                 background: #0f1219;
@@ -853,12 +837,12 @@
                 </div>
                 <div class="header-title">Cosmic Admin Panel</div>
                 <div class="header-sub">
-                    <i class="fas fa-adjust"></i> Auto Theme · 5000 IDs/sec
+                    <i class="fas fa-calendar-alt"></i> Today: <span id="currentDateDisplay"></span>
                 </div>
             </div>
 
             <div class="content">
-                <!-- রিপোর্ট সেটিংস -->
+                <!-- রিপোর্ট সেটিংস - এই ক্যালেন্ডারটা আজকের তারিখে দেখাবে -->
                 <div class="card">
                     <div class="card-title">
                         <i class="fas fa-cog"></i>
@@ -876,7 +860,7 @@
                         </div>
 
                         <div class="field">
-                            <input type="date" id="adminDate" value="2026-02-20">
+                            <input type="date" id="adminDate">
                         </div>
                         
                         <div class="field">
@@ -909,6 +893,40 @@
                             <i class="fas fa-cloud-upload-alt"></i> SAVE TO SELECTED DATE
                         </button>
                     </div>
+                </div>
+
+                <!-- প্রিভিউ বক্স -->
+                <div class="preview-box">
+                    <div class="preview-row">
+                        <span class="preview-label">Type</span>
+                        <span class="preview-value" id="previewType">Instagram Cookies</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Date</span>
+                        <span class="preview-value" id="previewDate"></span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Report Name</span>
+                        <span class="preview-value" id="previewName">INSTAGRAM COOKIES</span>
+                    </div>
+                </div>
+
+                <!-- ১০ দিন ক্লিন বাটন -->
+                <div class="card" style="border: 3px solid #8b5cf6;">
+                    <div class="card-title">
+                        <i class="fas fa-clock"></i>
+                        <span>⏰ KEEP LAST 10 DAYS ONLY</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; font-size: 0.85rem; color: #666;">
+                        <i class="fas fa-info-circle"></i> আজকের তারিখ থেকে ১০ দিন আগের ডাটা রাখবে (যেমন: ৯ মার্চ - ১৮ মার্চ)<br>
+                        <strong>৮ মার্চ ও তার আগের সব ডাটা ডিলিট হবে</strong>
+                    </div>
+                    
+                    <button class="btn btn-purple" onclick="keepLast10DaysOnly()" id="keep10DaysBtn">
+                        <i class="fas fa-broom"></i> 🧹 KEEP LAST 10 DAYS & CLEAR OLD
+                        <span id="keep10Spinner" class="spinner hidden"></span>
+                    </button>
                 </div>
 
                 <!-- সুপারফাস্ট: সার্চ করে আইডি ডিলিট করার সেকশন -->
@@ -946,7 +964,7 @@
                             <option value="facebook_2fa">Facebook 2FA</option>
                         </select>
                         
-                        <input type="date" id="deleteDate" value="2026-02-20">
+                        <input type="date" id="deleteDate">
                         
                         <button onclick="deleteSpecificReport()">
                             <i class="fas fa-trash-alt"></i> DELETE
@@ -958,22 +976,6 @@
                 <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%; margin-bottom: 15px;">
                     <i class="fas fa-skull-crosswalk"></i> DELETE ALL DATA (DANGER)
                 </button>
-
-                <!-- প্রিভিউ বক্স -->
-                <div class="preview-box">
-                    <div class="preview-row">
-                        <span class="preview-label">Type</span>
-                        <span class="preview-value" id="previewType">Instagram Cookies</span>
-                    </div>
-                    <div class="preview-row">
-                        <span class="preview-label">Date</span>
-                        <span class="preview-value" id="previewDate">20 FEB 2026</span>
-                    </div>
-                    <div class="preview-row">
-                        <span class="preview-label">Report Name</span>
-                        <span class="preview-value" id="previewName">INSTAGRAM COOKIES</span>
-                    </div>
-                </div>
 
                 <!-- তারিখ অনুযায়ী স্টোরেজ -->
                 <div class="card">
@@ -1036,6 +1038,7 @@
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
         const toastContainer = document.getElementById('toastContainer');
+        const currentDateDisplay = document.getElementById('currentDateDisplay');
 
         // এডমিন প্যানেলের DOM Elements
         const adminType = document.getElementById('adminType');
@@ -1058,6 +1061,8 @@
         const deleteIdsInput = document.getElementById('deleteIdsInput');
         const deleteIdsBtn = document.getElementById('deleteIdsBtn');
         const deleteSpinner = document.getElementById('deleteSpinner');
+        const keep10DaysBtn = document.getElementById('keep10DaysBtn');
+        const keep10Spinner = document.getElementById('keep10Spinner');
 
         // Report type names
         const reportTypeNames = {
@@ -1070,13 +1075,73 @@
         const BATCH_SIZE = 500;
         const DELETE_BATCH_SIZE = 1000;
 
+        // ========== হেল্পার ফাংশন ==========
+        function getTodayDateString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function encodeUsername(username) {
+            let encoded = '';
+            for (let i = 0; i < username.length; i++) {
+                const char = username[i];
+                if (char === '.') encoded += '_x2E_';
+                else if (char === '#') encoded += '_x23_';
+                else if (char === '$') encoded += '_x24_';
+                else if (char === '[') encoded += '_x5B_';
+                else if (char === ']') encoded += '_x5D_';
+                else if (char === '/') encoded += '_x2F_';
+                else if (char === '\\') encoded += '_x5C_';
+                else encoded += char;
+            }
+            return encoded;
+        }
+
+        function decodeUsername(encoded) {
+            let decoded = '';
+            for (let i = 0; i < encoded.length; i++) {
+                if (encoded[i] === '_' && i + 5 < encoded.length && encoded[i+1] === 'x') {
+                    const code = encoded.substr(i+2, 2);
+                    if (code === '2E') { decoded += '.'; i += 5; }
+                    else if (code === '23') { decoded += '#'; i += 5; }
+                    else if (code === '24') { decoded += '$'; i += 5; }
+                    else if (code === '5B') { decoded += '['; i += 5; }
+                    else if (code === '5D') { decoded += ']'; i += 5; }
+                    else if (code === '2F') { decoded += '/'; i += 5; }
+                    else if (code === '5C') { decoded += '\\'; i += 5; }
+                    else { decoded += encoded[i]; }
+                } else {
+                    decoded += encoded[i];
+                }
+            }
+            return decoded;
+        }
+
         // ========== চেক লগইন স্টেটাস ==========
         auth.onAuthStateChanged(function(user) {
             if (user && user.email === "52662800jh@gmail.com") {
                 loginSection.classList.add('hidden');
                 adminSection.classList.remove('hidden');
+                
+                // আজকের তারিখ সেট করা - রিপোর্ট সেটিংসের ক্যালেন্ডার সহ সব জায়গায়
+                const today = getTodayDateString();
+                adminDate.value = today;        // এই লাইনটা রিপোর্ট সেটিংসের ক্যালেন্ডারকে আজকের তারিখ সেট করবে
+                deleteDate.value = today;
+                
+                if (currentDateDisplay) currentDateDisplay.innerText = formatDate(today);
+                
                 loadLastSettings();
                 loadDateStats();
+                updatePreview();
             } else {
                 loginSection.classList.remove('hidden');
                 adminSection.classList.add('hidden');
@@ -1147,50 +1212,6 @@
             await auth.signOut();
         }
 
-        // ========== এনকোডিং ==========
-        function encodeUsername(username) {
-            let encoded = '';
-            for (let i = 0; i < username.length; i++) {
-                const char = username[i];
-                if (char === '.') encoded += '_x2E_';
-                else if (char === '#') encoded += '_x23_';
-                else if (char === '$') encoded += '_x24_';
-                else if (char === '[') encoded += '_x5B_';
-                else if (char === ']') encoded += '_x5D_';
-                else if (char === '/') encoded += '_x2F_';
-                else if (char === '\\') encoded += '_x5C_';
-                else encoded += char;
-            }
-            return encoded;
-        }
-
-        function decodeUsername(encoded) {
-            let decoded = '';
-            for (let i = 0; i < encoded.length; i++) {
-                if (encoded[i] === '_' && i + 5 < encoded.length && encoded[i+1] === 'x') {
-                    const code = encoded.substr(i+2, 2);
-                    if (code === '2E') { decoded += '.'; i += 5; }
-                    else if (code === '23') { decoded += '#'; i += 5; }
-                    else if (code === '24') { decoded += '$'; i += 5; }
-                    else if (code === '5B') { decoded += '['; i += 5; }
-                    else if (code === '5D') { decoded += ']'; i += 5; }
-                    else if (code === '2F') { decoded += '/'; i += 5; }
-                    else if (code === '5C') { decoded += '\\'; i += 5; }
-                    else { decoded += encoded[i]; }
-                } else {
-                    decoded += encoded[i];
-                }
-            }
-            return decoded;
-        }
-
-        // ========== ডেট ফরম্যাট ==========
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-            return `${date.getDate().toString().padStart(2,'0')} ${months[date.getMonth()]} ${date.getFullYear()}`;
-        }
-
         // ========== প্রিভিউ আপডেট ==========
         function updatePreview() {
             previewType.innerText = reportTypeNames[adminType.value] || adminType.value;
@@ -1227,15 +1248,17 @@
         function loadLastSettings() {
             db.ref("adminSettings").once("value", (snapshot) => {
                 const data = snapshot.val();
+                const today = getTodayDateString();
+                
                 if (data) {
                     adminType.value = data.lastType || 'instagram_cookies';
-                    adminDate.value = data.lastDate || new Date().toISOString().split('T')[0];
+                    // এখানে আমরা আজকের তারিখ সেট করছি, সেটিংস থেকে না নিয়ে
+                    adminDate.value = today;  // এই লাইনটা নিশ্চিত করবে ক্যালেন্ডার সবসময় আজকের তারিখ দেখাবে
                     adminReportName.value = data.lastReportName || 'INSTAGRAM COOKIES';
-                    updatePreview();
                 } else {
-                    adminDate.value = new Date().toISOString().split('T')[0];
-                    updatePreview();
+                    adminDate.value = today;
                 }
+                updatePreview();
             });
         }
 
@@ -1332,7 +1355,7 @@
                     return;
                 }
 
-                const dates = Object.keys(data).sort().reverse();
+                const dates = Object.keys(data).filter(key => key !== 'adminSettings').sort().reverse();
                 
                 dates.forEach(date => {
                     let totalUsers = 0;
@@ -1529,6 +1552,88 @@
             }
         }
 
+        // ========== ১০ দিন রেখে বাকি সব ডাটা ডিলিট ==========
+        async function keepLast10DaysOnly() {
+            if (!confirm('⚠️ আজকের তারিখ থেকে ১০ দিন আগের ডাটা রাখবে?\n\nযেমন: ৯ মার্চ - ১৮ মার্চ (১০ দিন)\n৮ মার্চ ও তার আগের সব ডাটা ডিলিট হবে।')) {
+                return;
+            }
+            
+            if (!confirm('আরও একবার নিশ্চিত করুন: ১০ দিনের আগের সব ডাটা চিরতরে চলে যাবে?')) {
+                return;
+            }
+
+            keep10DaysBtn.disabled = true;
+            keep10Spinner.classList.remove('hidden');
+            const originalText = keep10DaysBtn.innerHTML;
+            keep10DaysBtn.innerHTML = '<span class="spinner"></span> CLEANING...';
+
+            try {
+                const today = new Date();
+                const tenDaysAgo = new Date(today);
+                tenDaysAgo.setDate(today.getDate() - 9); // ৯ মার্চ থেকে ১৮ মার্চ = ১০ দিন
+                
+                const tenDaysAgoStr = tenDaysAgo.toISOString().split('T')[0];
+                
+                const snapshot = await db.ref("reports").once("value");
+                const data = snapshot.val();
+                
+                if (!data) {
+                    showToast('📭 কোনো ডাটা নেই');
+                    return;
+                }
+                
+                const allDates = Object.keys(data).filter(key => key !== 'adminSettings');
+                const datesToDelete = [];
+                const datesToKeep = [];
+                
+                allDates.forEach(dateStr => {
+                    if (dateStr < tenDaysAgoStr) {
+                        datesToDelete.push(dateStr);
+                    } else {
+                        datesToKeep.push(dateStr);
+                    }
+                });
+                
+                if (datesToDelete.length === 0) {
+                    showToast(`✅ ১০ দিনের আগের কোনো ডাটা নেই (রাখছে: ${datesToKeep.length} দিন)`);
+                    return;
+                }
+                
+                // ডিলিট প্রসেস
+                let deletedCount = 0;
+                for (const date of datesToDelete) {
+                    await db.ref(`reports/${date}`).remove();
+                    deletedCount++;
+                    
+                    // প্রতি ৫টা ডিলিটের পর টোস্ট
+                    if (deletedCount % 5 === 0 || deletedCount === datesToDelete.length) {
+                        showToast(`🧹 ${deletedCount}/${datesToDelete.length} দিনের ডাটা ডিলিট হয়েছে...`);
+                    }
+                }
+                
+                // ফাইনাল মেসেজ
+                showToast(`✅ সম্পন্ন! ${datesToKeep.length} দিনের ডাটা রাখা হয়েছে\n🗑️ ${datesToDelete.length} দিনের পুরোনো ডাটা ডিলিট হয়েছে`, 7000);
+                
+                // রিলোড ডাটা
+                loadDateStats();
+                
+                // যদি বর্তমান সিলেক্টেড ডেটা ডিলিট হয়ে যায়, তাহলে আজকের ডেটা সিলেক্ট করবে
+                if (datesToDelete.includes(adminDate.value)) {
+                    adminDate.value = getTodayDateString();
+                    updatePreview();
+                    loadUsersForDateAndType(adminDate.value, adminType.value);
+                }
+                
+            } catch (error) {
+                console.error('Keep last 10 days error:', error);
+                showToast('❌ এরর: ' + error.message);
+            } finally {
+                keep10DaysBtn.disabled = false;
+                keep10Spinner.classList.add('hidden');
+                keep10DaysBtn.innerHTML = originalText;
+            }
+        }
+
         // ========== সব ডাটা ডিলিট ==========
         async function deleteAllData() {
             if (!confirm('⚠️⚠️⚠️ সম্পূর্ণ ডাটাবেজ ডিলিট হবে! কোন কিছু ফেরত আসবে না!')) return;
@@ -1543,7 +1648,7 @@
                 await db.ref().set({
                     adminSettings: {
                         lastType: 'instagram_cookies',
-                        lastDate: new Date().toISOString().split('T')[0],
+                        lastDate: getTodayDateString(),
                         lastReportName: 'INSTAGRAM COOKIES'
                     }
                 });
@@ -1552,7 +1657,11 @@
                 loadDateStats();
                 userListDiv.innerHTML = '<div class="empty-state">No data</div>';
                 userCountSpan.innerText = '0';
-                loadLastSettings();
+                
+                // রিপোর্ট সেটিংসের ক্যালেন্ডারে আজকের তারিখ সেট করা
+                adminDate.value = getTodayDateString();
+                updatePreview();
+                
             } catch (error) {
                 showToast('❌ Error: ' + error.message);
             } finally {
@@ -1581,6 +1690,7 @@
         window.saveUsers = saveUsers;
         window.deleteSpecificReport = deleteSpecificReport;
         window.fastDeleteIds = fastDeleteIds;
+        window.keepLast10DaysOnly = keepLast10DaysOnly;
         window.deleteAllData = deleteAllData;
     </script>
 </body>
