@@ -821,6 +821,7 @@
                             <option value="" disabled selected>📌 Select Type</option>
                             <option value="instagram_cookies">Instagram Cookies</option>
                             <option value="instagram_2fa">Instagram 2FA</option>
+                            <option value="cookies_no_link">কুকিজ No Link</option>
                             <option value="facebook_cookies">Facebook Cookies</option>
                             <option value="facebook_2fa">Facebook 2FA</option>
                         </select>
@@ -963,6 +964,7 @@
         const reportTypeNames = {
             'instagram_cookies': 'Instagram Cookies',
             'instagram_2fa': 'Instagram 2FA',
+            'cookies_no_link': 'কুকিজ No Link',
             'facebook_cookies': 'Facebook Cookies',
             'facebook_2fa': 'Facebook 2FA'
         };
@@ -1017,10 +1019,8 @@
                 dates.push(d.toISOString().split('T')[0]);
             }
             
-            // আগের ভ্যালু সেভ করুন
             const previousValue = reportDate.value;
             
-            // অপশনগুলো তৈরি করুন - প্রথম অপশন প্লেসহোল্ডার
             reportDate.innerHTML = '<option value="" disabled selected>📅 Select Date</option>';
             
             dates.forEach(date => {
@@ -1030,7 +1030,6 @@
                 reportDate.appendChild(option);
             });
 
-            // আগের ভ্যালু থাকলে সেট করুন, তবে সেটা যেন প্লেসহোল্ডার না হয়
             if (previousValue && previousValue !== "" && dates.includes(previousValue)) {
                 reportDate.value = previousValue;
             }
@@ -1039,7 +1038,6 @@
         }
 
         function updateDisplay() { 
-            // শুধু তখনই আপডেট করবে যখন সিলেক্ট করা ভ্যালু আছে
             if (reportDate.value && reportDate.value !== "") {
                 selectedDateDisplay.innerText = formatDate(reportDate.value);
             } else {
@@ -1071,7 +1069,6 @@
 
         // Turbo Check
         async function checkUsersTurbo() {
-            // ভ্যালিডেশন - টাইপ এবং ডেট সিলেক্ট করা আছে কিনা
             if (!reportType.value || reportType.value === "") {
                 showToast('⚠️ Please select report type first');
                 return;
@@ -1146,7 +1143,6 @@
             okCounter.classList.remove('visible'); noDataMessage.classList.remove('visible');
             okCountSpan.innerText='0'; resultCountSpan.innerText='0'; window.lastResults=[]; reportCache.clear();
             
-            // সিলেক্ট বক্স রিসেট
             reportType.value = '';
             reportDate.value = '';
             updateDisplay();
