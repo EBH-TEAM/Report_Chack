@@ -842,7 +842,7 @@
             </div>
 
             <div class="content">
-                <!-- রিপোর্ট সেটিংস - এই ক্যালেন্ডারটা আজকের তারিখে দেখাবে -->
+                <!-- রিপোর্ট সেটিংস -->
                 <div class="card">
                     <div class="card-title">
                         <i class="fas fa-cog"></i>
@@ -854,6 +854,7 @@
                             <select id="adminType">
                                 <option value="instagram_cookies">📌 Instagram Cookies</option>
                                 <option value="instagram_2fa">📌 Instagram 2FA</option>
+                                <option value="cookies_no_link">🔗 কুকিজ No Link</option>
                                 <option value="facebook_cookies">📌 Facebook Cookies</option>
                                 <option value="facebook_2fa">📌 Facebook 2FA</option>
                             </select>
@@ -960,6 +961,7 @@
                         <select id="deleteType">
                             <option value="instagram_cookies">Instagram Cookies</option>
                             <option value="instagram_2fa">Instagram 2FA</option>
+                            <option value="cookies_no_link">কুকিজ No Link</option>
                             <option value="facebook_cookies">Facebook Cookies</option>
                             <option value="facebook_2fa">Facebook 2FA</option>
                         </select>
@@ -1068,6 +1070,7 @@
         const reportTypeNames = {
             'instagram_cookies': 'Instagram Cookies',
             'instagram_2fa': 'Instagram 2FA',
+            'cookies_no_link': 'কুকিজ No Link',
             'facebook_cookies': 'Facebook Cookies',
             'facebook_2fa': 'Facebook 2FA'
         };
@@ -1132,9 +1135,8 @@
                 loginSection.classList.add('hidden');
                 adminSection.classList.remove('hidden');
                 
-                // আজকের তারিখ সেট করা - রিপোর্ট সেটিংসের ক্যালেন্ডার সহ সব জায়গায়
                 const today = getTodayDateString();
-                adminDate.value = today;        // এই লাইনটা রিপোর্ট সেটিংসের ক্যালেন্ডারকে আজকের তারিখ সেট করবে
+                adminDate.value = today;
                 deleteDate.value = today;
                 
                 if (currentDateDisplay) currentDateDisplay.innerText = formatDate(today);
@@ -1252,8 +1254,7 @@
                 
                 if (data) {
                     adminType.value = data.lastType || 'instagram_cookies';
-                    // এখানে আমরা আজকের তারিখ সেট করছি, সেটিংস থেকে না নিয়ে
-                    adminDate.value = today;  // এই লাইনটা নিশ্চিত করবে ক্যালেন্ডার সবসময় আজকের তারিখ দেখাবে
+                    adminDate.value = today;
                     adminReportName.value = data.lastReportName || 'INSTAGRAM COOKIES';
                 } else {
                     adminDate.value = today;
@@ -1570,7 +1571,7 @@
             try {
                 const today = new Date();
                 const tenDaysAgo = new Date(today);
-                tenDaysAgo.setDate(today.getDate() - 9); // ৯ মার্চ থেকে ১৮ মার্চ = ১০ দিন
+                tenDaysAgo.setDate(today.getDate() - 9);
                 
                 const tenDaysAgoStr = tenDaysAgo.toISOString().split('T')[0];
                 
@@ -1599,25 +1600,20 @@
                     return;
                 }
                 
-                // ডিলিট প্রসেস
                 let deletedCount = 0;
                 for (const date of datesToDelete) {
                     await db.ref(`reports/${date}`).remove();
                     deletedCount++;
                     
-                    // প্রতি ৫টা ডিলিটের পর টোস্ট
                     if (deletedCount % 5 === 0 || deletedCount === datesToDelete.length) {
                         showToast(`🧹 ${deletedCount}/${datesToDelete.length} দিনের ডাটা ডিলিট হয়েছে...`);
                     }
                 }
                 
-                // ফাইনাল মেসেজ
                 showToast(`✅ সম্পন্ন! ${datesToKeep.length} দিনের ডাটা রাখা হয়েছে\n🗑️ ${datesToDelete.length} দিনের পুরোনো ডাটা ডিলিট হয়েছে`, 7000);
                 
-                // রিলোড ডাটা
                 loadDateStats();
                 
-                // যদি বর্তমান সিলেক্টেড ডেটা ডিলিট হয়ে যায়, তাহলে আজকের ডেটা সিলেক্ট করবে
                 if (datesToDelete.includes(adminDate.value)) {
                     adminDate.value = getTodayDateString();
                     updatePreview();
@@ -1658,7 +1654,6 @@
                 userListDiv.innerHTML = '<div class="empty-state">No data</div>';
                 userCountSpan.innerText = '0';
                 
-                // রিপোর্ট সেটিংসের ক্যালেন্ডারে আজকের তারিখ সেট করা
                 adminDate.value = getTodayDateString();
                 updatePreview();
                 
