@@ -1,881 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>EBH_TEAM | COSMIC</title>
+    <title>EBH TEAM | Report Checker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
             background: linear-gradient(145deg, #eef2f6, #e0e5ec);
-            transition: background 0.3s ease;
+            min-height: 100vh;
+            padding: 12px;
         }
 
-        .user-panel {
-            max-width: 460px;
-            width: 100%;
-            background: #f0f3f8;
-            border-radius: 48px;
-            box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.08), -20px -20px 40px rgba(255, 255, 255, 0.9);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .user-header {
+        .card {
             background: #ffffff;
-            padding: 24px 22px 18px 22px;
-            border-bottom: 4px solid #ff6a00;
-            position: relative;
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.05), -8px -8px 16px rgba(255,255,255,0.8);
         }
 
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        .logo {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff6a00, #ff3300);
+        .header h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #ff6a00, #ff4500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
         }
 
-        .badge {
-            background: #ff6a00;
-            color: white;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
-        }
-
-        .header-title {
-            font-size: 1.2rem;
+        .selector-row { margin-bottom: 15px; }
+        .selector-row label {
+            display: block;
+            font-size: 12px;
+            color: #ff6a00;
             font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
 
-        .header-sub {
-            font-size: 0.75rem;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .header-sub i {
-            color: #ff6a00;
-        }
-
-        .content {
-            padding: 22px 20px;
-            background: #f0f3f8;
-        }
-
-        .selector-card, .input-card, .result-card {
-            background: #f0f3f8;
-            border-radius: 40px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.02), inset -3px -3px 8px rgba(255, 255, 255, 0.8), 8px 8px 16px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #ff6a00;
-            margin-bottom: 18px;
-            padding-bottom: 8px;
-            border-bottom: 2px dashed #ff6a00;
-        }
-
-        .selector-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .selector-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .selector-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-left: 8px;
-        }
-
-        .selector-label i {
-            color: #ff6a00;
-        }
-
-        select {
+        select, textarea {
             width: 100%;
-            padding: 16px 22px;
+            padding: 14px 18px;
             background: #f0f3f8;
             border: none;
-            border-radius: 50px;
-            font-size: 0.95rem;
+            border-radius: 30px;
+            font-size: 14px;
             outline: none;
-            color: #333;
-            font-weight: 500;
-            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05), inset -3px -3px 7px rgba(255, 255, 255, 0.9);
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), inset -3px -3px 7px rgba(255,255,255,0.9);
+        }
+        select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff6a00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff6a00' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 18px center;
             cursor: pointer;
         }
-
-        select:focus {
-            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.08), inset -3px -3px 8px rgba(255, 255, 255, 1);
-        }
-
-        select option {
-            background: #ffffff;
-            color: #333;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            select option {
-                background: #1a1e2a;
-                color: #f0f0f0;
-            }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            margin-top: 8px;
         }
 
         .info-bar {
-            background: #ffffff;
-            border-radius: 60px;
-            padding: 18px 22px;
-            margin-bottom: 22px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 20px rgba(255, 106, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 106, 0, 0.3);
+            background: #f0f3f8;
+            padding: 12px 18px;
+            border-radius: 40px;
+            margin: 15px 0;
+            font-size: 13px;
+            font-weight: 600;
         }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .info-item i {
-            color: #ff6a00;
-            font-size: 1.2rem;
-        }
-
-        .info-text {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .info-value {
-            font-weight: 700;
-            color: #ff6a00;
-            font-size: 0.95rem;
-        }
+        .info-bar span:first-child { color: #666; }
+        .info-bar span:last-child { color: #ff6a00; }
 
         .ok-counter {
-            background: #ffffff;
-            border-radius: 60px;
-            padding: 22px 25px;
-            margin-bottom: 22px;
+            background: linear-gradient(145deg, #e8f5e9, #c8e6c9);
+            border-radius: 40px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
             display: none;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 15px 30px rgba(255, 106, 0, 0.15);
-            border: 1px solid #ff6a00;
         }
-
-        .ok-counter.visible {
-            display: flex;
-        }
-
-        .ok-counter-left .label {
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .ok-counter-left .number {
-            font-size: 3.2rem;
-            font-weight: 800;
-            color: #ff6a00;
-            line-height: 1;
-        }
-
-        .ok-badge {
-            background: #ff6a00;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4);
-        }
-
-        .input-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .input-header .title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: #ff6a00;
-            font-size: 0.95rem;
-        }
-
-        .count-badge {
-            background: #ff6a00;
-            color: white;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-
-        .textarea-container {
-            position: relative;
-            width: 100%;
-        }
-
-        textarea {
-            width: 100%;
-            height: 140px;
-            padding: 18px 20px;
-            background: #f0f3f8;
-            border: none;
-            border-radius: 35px;
-            font-size: 0.95rem;
-            resize: vertical;
-            outline: none;
-            color: #333;
-            margin-bottom: 45px;
-            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.05), inset -5px -5px 12px rgba(255, 255, 255, 0.9);
-        }
-
-        textarea:focus {
-            box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.08), inset -4px -4px 10px rgba(255, 255, 255, 1);
-        }
-
-        .clear-btn {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: #ff6a00;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(255, 106, 0, 0.3);
-            transition: all 0.2s ease;
-            border: 1px solid #ffd966;
-        }
-
-        .clear-btn:hover {
-            background: #ff8533;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(255, 106, 0, 0.4);
-        }
+        .ok-counter.show { display: flex; }
+        .ok-number { font-size: 32px; font-weight: 800; color: #2e7d32; }
 
         .check-btn {
             width: 100%;
             background: linear-gradient(135deg, #ff6a00, #ff4500);
             color: white;
             border: none;
-            padding: 22px;
-            border-radius: 60px;
+            padding: 18px;
+            border-radius: 50px;
+            font-size: 18px;
             font-weight: 700;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
             cursor: pointer;
-            margin-bottom: 22px;
-            box-shadow: 0 15px 30px rgba(255, 106, 0, 0.3);
-            transition: all 0.2s;
-            letter-spacing: 1px;
+            margin: 15px 0;
+            box-shadow: 0 8px 16px rgba(255,106,0,0.3);
+            transition: 0.1s;
         }
-
-        .check-btn:active {
-            transform: scale(0.97);
-            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4);
-        }
-
-        .no-data-message {
-            background: #fff1e6;
-            border-radius: 45px;
-            padding: 35px 20px;
-            text-align: center;
-            border: 2px dashed #ff6a00;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .no-data-message.visible {
-            display: block;
-        }
-
-        .no-data-message i {
-            font-size: 3rem;
-            color: #ff6a00;
-            margin-bottom: 10px;
-        }
-
-        .no-data-message h3 {
-            color: #ff6a00;
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-        }
+        .check-btn:active { transform: scale(0.97); }
 
         .result-list {
-            max-height: 220px;
+            max-height: 250px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-            padding-right: 5px;
+            margin: 15px 0;
         }
-
-        .result-list::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .result-list::-webkit-scrollbar-track {
-            background: #e0e5ec;
-            border-radius: 10px;
-        }
-
-        .result-list::-webkit-scrollbar-thumb {
-            background: #ff6a00;
-            border-radius: 10px;
-        }
-
         .result-item {
-            padding: 15px 20px;
-            border-radius: 40px;
-            font-size: 0.95rem;
+            padding: 12px 16px;
+            border-radius: 30px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            animation: slideIn 0.2s ease;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
+            gap: 10px;
+            font-size: 13px;
         }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-5px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .result-item.ok {
-            background: #e3f5e3;
-            border-left: 8px solid #00b300;
-            color: #006600;
-        }
-
-        .result-item.new {
-            background: #ffe8e8;
-            border-left: 8px solid #ff4444;
-            color: #990000;
-        }
-
-        .result-item i {
-            font-size: 1.2rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #888;
-            background: #f8fafc;
-            border-radius: 40px;
-            border: 2px dashed #ccc;
-            font-size: 0.95rem;
-        }
+        .result-item.ok { background: #e8f5e9; border-left: 5px solid #4caf50; color: #2e7d32; }
+        .result-item.back { background: #ffebee; border-left: 5px solid #f44336; color: #c62828; }
 
         .copy-buttons {
             display: flex;
-            gap: 15px;
-            margin-top: 5px;
+            gap: 12px;
+            margin-top: 15px;
         }
-
         .copy-btn {
             flex: 1;
-            background: #ffffff;
+            background: #f0f3f8;
             border: none;
-            color: #333;
-            padding: 16px 0;
-            border-radius: 50px;
+            padding: 14px;
+            border-radius: 40px;
             font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
             cursor: pointer;
-            box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.05), -8px -8px 16px rgba(255, 255, 255, 0.8);
-            transition: all 0.2s;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.05), -4px -4px 8px rgba(255,255,255,0.8);
+            transition: 0.1s;
         }
+        .copy-btn:active { transform: scale(0.97); }
 
-        .copy-btn:first-child i {
-            color: #00b300;
-        }
-
-        .copy-btn:last-child i {
-            color: #ff4444;
-        }
-
-        .copy-btn:hover {
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.08), -4px -4px 10px rgba(255, 255, 255, 1);
-            transform: translateY(-2px);
-        }
-
-        .copy-btn:active {
-            transform: translateY(1px);
-            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.05), inset -3px -3px 8px rgba(255, 255, 255, 0.8);
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.6s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .hidden {
-            display: none;
+        .clear-btn {
+            background: #ff6a00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 8px;
         }
 
         .footer {
-            background: #ffffff;
-            padding: 18px;
             text-align: center;
-            border-top: 3px solid #ff6a00;
-            font-size: 0.7rem;
-            color: #666;
-        }
-
-        .footer strong {
-            color: #ff6a00;
-        }
-
-        .toast-message {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 16px 30px;
-            border-radius: 60px;
-            font-size: 1rem;
-            border-left: 6px solid #ff6a00;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            animation: toastSlide 0.3s ease;
-        }
-
-        @keyframes toastSlide {
-            from { bottom: 0; opacity: 0; }
-            to { bottom: 30px; opacity: 1; }
-        }
-
-        @media (max-width: 420px) {
-            .info-bar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                padding: 15px;
-            }
-
-            .info-item {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .ok-counter {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-                padding: 20px;
-            }
-
-            .ok-counter-left .number {
-                font-size: 2.8rem;
-            }
-
-            .ok-badge {
-                padding: 12px 25px;
-            }
-
-            .copy-buttons {
-                flex-direction: row;
-                gap: 10px;
-            }
-
-            .copy-btn {
-                padding: 14px 0;
-                font-size: 0.85rem;
-            }
-
-            .clear-btn {
-                padding: 8px 18px;
-                font-size: 0.8rem;
-            }
+            font-size: 11px;
+            color: #888;
+            margin-top: 20px;
         }
 
         @media (prefers-color-scheme: dark) {
-            body {
-                background: #0f1219;
-            }
-
-            .user-panel {
-                background: #1a1e2a;
-                box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.6);
-            }
-
-            .user-header {
-                background: #131826;
-                border-bottom-color: #ff8c00;
-            }
-
-            .logo {
-                background: linear-gradient(135deg, #ffa600, #ff4800);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            .badge {
-                background: #ff8c00;
-                color: #000;
-                box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
-            }
-
-            .header-title {
-                color: #fff;
-            }
-
-            .header-sub {
-                color: #aaa;
-            }
-
-            .content {
-                background: #1a1e2a;
-            }
-
-            .selector-card, .input-card, .result-card {
-                background: #1a1e2a;
-                box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), inset -3px -3px 7px rgba(255, 255, 255, 0.05), 8px 8px 16px rgba(0, 0, 0, 0.4);
-            }
-
-            .card-title {
-                color: #ffb347;
-            }
-
-            select {
-                background: #1a1e2a;
-                color: #f0f0f0;
-                box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4), inset -3px -3px 7px rgba(255, 255, 255, 0.05);
-            }
-
-            .selector-label {
-                color: #aaa;
-            }
-
-            .info-bar {
-                background: #131826;
-                border-color: #ff8c00;
-            }
-
-            .info-text {
-                color: #bbb;
-            }
-
-            .info-value {
-                color: #ffa600;
-            }
-
-            .ok-counter {
-                background: #131826;
-                border-color: #ff8c00;
-            }
-
-            .ok-counter-left .label {
-                color: #ccc;
-            }
-
-            .ok-counter-left .number {
-                color: #ffb347;
-            }
-
-            .ok-badge {
-                background: #ff8c00;
-                color: #000;
-            }
-
-            textarea {
-                background: #1a1e2a;
-                color: #eee;
-                box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4), inset -5px -5px 12px rgba(255, 255, 255, 0.05);
-            }
-
-            textarea::placeholder {
-                color: #5f6b7e;
-            }
-
-            .clear-btn {
-                background: linear-gradient(145deg, #ff8c00, #ff5100);
-                color: white;
-            }
-
-            .check-btn {
-                background: linear-gradient(135deg, #ff8800, #ff4400);
-            }
-
-            .no-data-message {
-                background: #1e1b1a;
-                border-color: #ff8c00;
-            }
-
-            .no-data-message h3 {
-                color: #ffb347;
-            }
-
-            .no-data-message p {
-                color: #cc9156;
-            }
-
-            .result-item {
-                background: #1f2535;
-                border-left: 8px solid;
-            }
-
-            .result-item.ok {
-                background: #0e2b1a;
-                border-left-color: #33ff77;
-                color: #b0ffc0;
-            }
-
-            .result-item.new {
-                background: #2a1720;
-                border-left-color: #ff5555;
-                color: #ffb3b3;
-            }
-
-            .empty-state {
-                background: #1f2535;
-                border-color: #3e4b5e;
-                color: #8a9bb5;
-            }
-
-            .copy-btn {
-                background: #1f2535;
-                color: #ffb86b;
-                box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(255, 255, 255, 0.02);
-            }
-
-            .footer {
-                background: #131826;
-                color: #a0aec0;
-                border-top-color: #ff8c00;
-            }
-
-            .footer strong {
-                color: #ffb347;
-            }
+            body { background: #1a1e2a; }
+            .card { background: #1e2436; }
+            .header h1 { background: linear-gradient(135deg, #ffa600, #ff6600); -webkit-background-clip: text; }
+            select, textarea { background: #2a3045; color: white; }
+            .info-bar { background: #2a3045; }
+            .copy-btn { background: #2a3045; color: white; }
+            .result-item.ok { background: #1b3a1f; }
+            .result-item.back { background: #3a1f1f; }
         }
     </style>
-
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div class="user-panel">
-        <div class="user-header">
-            <div class="header-top">
-                <span class="logo">Report Chacker</span>
-                <span class="badge"></span>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1><i class="fas fa-chart-line"></i> EBH Report Checker</h1>
             </div>
-            <div class="header-title">MY TEAM BEST FAMILY</div>
-            <div class="header-sub">
-                <i class="fas fa-adjust"></i> Best experience •
+
+            <div class="selector-row">
+                <label><i class="fas fa-tag"></i> রিপোর্ট টাইপ</label>
+                <select id="reportType">
+                    <option value="">📌 সিলেক্ট করুন</option>
+                    <option value="instagram_cookies">🍪 Insta Cookies</option>
+                    <option value="instagram_2fa">🔐 Insta 2FA</option>
+                    <option value="fb_02fnd_2fa">🔐 FB 0 FND 2FA</option>
+                    <option value="fb_02fnd_cookies">🍪 FB 0 FND Cookies</option>
+                    <option value="fb_hotmail_30fnd_2fa">🔐 FB Hotmail 30FND 2FA</option>
+                    <option value="fb_hotmail_30fnd_cookies">🍪 FB Hotmail 0 FND 2FA</option>
+                    <option value="fb_pc_1000x">💻 FB PC 1000×</option>
+                    <option value="fb_pc_61555657">💻 FB PC 61/55/56/57</option>
+                </select>
             </div>
-        </div>
 
-        <div class="content">
-            <div class="selector-card">
-                <div class="card-title">
-                    <i class="fas fa-cog"></i>
-                    <span>FILTER OPTIONS</span>
-                </div>
-
-                <div class="selector-grid">
-                    <div class="selector-item">
-                        <div class="selector-label">
-                            <i class="fas fa-tag"></i> REPORT TYPE
-                        </div>
-                        <select id="reportType">
-                            <option value="" disabled selected>📌 Select Type</option>
-                            <option value="instagram_cookies">🍪 Instagram Cookies</option>
-                            <option value="instagram_2fa">🔐 Instagram 2FA</option>
-                            <option value="fb_02fnd_2fa">🔐 FB 0 FND 2FA</option>
-                            <option value="fb_02fnd_cookies">🍪 FB 0 FND Cookies</option>
-                            <option value="fb_hotmail_30fnd_2fa">🔐 FB Hotmail 30FND 2FA</option>
-                            <option value="fb_hotmail_30fnd_cookies">🍪 FB Hotmail 0FND 2FA</option>
-                            <option value="fb_pc_1000x">💻 FB PC 1000×</option>
-                            <option value="fb_pc_61555657">💻 FB PC 61/55/56/57</option>
-                        </select>
-                    </div>
-
-                    <div class="selector-item">
-                        <div class="selector-label">
-                            <i class="fas fa-calendar-alt"></i> SELECT DATE
-                        </div>
-                        <select id="reportDate">
-                            <option value="" disabled selected>📅 Select Date</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="selector-row">
+                <label><i class="fas fa-calendar-alt"></i> তারিখ</label>
+                <select id="reportDate">
+                    <option value="">📅 লোড হচ্ছে...</option>
+                </select>
             </div>
 
             <div class="info-bar">
-                <div class="info-item">
-                    <span class="info-text">Date:</span>
-                    <span class="info-value" id="selectedDateDisplay">-</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-text">Type:</span>
-                    <span class="info-value" id="selectedTypeDisplay">-</span>
-                </div>
+                <span>🗓️ নির্বাচিত তারিখ:</span>
+                <span id="selectedDateDisplay">-</span>
+            </div>
+            <div class="info-bar">
+                <span>📁 নির্বাচিত টাইপ:</span>
+                <span id="selectedTypeDisplay">-</span>
             </div>
 
             <div class="ok-counter" id="okCounter">
-                <div class="ok-counter-left">
-                    <div class="label">✅ OK FOUND</div>
-                    <div class="number" id="okCount">0</div>
-                </div>
-                <div class="ok-badge">
-                    <i class="fas fa-check-circle"></i>
-                    <span>GOOD ID ✅</span>
-                </div>
+                <span>✅ Okay ID পাওয়া গেছে:</span>
+                <span class="ok-number" id="okCount">0</span>
             </div>
 
-            <div id="noDataMessage" class="no-data-message">
-                <i class="fas fa-database"></i>
-                <h3>No Report</h3>
-                <p>Data not available</p>
-            </div>
+            <textarea id="userInput" placeholder="প্রতি লাইনে একটি ইউজারনেম লিখুন&#10;user_01&#10;user_02&#10;user_03"></textarea>
+            <button class="clear-btn" onclick="clearAll()"><i class="fas fa-eraser"></i> সব ক্লিয়ার</button>
 
-            <div class="input-card">
-                <div class="input-header">
-                    <div class="title">
-                        <i class="fas fa-pen-fancy"></i>
-                        <span>USERNAMES</span>
-                    </div>
-                    <span class="count-badge" id="inputCount">0</span>
-                </div>
-                
-                <div class="textarea-container">
-                    <textarea id="userInput" placeholder="Enter one per line&#10;user_01&#10;user_02&#10;user_03"></textarea>
-                    <button class="clear-btn" onclick="clearAll()">
-                        <i class="fas fa-eraser"></i> CLEAR
-                    </button>
-                </div>
-            </div>
-
-            <button class="check-btn" onclick="checkUsersTurbo()" id="checkBtn">
-                <i class="fas fa-bolt" id="btnIcon"></i>
-                <span id="btnText">REPORT CHECK</span>
-                <span id="btnSpinner" class="spinner hidden"></span>
+            <button class="check-btn" onclick="checkUsers()" id="checkBtn">
+                <i class="fas fa-bolt"></i> চেক করুন
             </button>
 
-            <div class="result-card">
-                <div class="result-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: #ff6a00;"><i class="fas fa-list"></i> RESULTS</h3>
-                    <span class="count-badge" id="resultCount">0</span>
-                </div>
+            <div id="resultList" class="result-list"></div>
 
-                <div id="resultList" class="result-list">
-                    <div class="empty-state">
-                        <i class="fas fa-magic"></i><br>
-                        Waiting for input...
-                    </div>
-                </div>
-
-                <div class="copy-buttons">
-                    <button class="copy-btn" id="copyOkBtn">
-                        <i class="fas fa-check-circle"></i>Copy OK ID
-                    </button>
-                    <button class="copy-btn" id="copyBackBtn">
-                        <i class="fas fa-times-circle"></i>Copy BACK ID
-                    </button>
-                </div>
+            <div class="copy-buttons">
+                <button class="copy-btn" id="copyOkBtn"><i class="fas fa-check-circle"></i> Okay ID কপি</button>
+                <button class="copy-btn" id="copyBackBtn"><i class="fas fa-times-circle"></i> Back ID কপি</button>
             </div>
-        </div>
 
-        <div class="footer">
-            <strong>EBH Family</strong> · v4.0
+            <div class="footer">
+                <strong>EBH TEAM</strong> · রিপোর্ট চেক করুন
+            </div>
         </div>
     </div>
 
-    <div id="toastContainer"></div>
+    <div id="toast" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #333; color: white; padding: 12px; border-radius: 30px; text-align: center; z-index: 1000; display: none;"></div>
 
     <script>
         const firebaseConfig = {
@@ -890,242 +261,199 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const reportType = document.getElementById('reportType');
-        const reportDate = document.getElementById('reportDate');
-        const selectedDateDisplay = document.getElementById('selectedDateDisplay');
-        const selectedTypeDisplay = document.getElementById('selectedTypeDisplay');
-        const userInput = document.getElementById('userInput');
-        const resultListDiv = document.getElementById('resultList');
-        const inputCountSpan = document.getElementById('inputCount');
-        const resultCountSpan = document.getElementById('resultCount');
-        const okCountSpan = document.getElementById('okCount');
-        const checkBtn = document.getElementById('checkBtn');
-        const btnIcon = document.getElementById('btnIcon');
-        const btnText = document.getElementById('btnText');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const copyOkBtn = document.getElementById('copyOkBtn');
-        const copyBackBtn = document.getElementById('copyBackBtn');
-        const noDataMessage = document.getElementById('noDataMessage');
-        const okCounter = document.getElementById('okCounter');
-        const toastContainer = document.getElementById('toastContainer');
+        let allUsernames = new Map();
+        let currentType = '';
+        let currentDate = '';
+        let lastResults = [];
 
-        const reportTypeNames = {
-            'instagram_cookies': 'Instagram Cookies',
-            'instagram_2fa': 'Instagram 2FA',
-            'fb_02fnd_2fa': 'FB 0 FND 2FA',
-            'fb_02fnd_cookies': 'FB 0 FND Cookies',
-            'fb_hotmail_30fnd_2fa': 'FB Hotmail 30FND 2FA',
-            'fb_hotmail_30fnd_cookies': 'FB Hotmail 0FND 2FA',
-            'fb_pc_1000x': 'FB PC 1000×',
-            'fb_pc_61555657': 'FB PC 61/55/56/57'
-        };
-
-        window.lastResults = [];
-
-        const reportCache = {
-            data: null, date: null, type: null, timestamp: 0, expiryTime: 60000,
-            isValid(date, type) { return this.date === date && this.type === type && this.data && (Date.now() - this.timestamp) < this.expiryTime; },
-            set(date, type, data) { this.date = date; this.type = type; this.data = data; this.timestamp = Date.now(); },
-            clear() { this.data = null; this.date = null; this.type = null; this.timestamp = 0; }
-        };
-
-        function showToast(msg, d=3500) {
-            const t = document.createElement('div'); t.className = 'toast-message'; t.innerHTML = msg;
-            toastContainer.appendChild(t); setTimeout(() => t.remove(), d);
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
         }
 
-        function encodeUsername(u) {
-            let e=''; for(let i=0;i<u.length;i++){ const c=u[i];
-                if(c==='.') e+='_x2E_'; else if(c==='#') e+='_x23_'; else if(c==='$') e+='_x24_';
-                else if(c==='[') e+='_x5B_'; else if(c===']') e+='_x5D_'; else if(c==='/') e+='_x2F_';
-                else if(c==='\\') e+='_x5C_'; else e+=c;
-            } return e;
-        }
-
-        function formatDate(ds) {
-            const d=new Date(ds); const m=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-            return `${d.getDate().toString().padStart(2,'0')} ${m[d.getMonth()]} ${d.getFullYear()}`;
-        }
-
-        function toBengaliNumber(n) { 
-            if(!n && n!==0) return '';
-            const b=['০','১','২','৩','৪','৫','৬','৭','৮','৯']; 
-            return n.toString().split('').map(d=>b[parseInt(d)]||d).join(''); 
-        }
-
-        function getCurrentDate() { 
-            const n=new Date(); 
-            const b=new Date(n.getTime()+6*60*60*1000); 
-            return b.toISOString().split('T')[0]; 
-        }
-
-        function generateDateOptions() {
-            const t = new Date(getCurrentDate());
-            const dates = [];
-            for(let i = 0; i < 10; i++) {
-                const d = new Date(t);
-                d.setDate(t.getDate() - i);
-                dates.push(d.toISOString().split('T')[0]);
+        function encodeUsername(username) {
+            let encoded = '';
+            for (let i = 0; i < username.length; i++) {
+                const char = username[i];
+                if (char === '.') encoded += '_x2E_';
+                else if (char === '#') encoded += '_x23_';
+                else if (char === '$') encoded += '_x24_';
+                else if (char === '[') encoded += '_x5B_';
+                else if (char === ']') encoded += '_x5D_';
+                else if (char === '/') encoded += '_x2F_';
+                else if (char === '\\') encoded += '_x5C_';
+                else encoded += char;
             }
-            
-            const previousValue = reportDate.value;
-            
-            reportDate.innerHTML = '<option value="" disabled selected>📅 Select Date</option>';
-            
+            return encoded;
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            return `${d.getDate().toString().padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
+        function getCurrentDate() {
+            const n = new Date();
+            const b = new Date(n.getTime() + 6 * 60 * 60 * 1000);
+            return b.toISOString().split('T')[0];
+        }
+
+        async function loadDates() {
+            const snapshot = await db.ref('reports').once('value');
+            const data = snapshot.val();
+            const dates = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    if (key !== 'adminSettings') dates.push(key);
+                });
+            }
+            dates.sort().reverse();
+            const select = document.getElementById('reportDate');
+            select.innerHTML = '<option value="">📅 সিলেক্ট করুন</option>';
             dates.forEach(date => {
                 const option = document.createElement('option');
                 option.value = date;
                 option.textContent = formatDate(date);
-                reportDate.appendChild(option);
+                select.appendChild(option);
             });
-
-            if (previousValue && previousValue !== "" && dates.includes(previousValue)) {
-                reportDate.value = previousValue;
-            }
-            
-            updateDisplay();
-        }
-
-        function updateDisplay() { 
-            if (reportDate.value && reportDate.value !== "") {
-                selectedDateDisplay.innerText = formatDate(reportDate.value);
-            } else {
-                selectedDateDisplay.innerText = "-";
-            }
-            
-            if (reportType.value && reportType.value !== "") {
-                selectedTypeDisplay.innerText = reportTypeNames[reportType.value] || reportType.value;
-            } else {
-                selectedTypeDisplay.innerText = "-";
+            if (dates.length === 0) {
+                select.innerHTML = '<option value="">📅 কোন রিপোর্ট নেই</option>';
             }
         }
 
-        function resetVisibility() { 
-            okCounter.classList.remove('visible'); 
-            noDataMessage.classList.remove('visible'); 
-        }
-
-        async function fetchReportData(date, type) {
-            if(reportCache.isValid(date, type)) { return reportCache.data; }
+        async function loadReportData() {
+            if (!currentDate || !currentType) return;
             try {
-                const snap = await db.ref(`reports/${date}/users/${type}`).once('value');
-                const data = snap.val() || {};
-                reportCache.set(date, type, data);
-                return data;
-            } catch(e) { console.error(e); return null; }
-        }
-
-        async function checkUsersTurbo() {
-            if (!reportType.value || reportType.value === "") {
-                showToast('⚠️ Please select report type first');
-                return;
-            }
-            
-            if (!reportDate.value || reportDate.value === "") {
-                showToast('⚠️ Please select date first');
-                return;
-            }
-            
-            resetVisibility();
-            const selDate = reportDate.value, selType = reportType.value;
-            const raw = userInput.value;
-            const lines = raw.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
-            const unique = [...new Set(lines)];
-            if(lines.length-unique.length>0) showToast(`⚠️ Duplicates removed: ${toBengaliNumber(lines.length-unique.length)}`);
-            
-            const reportData = await fetchReportData(selDate, selType);
-            if(!reportData || Object.keys(reportData).length===0) {
-                noDataMessage.classList.add('visible');
-                resultListDiv.innerHTML = '';
-                okCountSpan.innerText='0'; resultCountSpan.innerText='0'; window.lastResults=[];
-                return;
-            }
-            if(unique.length===0) { resultListDiv.innerHTML='<div class="empty-state">Enter usernames first</div>'; return; }
-
-            inputCountSpan.innerText = unique.length;
-            btnIcon.classList.add('hidden'); btnText.innerText='CHECKING...'; btnSpinner.classList.remove('hidden'); checkBtn.disabled=true;
-            resultListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><br>Scanning...</div>';
-
-            let okCount=0; const frag=document.createDocumentFragment(); const results=[];
-
-            try {
-                unique.forEach(username => {
-                    const encoded = encodeUsername(username);
-                    const exists = reportData.hasOwnProperty(encoded);
-                    if(exists) {
-                        okCount++;
-                        const cwg = reportData[encoded]?.wGate || 0;
-                        db.ref(`reports/${selDate}/users/${selType}/${encoded}/wGate`).set(cwg+1).catch(()=>{});
-                    }
-                    results.push({username, exists, error:false});
-                    const it=document.createElement('div'); it.className='result-item'+(exists?' ok':' new');
-                    it.innerHTML = exists ? `<i class="fas fa-check-circle"></i><span>${username} → OK</span>` : `<i class="fas fa-times-circle"></i><span>${username} → Back</span>`;
-                    frag.appendChild(it);
+                const snapshot = await db.ref(`reports/${currentDate}/users/${currentType}`).once('value');
+                const data = snapshot.val() || {};
+                allUsernames.clear();
+                Object.keys(data).forEach(encoded => {
+                    const username = decodeUsername(encoded);
+                    allUsernames.set(username, true);
                 });
-
-                resultListDiv.innerHTML=''; resultListDiv.appendChild(frag);
-                okCountSpan.innerText=okCount; resultCountSpan.innerText=unique.length;
-                window.lastResults=results;
-                if(okCount>0||results.length>0) okCounter.classList.add('visible');
-                showToast(`✅ Done! OK: ${toBengaliNumber(okCount)} / Back: ${toBengaliNumber(unique.length-okCount)}`);
-            } catch(e) {
-                console.error(e); resultListDiv.innerHTML='<div class="empty-state">Error occurred</div>';
-            } finally {
-                btnIcon.classList.remove('hidden'); btnText.innerText='REPORT CHECK'; btnSpinner.classList.add('hidden'); checkBtn.disabled=false;
+            } catch (error) {
+                console.error(error);
             }
+        }
+
+        function decodeUsername(encoded) {
+            let decoded = '';
+            for (let i = 0; i < encoded.length; i++) {
+                if (encoded[i] === '_' && i + 5 < encoded.length && encoded[i+1] === 'x') {
+                    const code = encoded.substr(i+2, 2);
+                    if (code === '2E') { decoded += '.'; i += 5; }
+                    else if (code === '23') { decoded += '#'; i += 5; }
+                    else if (code === '24') { decoded += '$'; i += 5; }
+                    else if (code === '5B') { decoded += '['; i += 5; }
+                    else if (code === '5D') { decoded += ']'; i += 5; }
+                    else if (code === '2F') { decoded += '/'; i += 5; }
+                    else if (code === '5C') { decoded += '\\'; i += 5; }
+                    else { decoded += encoded[i]; }
+                } else {
+                    decoded += encoded[i];
+                }
+            }
+            return decoded;
+        }
+
+        async function checkUsers() {
+            if (!currentType) {
+                showToast('⚠️ রিপোর্ট টাইপ সিলেক্ট করুন');
+                return;
+            }
+            if (!currentDate) {
+                showToast('⚠️ তারিখ সিলেক্ট করুন');
+                return;
+            }
+
+            const input = document.getElementById('userInput').value;
+            const usernames = input.split('\n').map(u => u.trim()).filter(u => u.length > 0);
+            if (usernames.length === 0) {
+                showToast('📝 ইউজারনেম দিন');
+                return;
+            }
+
+            const btn = document.getElementById('checkBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> চেক হচ্ছে...';
+
+            await loadReportData();
+            
+            const results = [];
+            let okCount = 0;
+            for (const username of usernames) {
+                const exists = allUsernames.has(username);
+                if (exists) okCount++;
+                results.push({ username, exists });
+            }
+
+            lastResults = results;
+            displayResults(results);
+            document.getElementById('okCount').textContent = okCount;
+            document.getElementById('okCounter').classList.add('show');
+            showToast(`✅ সম্পন্ন! Okay: ${okCount}, Back: ${usernames.length - okCount}`);
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-bolt"></i> চেক করুন';
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('resultList');
+            if (results.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:30px;">একাউন্ট চেক করুন</div>';
+                return;
+            }
+            let html = '';
+            results.forEach(r => {
+                html += `<div class="result-item ${r.exists ? 'ok' : 'back'}">
+                    <i class="fas ${r.exists ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                    <span>${r.username}</span>
+                    <span style="margin-left:auto; font-size:11px;">${r.exists ? '✅ OK' : '❌ BACK'}</span>
+                </div>`;
+            });
+            container.innerHTML = html;
         }
 
         function copyIds(type) {
-            if(!window.lastResults?.length) { showToast('⚠️ Check first!'); return; }
-            const f = window.lastResults.filter(r=>!r.error).filter(r=>type==='ok'?r.exists:!r.exists).map(r=>r.username);
-            if(!f.length) { showToast(`❌ No ${type==='ok'?'OK':'BACK'} IDs`); return; }
-            navigator.clipboard.writeText(f.join('\n')).then(()=>showToast(`✅ ${toBengaliNumber(f.length)} ${type==='ok'?'OK':'BACK'} copied`));
+            if (lastResults.length === 0) {
+                showToast('⚠️ আগে চেক করুন');
+                return;
+            }
+            const ids = lastResults.filter(r => r.exists === (type === 'ok')).map(r => r.username);
+            if (ids.length === 0) {
+                showToast(`❌ কোন ${type === 'ok' ? 'Okay' : 'Back'} আইডি নেই`);
+                return;
+            }
+            navigator.clipboard.writeText(ids.join('\n'));
+            showToast(`✅ ${ids.length} টি ${type === 'ok' ? 'Okay' : 'Back'} আইডি কপি হয়েছে`);
         }
 
-        window.clearAll = function() {
-            userInput.value=''; inputCountSpan.innerText='0';
-            resultListDiv.innerHTML='<div class="empty-state"><i class="fas fa-magic"></i><br>Waiting for input...</div>';
-            okCounter.classList.remove('visible'); noDataMessage.classList.remove('visible');
-            okCountSpan.innerText='0'; resultCountSpan.innerText='0'; window.lastResults=[]; reportCache.clear();
-            
-            reportType.value = '';
-            reportDate.value = '';
-            updateDisplay();
-            
-            showToast('🧹 Everything cleared');
-        };
+        function clearAll() {
+            document.getElementById('userInput').value = '';
+            document.getElementById('resultList').innerHTML = '';
+            document.getElementById('okCounter').classList.remove('show');
+            lastResults = [];
+            showToast('🧹 সব ক্লিয়ার');
+        }
 
-        userInput.addEventListener('input', function() {
-            inputCountSpan.innerText = this.value.split('\n').filter(l=>l.trim().length>0).length;
-        });
-        
-        reportType.addEventListener('change', () => { 
-            updateDisplay(); 
-            reportCache.clear(); 
-        });
-        
-        reportDate.addEventListener('change', () => { 
-            updateDisplay(); 
-            reportCache.clear(); 
-        });
-        
-        copyOkBtn.addEventListener('click', ()=>copyIds('ok'));
-        copyBackBtn.addEventListener('click', ()=>copyIds('back'));
+        function updateDisplay() {
+            const typeSelect = document.getElementById('reportType');
+            const dateSelect = document.getElementById('reportDate');
+            currentType = typeSelect.value;
+            currentDate = dateSelect.value;
+            document.getElementById('selectedTypeDisplay').innerHTML = currentType ? currentType.replace(/_/g, ' ').toUpperCase() : '-';
+            document.getElementById('selectedDateDisplay').innerHTML = currentDate ? formatDate(currentDate) : '-';
+        }
 
-        window.checkUsersTurbo = checkUsersTurbo;
-        generateDateOptions();
+        document.getElementById('reportType').addEventListener('change', updateDisplay);
+        document.getElementById('reportDate').addEventListener('change', updateDisplay);
+        document.getElementById('copyOkBtn').addEventListener('click', () => copyIds('ok'));
+        document.getElementById('copyBackBtn').addEventListener('click', () => copyIds('back'));
         
-        setInterval(async ()=>{
-            const last = localStorage.getItem('lastDateCheck'); const cur = getCurrentDate();
-            if(last!==cur) {
-                try {
-                    const ten = new Date(cur); ten.setDate(ten.getDate()-10); const del = ten.toISOString().split('T')[0];
-                    const old = await db.ref(`reports/${del}`).once('value');
-                    if(old.exists()) { await db.ref(`reports/${del}`).remove(); showToast(`📅 Old data (${formatDate(del)}) auto-deleted`); }
-                    localStorage.setItem('lastDateCheck', cur); generateDateOptions();
-                } catch(e) { console.error('Rollover err', e); }
-            }
-        }, 60000);
+        loadDates();
     </script>
 </body>
 </html>
