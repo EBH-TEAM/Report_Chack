@@ -76,7 +76,6 @@
             position: relative;
         }
 
-        /* টেক্সটএরিয়া কাউন্টার - ডান পাশে নিচে */
         .textarea-wrapper {
             position: relative;
             width: 100%;
@@ -122,6 +121,34 @@
         .ok-counter.show { display: flex; }
         .ok-number { font-size: 32px; font-weight: 800; color: #2e7d32; }
 
+        /* রিপোর্ট না থাকলে দেখানোর মেসেজ */
+        .no-report-message {
+            background: #fff3e0;
+            border-radius: 40px;
+            padding: 30px 20px;
+            text-align: center;
+            margin: 15px 0;
+            border: 2px dashed #ff6a00;
+            display: none;
+        }
+        .no-report-message.show {
+            display: block;
+        }
+        .no-report-message i {
+            font-size: 48px;
+            color: #ff6a00;
+            margin-bottom: 12px;
+        }
+        .no-report-message h4 {
+            color: #ff6a00;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .no-report-message p {
+            color: #666;
+            font-size: 14px;
+        }
+
         .check-btn {
             width: 100%;
             background: linear-gradient(135deg, #ff6a00, #ff4500);
@@ -137,6 +164,11 @@
             transition: 0.1s;
         }
         .check-btn:active { transform: scale(0.97); }
+        .check-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         .result-list {
             max-height: 250px;
@@ -172,6 +204,10 @@
             transition: 0.1s;
         }
         .copy-btn:active { transform: scale(0.97); }
+        .copy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         .clear-btn {
             background: #ff6a00;
@@ -201,6 +237,8 @@
             .result-item.ok { background: #1b3a1f; }
             .result-item.back { background: #3a1f1f; }
             .textarea-counter { background: rgba(255,106,0,0.2); color: #ffaa44; border-color: rgba(255,106,0,0.5); }
+            .no-report-message { background: #2a2530; }
+            .no-report-message p { color: #aaa; }
         }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -231,7 +269,7 @@
             <div class="selector-row">
                 <label><i class="fas fa-calendar-alt"></i> তারিখ</label>
                 <select id="reportDate">
-                    <option value="">📅 লোড হচ্ছে...</option>
+                    <option value="">📅 সিলেক্ট করুন</option>
                 </select>
             </div>
 
@@ -247,6 +285,13 @@
             <div class="ok-counter" id="okCounter">
                 <span>✅ Okay ID পাওয়া গেছে:</span>
                 <span class="ok-number" id="okCount">0</span>
+            </div>
+
+            <!-- রিপোর্ট না থাকলে দেখানোর মেসেজ -->
+            <div class="no-report-message" id="noReportMessage">
+                <i class="fas fa-database"></i>
+                <h4>⚠️ রিপোর্ট এখনো দেওয়া হয়নি</h4>
+                <p>এই তারিখ এবং টাইপের রিপোর্ট এখনো দেওয়া হয়নি।<br>দয়া করে অপেক্ষা করুন বা অন্য তারিখ সিলেক্ট করুন।</p>
             </div>
 
             <div class="textarea-wrapper">
@@ -327,7 +372,6 @@
             return b.toISOString().split('T')[0];
         }
 
-        // লাইন কাউন্ট আপডেট ফাংশন
         function updateLineCount() {
             const textarea = document.getElementById('userInput');
             const text = textarea.value;
@@ -340,7 +384,6 @@
                 counter.textContent = `${lines} টি আইডি`;
             }
             
-            // এনিমেশন ইফেক্ট
             counter.style.transform = 'scale(1.05)';
             setTimeout(() => { counter.style.transform = 'scale(1)'; }, 150);
         }
@@ -349,35 +392,28 @@
         function generateLast10DaysDates() {
             const dates = [];
             const today = new Date();
-            
-            // আজ থেকে ০ থেকে ৯ দিন আগে (মোট ১০ দিন)
             for (let i = 0; i <= 9; i++) {
                 const date = new Date(today);
                 date.setDate(today.getDate() - i);
                 const dateStr = date.toISOString().split('T')[0];
                 dates.push(dateStr);
             }
-            
             return dates;
         }
 
         async function loadDates() {
             const snapshot = await db.ref('reports').once('value');
             const data = snapshot.val();
-            
-            // গত ১০ দিনের তারিখ তৈরি করা
             const last10Days = generateLast10DaysDates();
             
             const select = document.getElementById('reportDate');
             select.innerHTML = '<option value="">📅 সিলেক্ট করুন</option>';
             
-            // বর্তমানে যেসব ডাটা আছে সেগুলোর সাথে ১০ দিনের তারিখ দেখানো
             for (const date of last10Days) {
                 const option = document.createElement('option');
                 option.value = date;
                 option.textContent = formatDate(date);
                 
-                // যদি এই তারিখে রিপোর্ট থাকে তাহলে ভিন্ন স্টাইল
                 if (data && data[date]) {
                     option.style.fontWeight = 'bold';
                     option.style.color = '#ff6a00';
@@ -390,19 +426,61 @@
             }
         }
 
+        // রিপোর্ট আছে কিনা চেক করে - শুধুমাত্র যখন টাইপ এবং তারিখ উভয়ই সিলেক্ট করা থাকে
+        async function checkReportExistsAndUpdateUI() {
+            const noReportDiv = document.getElementById('noReportMessage');
+            const okCounter = document.getElementById('okCounter');
+            const resultList = document.getElementById('resultList');
+            
+            // যদি টাইপ না থাকে বা তারিখ না থাকে তাহলে মেসেজ হাইড রাখো
+            if (!currentType || !currentDate) {
+                noReportDiv.classList.remove('show');
+                return false;
+            }
+            
+            try {
+                const snapshot = await db.ref(`reports/${currentDate}/users/${currentType}`).once('value');
+                const data = snapshot.val();
+                const hasData = data && Object.keys(data).length > 0;
+                
+                if (!hasData) {
+                    noReportDiv.classList.add('show');
+                    okCounter.classList.remove('show');
+                    resultList.innerHTML = '';
+                    document.getElementById('okCount').textContent = '0';
+                    lastResults = [];
+                    return false;
+                } else {
+                    noReportDiv.classList.remove('show');
+                    return true;
+                }
+            } catch (error) {
+                console.error(error);
+                noReportDiv.classList.add('show');
+                return false;
+            }
+        }
+
         async function loadReportData() {
-            if (!currentDate || !currentType) return;
+            if (!currentDate || !currentType) return false;
+            
+            // আগে চেক করে দেখি রিপোর্ট আছে কিনা
+            const hasReport = await checkReportExistsAndUpdateUI();
+            if (!hasReport) return false;
+            
             try {
                 const snapshot = await db.ref(`reports/${currentDate}/users/${currentType}`).once('value');
                 const data = snapshot.val() || {};
+                
                 allUsernames.clear();
                 Object.keys(data).forEach(encoded => {
                     const username = decodeUsername(encoded);
                     allUsernames.set(username, true);
                 });
-                console.log(`📊 রিপোর্ট লোড: ${currentType} - ${currentDate} (${allUsernames.size}টি আইডি)`);
+                return true;
             } catch (error) {
                 console.error(error);
+                return false;
             }
         }
 
@@ -436,6 +514,12 @@
                 return;
             }
 
+            const hasReport = await checkReportExistsAndUpdateUI();
+            if (!hasReport) {
+                showToast('⚠️ এই তারিখে রিপোর্ট এখনো দেওয়া হয়নি! দয়া করে অন্য তারিখ সিলেক্ট করুন।');
+                return;
+            }
+
             const input = document.getElementById('userInput').value;
             const usernames = input.split('\n').map(u => u.trim()).filter(u => u.length > 0);
             if (usernames.length === 0) {
@@ -448,6 +532,13 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> চেক হচ্ছে...';
 
             await loadReportData();
+            
+            if (allUsernames.size === 0) {
+                showToast('📭 এই তারিখে কোন ডাটা নেই!');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-bolt"></i> চেক করুন';
+                return;
+            }
             
             const results = [];
             let okCount = 0;
@@ -507,9 +598,12 @@
             showToast('🧹 সব ক্লিয়ার');
         }
 
-        function updateDisplay() {
+        async function updateDisplay() {
             const typeSelect = document.getElementById('reportType');
             const dateSelect = document.getElementById('reportDate');
+            const oldType = currentType;
+            const oldDate = currentDate;
+            
             currentType = typeSelect.value;
             currentDate = dateSelect.value;
             
@@ -526,6 +620,19 @@
             
             document.getElementById('selectedTypeDisplay').innerHTML = typeNameMap[currentType] || currentType || '-';
             document.getElementById('selectedDateDisplay').innerHTML = currentDate ? formatDate(currentDate) : '-';
+            
+            // শুধুমাত্র যখন টাইপ এবং তারিখ উভয়ই সিলেক্ট করা থাকে তখনই রিপোর্ট চেক করবো
+            if (currentType && currentDate) {
+                await checkReportExistsAndUpdateUI();
+                // ইউজার লিস্ট ক্লিয়ার করো
+                document.getElementById('resultList').innerHTML = '';
+                document.getElementById('okCounter').classList.remove('show');
+                document.getElementById('okCount').textContent = '0';
+                lastResults = [];
+            } else {
+                // টাইপ অথবা তারিখ সিলেক্ট না থাকলে মেসেজ হাইড রাখো
+                document.getElementById('noReportMessage').classList.remove('show');
+            }
         }
 
         // ইনপুট ইভেন্ট লিসেনার
@@ -534,11 +641,9 @@
         document.getElementById('copyOkBtn').addEventListener('click', () => copyIds('ok'));
         document.getElementById('copyBackBtn').addEventListener('click', () => copyIds('back'));
         
-        // পেজ লোড হলে লাইন কাউন্টার সেটআপ
         window.addEventListener('DOMContentLoaded', () => {
             loadDates();
             updateLineCount();
-            // টেক্সটএরিয়া পেস্ট ইভেন্টের জন্য
             const textarea = document.getElementById('userInput');
             textarea.addEventListener('paste', () => {
                 setTimeout(updateLineCount, 10);
