@@ -70,9 +70,31 @@
             cursor: pointer;
         }
         textarea {
-            min-height: 120px;
+            min-height: 140px;
             resize: vertical;
             margin-top: 8px;
+            position: relative;
+        }
+
+        /* টেক্সটএরিয়া কাউন্টার - ডান পাশে নিচে */
+        .textarea-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .textarea-counter {
+            position: absolute;
+            bottom: 12px;
+            right: 18px;
+            background: rgba(255,106,0,0.15);
+            color: #ff6a00;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255,106,0,0.3);
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            z-index: 10;
         }
 
         .info-bar {
@@ -178,6 +200,7 @@
             .copy-btn { background: #2a3045; color: white; }
             .result-item.ok { background: #1b3a1f; }
             .result-item.back { background: #3a1f1f; }
+            .textarea-counter { background: rgba(255,106,0,0.2); color: #ffaa44; border-color: rgba(255,106,0,0.5); }
         }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -226,7 +249,10 @@
                 <span class="ok-number" id="okCount">0</span>
             </div>
 
-            <textarea id="userInput" placeholder="প্রতি লাইনে একটি ইউজারনেম লিখুন&#10;user_01&#10;user_02&#10;user_03"></textarea>
+            <div class="textarea-wrapper">
+                <textarea id="userInput" placeholder="প্রতি লাইনে একটি ইউজারনেম লিখুন&#10;user_01&#10;user_02&#10;user_03" oninput="updateLineCount()" onpaste="setTimeout(updateLineCount, 10)"></textarea>
+                <div class="textarea-counter" id="lineCounter">০ লাইন</div>
+            </div>
             <button class="clear-btn" onclick="clearAll()"><i class="fas fa-eraser"></i> সব ক্লিয়ার</button>
 
             <button class="check-btn" onclick="checkUsers()" id="checkBtn">
@@ -301,25 +327,65 @@
             return b.toISOString().split('T')[0];
         }
 
+        // লাইন কাউন্ট আপডেট ফাংশন
+        function updateLineCount() {
+            const textarea = document.getElementById('userInput');
+            const text = textarea.value;
+            const lines = text.split('\n').filter(line => line.trim().length > 0).length;
+            const counter = document.getElementById('lineCounter');
+            
+            if (lines === 0) {
+                counter.textContent = '০ লাইন';
+            } else {
+                counter.textContent = `${lines} টি আইডি`;
+            }
+            
+            // এনিমেশন ইফেক্ট
+            counter.style.transform = 'scale(1.05)';
+            setTimeout(() => { counter.style.transform = 'scale(1)'; }, 150);
+        }
+
+        // গত ১০ দিনের তারিখ জেনারেট করা
+        function generateLast10DaysDates() {
+            const dates = [];
+            const today = new Date();
+            
+            // আজ থেকে ০ থেকে ৯ দিন আগে (মোট ১০ দিন)
+            for (let i = 0; i <= 9; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                dates.push(dateStr);
+            }
+            
+            return dates;
+        }
+
         async function loadDates() {
             const snapshot = await db.ref('reports').once('value');
             const data = snapshot.val();
-            const dates = [];
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    if (key !== 'adminSettings') dates.push(key);
-                });
-            }
-            dates.sort().reverse();
+            
+            // গত ১০ দিনের তারিখ তৈরি করা
+            const last10Days = generateLast10DaysDates();
+            
             const select = document.getElementById('reportDate');
             select.innerHTML = '<option value="">📅 সিলেক্ট করুন</option>';
-            dates.forEach(date => {
+            
+            // বর্তমানে যেসব ডাটা আছে সেগুলোর সাথে ১০ দিনের তারিখ দেখানো
+            for (const date of last10Days) {
                 const option = document.createElement('option');
                 option.value = date;
                 option.textContent = formatDate(date);
+                
+                // যদি এই তারিখে রিপোর্ট থাকে তাহলে ভিন্ন স্টাইল
+                if (data && data[date]) {
+                    option.style.fontWeight = 'bold';
+                    option.style.color = '#ff6a00';
+                }
                 select.appendChild(option);
-            });
-            if (dates.length === 0) {
+            }
+            
+            if (last10Days.length === 0) {
                 select.innerHTML = '<option value="">📅 কোন রিপোর্ট নেই</option>';
             }
         }
@@ -334,6 +400,7 @@
                     const username = decodeUsername(encoded);
                     allUsernames.set(username, true);
                 });
+                console.log(`📊 রিপোর্ট লোড: ${currentType} - ${currentDate} (${allUsernames.size}টি আইডি)`);
             } catch (error) {
                 console.error(error);
             }
@@ -435,6 +502,7 @@
             document.getElementById('userInput').value = '';
             document.getElementById('resultList').innerHTML = '';
             document.getElementById('okCounter').classList.remove('show');
+            document.getElementById('lineCounter').textContent = '০ লাইন';
             lastResults = [];
             showToast('🧹 সব ক্লিয়ার');
         }
@@ -444,16 +512,38 @@
             const dateSelect = document.getElementById('reportDate');
             currentType = typeSelect.value;
             currentDate = dateSelect.value;
-            document.getElementById('selectedTypeDisplay').innerHTML = currentType ? currentType.replace(/_/g, ' ').toUpperCase() : '-';
+            
+            const typeNameMap = {
+                'instagram_cookies': '🍪 Insta Cookies',
+                'instagram_2fa': '🔐 Insta 2FA',
+                'fb_02fnd_2fa': '🔐 FB 0 FND 2FA',
+                'fb_02fnd_cookies': '🍪 FB 0 FND Cookies',
+                'fb_hotmail_30fnd_2fa': '🔐 FB Hotmail 30FND 2FA',
+                'fb_hotmail_30fnd_cookies': '🍪 FB Hotmail 0 FND 2FA',
+                'fb_pc_1000x': '💻 FB PC 1000×',
+                'fb_pc_61555657': '💻 FB PC 61/55/56/57'
+            };
+            
+            document.getElementById('selectedTypeDisplay').innerHTML = typeNameMap[currentType] || currentType || '-';
             document.getElementById('selectedDateDisplay').innerHTML = currentDate ? formatDate(currentDate) : '-';
         }
 
+        // ইনপুট ইভেন্ট লিসেনার
         document.getElementById('reportType').addEventListener('change', updateDisplay);
         document.getElementById('reportDate').addEventListener('change', updateDisplay);
         document.getElementById('copyOkBtn').addEventListener('click', () => copyIds('ok'));
         document.getElementById('copyBackBtn').addEventListener('click', () => copyIds('back'));
         
-        loadDates();
+        // পেজ লোড হলে লাইন কাউন্টার সেটআপ
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDates();
+            updateLineCount();
+            // টেক্সটএরিয়া পেস্ট ইভেন্টের জন্য
+            const textarea = document.getElementById('userInput');
+            textarea.addEventListener('paste', () => {
+                setTimeout(updateLineCount, 10);
+            });
+        });
     </script>
 </body>
 </html>
