@@ -956,7 +956,7 @@
                     </div>
                 </div>
 
-                <!-- ডিলিট অল বাটন -->
+                <!-- ডিলিট অল বাটন - ফিক্সড -->
                 <button class="btn btn-dark-red" onclick="deleteAllData()" style="width: 100%; margin-bottom: 15px;">
                     <i class="fas fa-skull-crosswalk"></i> DELETE ALL DATA (DANGER)
                 </button>
@@ -1614,7 +1614,7 @@
             }
         }
 
-        // ========== সব ডাটা ডিলিট ==========
+        // ========== সব ডাটা ডিলিট - ফিক্সড ভার্সন ==========
         async function deleteAllData() {
             if (!confirm('⚠️⚠️⚠️ সম্পূর্ণ ডাটাবেজ ডিলিট হবে! কোন কিছু ফেরত আসবে না!')) return;
             if (!confirm('আরও একবার নিশ্চিত করুন: সব ডাটা চিরতরে চলে যাবে?')) return;
@@ -1625,12 +1625,14 @@
             deleteBtn.disabled = true;
 
             try {
-                await db.ref().set({
-                    adminSettings: {
-                        lastType: 'instagram_cookies',
-                        lastDate: getTodayDateString(),
-                        lastReportName: 'INSTAGRAM COOKIES'
-                    }
+                // সব রিপোর্ট ডাটা ডিলিট করুন
+                await db.ref("reports").remove();
+                
+                // অ্যাডমিন সেটিংস রি-ইনিশিয়ালাইজ করুন
+                await db.ref("adminSettings").set({
+                    lastType: 'instagram_cookies',
+                    lastDate: getTodayDateString(),
+                    lastReportName: 'INSTAGRAM COOKIES'
                 });
                 
                 showToast('✅ সম্পূর্ণ ডাটাবেজ ক্লিয়ার করা হয়েছে');
@@ -1642,6 +1644,7 @@
                 updatePreview();
                 
             } catch (error) {
+                console.error('Delete all error:', error);
                 showToast('❌ Error: ' + error.message);
             } finally {
                 deleteBtn.innerHTML = originalText;
