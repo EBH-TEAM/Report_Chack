@@ -121,7 +121,6 @@
         .ok-counter.show { display: flex; }
         .ok-number { font-size: 32px; font-weight: 800; color: #2e7d32; }
 
-        /* রিপোর্ট না থাকলে দেখানোর মেসেজ */
         .no-report-message {
             background: #fff3e0;
             border-radius: 40px;
@@ -287,7 +286,6 @@
                 <span class="ok-number" id="okCount">0</span>
             </div>
 
-            <!-- রিপোর্ট না থাকলে দেখানোর মেসেজ -->
             <div class="no-report-message" id="noReportMessage">
                 <i class="fas fa-database"></i>
                 <h4>⚠️ রিপোর্ট এখনো দেওয়া হয়নি</h4>
@@ -332,7 +330,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let allUsernames = new Map();
+        let allUsernames = new Map(); // Store usernames in lowercase for case-insensitive matching but preserve original
         let currentType = '';
         let currentDate = '';
         let lastResults = [];
@@ -344,7 +342,9 @@
             setTimeout(() => toast.style.display = 'none', 3000);
         }
 
+        // Improved encode function - handles all special characters properly
         function encodeUsername(username) {
+            if (!username) return '';
             let encoded = '';
             for (let i = 0; i < username.length; i++) {
                 const char = username[i];
@@ -355,21 +355,54 @@
                 else if (char === ']') encoded += '_x5D_';
                 else if (char === '/') encoded += '_x2F_';
                 else if (char === '\\') encoded += '_x5C_';
+                else if (char === '*') encoded += '_x2A_';
+                else if (char === '?') encoded += '_x3F_';
+                else if (char === '%') encoded += '_x25_';
+                else if (char === '&') encoded += '_x26_';
+                else if (char === '=') encoded += '_x3D_';
+                else if (char === '+') encoded += '_x2B_';
+                else if (char === ' ') encoded += '_x20_';
                 else encoded += char;
             }
             return encoded;
         }
 
+        // Improved decode function - handles all encoded patterns
+        function decodeUsername(encoded) {
+            if (!encoded) return '';
+            let decoded = '';
+            let i = 0;
+            while (i < encoded.length) {
+                if (encoded[i] === '_' && i + 5 < encoded.length && encoded[i+1] === 'x') {
+                    const code = encoded.substring(i+2, i+4);
+                    if (code === '2E') { decoded += '.'; i += 5; }
+                    else if (code === '23') { decoded += '#'; i += 5; }
+                    else if (code === '24') { decoded += '$'; i += 5; }
+                    else if (code === '5B') { decoded += '['; i += 5; }
+                    else if (code === '5D') { decoded += ']'; i += 5; }
+                    else if (code === '2F') { decoded += '/'; i += 5; }
+                    else if (code === '5C') { decoded += '\\'; i += 5; }
+                    else if (code === '2A') { decoded += '*'; i += 5; }
+                    else if (code === '3F') { decoded += '?'; i += 5; }
+                    else if (code === '25') { decoded += '%'; i += 5; }
+                    else if (code === '26') { decoded += '&'; i += 5; }
+                    else if (code === '3D') { decoded += '='; i += 5; }
+                    else if (code === '2B') { decoded += '+'; i += 5; }
+                    else if (code === '20') { decoded += ' '; i += 5; }
+                    else { decoded += encoded[i]; i++; }
+                } else {
+                    decoded += encoded[i];
+                    i++;
+                }
+            }
+            return decoded;
+        }
+
         function formatDate(dateStr) {
+            if (!dateStr) return '-';
             const d = new Date(dateStr);
             const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
             return `${d.getDate().toString().padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
-        }
-
-        function getCurrentDate() {
-            const n = new Date();
-            const b = new Date(n.getTime() + 6 * 60 * 60 * 1000);
-            return b.toISOString().split('T')[0];
         }
 
         function updateLineCount() {
@@ -388,7 +421,6 @@
             setTimeout(() => { counter.style.transform = 'scale(1)'; }, 150);
         }
 
-        // গত ১০ দিনের তারিখ জেনারেট করা
         function generateLast10DaysDates() {
             const dates = [];
             const today = new Date();
@@ -420,19 +452,13 @@
                 }
                 select.appendChild(option);
             }
-            
-            if (last10Days.length === 0) {
-                select.innerHTML = '<option value="">📅 কোন রিপোর্ট নেই</option>';
-            }
         }
 
-        // রিপোর্ট আছে কিনা চেক করে - শুধুমাত্র যখন টাইপ এবং তারিখ উভয়ই সিলেক্ট করা থাকে
         async function checkReportExistsAndUpdateUI() {
             const noReportDiv = document.getElementById('noReportMessage');
             const okCounter = document.getElementById('okCounter');
             const resultList = document.getElementById('resultList');
             
-            // যদি টাইপ না থাকে বা তারিখ না থাকে তাহলে মেসেজ হাইড রাখো
             if (!currentType || !currentDate) {
                 noReportDiv.classList.remove('show');
                 return false;
@@ -464,7 +490,6 @@
         async function loadReportData() {
             if (!currentDate || !currentType) return false;
             
-            // আগে চেক করে দেখি রিপোর্ট আছে কিনা
             const hasReport = await checkReportExistsAndUpdateUI();
             if (!hasReport) return false;
             
@@ -473,10 +498,18 @@
                 const data = snapshot.val() || {};
                 
                 allUsernames.clear();
+                
+                // Decode all usernames from Firebase and store in Map
+                // Store both original and lowercase for matching
                 Object.keys(data).forEach(encoded => {
-                    const username = decodeUsername(encoded);
-                    allUsernames.set(username, true);
+                    const decoded = decodeUsername(encoded);
+                    if (decoded && decoded.trim()) {
+                        // Store with lowercase key for case-insensitive matching, but keep original
+                        allUsernames.set(decoded.trim().toLowerCase(), decoded.trim());
+                    }
                 });
+                
+                console.log(`Loaded ${allUsernames.size} usernames from report`); // Debug log
                 return true;
             } catch (error) {
                 console.error(error);
@@ -484,27 +517,6 @@
             }
         }
 
-        function decodeUsername(encoded) {
-            let decoded = '';
-            for (let i = 0; i < encoded.length; i++) {
-                if (encoded[i] === '_' && i + 5 < encoded.length && encoded[i+1] === 'x') {
-                    const code = encoded.substr(i+2, 2);
-                    if (code === '2E') { decoded += '.'; i += 5; }
-                    else if (code === '23') { decoded += '#'; i += 5; }
-                    else if (code === '24') { decoded += '$'; i += 5; }
-                    else if (code === '5B') { decoded += '['; i += 5; }
-                    else if (code === '5D') { decoded += ']'; i += 5; }
-                    else if (code === '2F') { decoded += '/'; i += 5; }
-                    else if (code === '5C') { decoded += '\\'; i += 5; }
-                    else { decoded += encoded[i]; }
-                } else {
-                    decoded += encoded[i];
-                }
-            }
-            return decoded;
-        }
-
-        // ডুপ্লিকেট রিমুভ করার ফাংশন - ইনপুট টেক্সট থেকে অর্ডার মেইনটেইন করে ইউনিক লাইন বের করে
         function removeDuplicateLines(inputText) {
             const lines = inputText.split(/\r?\n/);
             const seen = new Set();
@@ -512,8 +524,8 @@
             for (let line of lines) {
                 const trimmed = line.trim();
                 if (trimmed === "") continue;
-                if (!seen.has(trimmed)) {
-                    seen.add(trimmed);
+                if (!seen.has(trimmed.toLowerCase())) { // Case-insensitive duplicate detection
+                    seen.add(trimmed.toLowerCase());
                     uniqueLines.push(trimmed);
                 }
             }
@@ -521,7 +533,6 @@
             return { uniqueText: uniqueLines.join('\n'), removedCount };
         }
 
-        // চেক ইউজার্স ফাংশন আপডেট করা হয়েছে (ডুপ্লিকেট রিমুভ সহ)
         async function checkUsers() {
             if (!currentType) {
                 showToast('⚠️ রিপোর্ট টাইপ সিলেক্ট করুন');
@@ -541,7 +552,6 @@
             const textarea = document.getElementById('userInput');
             let inputText = textarea.value;
             
-            // ডুপ্লিকেট রিমুভ করা
             const { uniqueText, removedCount } = removeDuplicateLines(inputText);
             
             if (removedCount > 0) {
@@ -572,17 +582,24 @@
             
             const results = [];
             let okCount = 0;
+            
             for (const username of usernames) {
-                const exists = allUsernames.has(username);
-                if (exists) okCount++;
-                results.push({ username, exists });
+                const trimmedUsername = username.trim();
+                // Case-insensitive matching
+                const exists = allUsernames.has(trimmedUsername.toLowerCase());
+                if (exists) {
+                    okCount++;
+                    results.push({ username: trimmedUsername, exists: true });
+                } else {
+                    results.push({ username: trimmedUsername, exists: false });
+                }
             }
 
             lastResults = results;
             displayResults(results);
             document.getElementById('okCount').textContent = okCount;
             document.getElementById('okCounter').classList.add('show');
-            showToast(`✅ সম্পন্ন! Okay: ${okCount}, Back: ${usernames.length - okCount}`);
+            showToast(`✅ সম্পন্ন! মোট ${usernames.length} টির মধ্যে Okay: ${okCount}, Back: ${usernames.length - okCount}`);
             
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-bolt"></i> চেক করুন';
@@ -605,8 +622,8 @@
             container.innerHTML = html;
         }
 
-        // ছোট হেল্পার ফাংশন এক্সএসএস প্রোটেকশনের জন্য
         function escapeHtml(str) {
+            if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
                 if (m === '&') return '&amp;';
                 if (m === '<') return '&lt;';
@@ -629,16 +646,13 @@
             showToast(`✅ ${ids.length} টি ${type === 'ok' ? 'Okay' : 'Back'} আইডি কপি হয়েছে`);
         }
 
-        // clearAll ফাংশন সঠিকভাবে কাজ করবে
         function clearAll() {
             document.getElementById('userInput').value = '';
             document.getElementById('resultList').innerHTML = '';
             document.getElementById('okCounter').classList.remove('show');
             document.getElementById('lineCounter').textContent = '০ লাইন';
             lastResults = [];
-            // ওকে কাউন্ট রিসেট
             document.getElementById('okCount').textContent = '0';
-            // রিপোর্ট নট ফাউন্ড মেসেজ রিমুভ করে দিচ্ছি যদি থাকে
             document.getElementById('noReportMessage').classList.remove('show');
             showToast('🧹 সব ক্লিয়ার');
         }
@@ -664,27 +678,22 @@
             document.getElementById('selectedTypeDisplay').innerHTML = typeNameMap[currentType] || currentType || '-';
             document.getElementById('selectedDateDisplay').innerHTML = currentDate ? formatDate(currentDate) : '-';
             
-            // শুধুমাত্র যখন টাইপ এবং তারিখ উভয়ই সিলেক্ট করা থাকে তখনই রিপোর্ট চেক করবো
             if (currentType && currentDate) {
                 await checkReportExistsAndUpdateUI();
-                // ইউজার লিস্ট ক্লিয়ার করো
                 document.getElementById('resultList').innerHTML = '';
                 document.getElementById('okCounter').classList.remove('show');
                 document.getElementById('okCount').textContent = '0';
                 lastResults = [];
             } else {
-                // টাইপ অথবা তারিখ সিলেক্ট না থাকলে মেসেজ হাইড রাখো
                 document.getElementById('noReportMessage').classList.remove('show');
             }
         }
 
-        // ইভেন্ট লিসেনার সঠিকভাবে বসানো
+        // Event Listeners
         document.getElementById('reportType').addEventListener('change', updateDisplay);
         document.getElementById('reportDate').addEventListener('change', updateDisplay);
         document.getElementById('copyOkBtn').addEventListener('click', () => copyIds('ok'));
         document.getElementById('copyBackBtn').addEventListener('click', () => copyIds('back'));
-        
-        // clearBtn এর ইভেন্ট সেট করা
         document.getElementById('clearBtn').addEventListener('click', clearAll);
         
         window.addEventListener('DOMContentLoaded', () => {
